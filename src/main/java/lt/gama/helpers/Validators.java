@@ -3,6 +3,7 @@ package lt.gama.helpers;
 import lt.gama.model.i.IDate;
 import lt.gama.model.i.IId;
 import lt.gama.model.i.IVersion;
+import lt.gama.model.sql.entities.DebtCoverageSql;
 import lt.gama.model.type.auth.CompanySettings;
 import lt.gama.model.type.doc.DocDebt;
 import lt.gama.model.type.gl.GLDC;
@@ -221,17 +222,17 @@ public final class Validators {
                         TranslationService.getInstance().translate(TranslationService.DB.RecordModifiedAlready, language),
                         org.getVersion(), updated.getVersion(), org.getClass().getSimpleName()));
     }
-//TODO remove comments
-//    public static void checkDebtCoverage(DebtCoverageSql debtCoverage) {
-//        Validators.checkArgument(GamaMoneyUtils.isZero(debtCoverage.getAmount()) && GamaMoneyUtils.isZero(debtCoverage.getCovered()) ||
-//                        GamaMoneyUtils.isPositive(debtCoverage.getAmount()) &&
-//                                GamaMoneyUtils.isPositiveOrZero(debtCoverage.getCovered()) &&
-//                                GamaMoneyUtils.isGreaterThanOrEqual(debtCoverage.getAmount(), debtCoverage.getCovered()) ||
-//                        GamaMoneyUtils.isNegative(debtCoverage.getAmount()) &&
-//                                GamaMoneyUtils.isNegativeOrZero(debtCoverage.getCovered()) &&
-//                                GamaMoneyUtils.isLessThanOrEqual(debtCoverage.getAmount(), debtCoverage.getCovered()),
-//                "Wrong DebtCoverage: " + debtCoverage);
-//    }
+
+    public static void checkDebtCoverage(DebtCoverageSql debtCoverage) {
+        Validators.checkArgument(GamaMoneyUtils.isZero(debtCoverage.getAmount()) && GamaMoneyUtils.isZero(debtCoverage.getCovered()) ||
+                        GamaMoneyUtils.isPositive(debtCoverage.getAmount()) &&
+                                GamaMoneyUtils.isPositiveOrZero(debtCoverage.getCovered()) &&
+                                GamaMoneyUtils.isGreaterThanOrEqual(debtCoverage.getAmount(), debtCoverage.getCovered()) ||
+                        GamaMoneyUtils.isNegative(debtCoverage.getAmount()) &&
+                                GamaMoneyUtils.isNegativeOrZero(debtCoverage.getCovered()) &&
+                                GamaMoneyUtils.isLessThanOrEqual(debtCoverage.getAmount(), debtCoverage.getCovered()),
+                "Wrong DebtCoverage: " + debtCoverage);
+    }
 
     /**
      * Check debt document.
@@ -239,15 +240,14 @@ public final class Validators {
      * @param debtCoverage DebtCoverage record - used for printing error only.
      * @param docDebt debt document to check
      */
-//TODO remove comments
-//    public static void checkDebtCoverageDocDebt(DebtCoverageSql debtCoverage, DocDebt docDebt) {
-//        Validators.checkArgument(GamaMoneyUtils.isZero(docDebt.getAmount()) && GamaMoneyUtils.isZero(docDebt.getCovered()) ||
-//                        GamaMoneyUtils.isPositive(docDebt.getAmount()) &&
-//                                GamaMoneyUtils.isPositiveOrZero(docDebt.getCovered()) &&
-//                                GamaMoneyUtils.isGreaterThanOrEqual(docDebt.getAmount(), docDebt.getCovered()) ||
-//                        GamaMoneyUtils.isNegative(docDebt.getAmount()) &&
-//                                GamaMoneyUtils.isNegativeOrZero(docDebt.getCovered()) &&
-//                                GamaMoneyUtils.isLessThanOrEqual(docDebt.getAmount(), docDebt.getCovered()),
-//                "Wrong DocDebt: " + docDebt + ", DebtCoverage=" + debtCoverage);
-//    }
+    public static void checkDebtCoverageDocDebt(DebtCoverageSql debtCoverage, DocDebt docDebt) {
+        Validators.checkArgument(GamaMoneyUtils.isZero(docDebt.getAmount()) && GamaMoneyUtils.isZero(docDebt.getCovered()) ||
+                        GamaMoneyUtils.isPositive(docDebt.getAmount()) &&
+                                GamaMoneyUtils.isPositiveOrZero(docDebt.getCovered()) &&
+                                GamaMoneyUtils.isGreaterThanOrEqual(docDebt.getAmount(), docDebt.getCovered()) ||
+                        GamaMoneyUtils.isNegative(docDebt.getAmount()) &&
+                                GamaMoneyUtils.isNegativeOrZero(docDebt.getCovered()) &&
+                                GamaMoneyUtils.isLessThanOrEqual(docDebt.getAmount(), docDebt.getCovered()),
+                "Wrong DocDebt: " + docDebt + ", DebtCoverage=" + debtCoverage);
+    }
 }

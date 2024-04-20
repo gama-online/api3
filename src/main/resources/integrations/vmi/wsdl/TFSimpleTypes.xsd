@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns:st="TFSimpleTypes"
+        xmlns:ct="TFCountryTypes"
+      targetNamespace="TFSimpleTypes" elementFormDefault="qualified" attributeFormDefault="unqualified" version="TFSimpleTypes_v1.03"> 
+	<xs:annotation>
+		<xs:documentation>PVM grąžinimo užsienio keleiviams paslaugos metodų, įskaitant tax free deklaracijos, paprastieji duomenų tipai.</xs:documentation>
+	</xs:annotation>
+        
+        
+        <xs:import namespace="TFCountryTypes" schemaLocation="TFCountryTypes.xsd"/>
+
+<xs:simpleType name="Amount_Type">
+	<xs:restriction base="xs:decimal">
+		<xs:totalDigits value="18"/>
+		<xs:fractionDigits value="2"/>
+		<xs:minInclusive value="0.01"/>
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="BirthDate_Type">
+	<xs:restriction base="xs:date">
+		<xs:pattern value="\d{4}-\d{2}-\d{2}"/>
+		<xs:minInclusive value="1920-01-01"/>
+		<xs:maxInclusive value="2100-01-01"/>
+	</xs:restriction>
+</xs:simpleType>
+
+
+<xs:simpleType name="Boolean_Type">
+		<xs:restriction base="xs:boolean">
+			<xs:pattern value="0|1"/>
+		</xs:restriction>
+</xs:simpleType>
+
+
+<xs:simpleType name="DocCorrNo_Type">
+	<xs:restriction base="xs:integer">
+	  <xs:minInclusive value="1"/>
+	  <xs:maxInclusive value="99"/>
+	</xs:restriction>
+</xs:simpleType>
+
+
+<xs:simpleType name= "DocId_Type">
+	<xs:restriction base="xs:string">
+		<xs:minLength value="7"/>
+		<xs:maxLength value="34"/>
+		<xs:pattern value="[0-9A-Za-z.\-/]{7,34}"/>
+	</xs:restriction>
+</xs:simpleType>
+
+
+<xs:simpleType name="LtCompanyIn_Type">
+	<xs:restriction base="xs:unsignedLong">
+	  <xs:totalDigits value="9"/>
+	  <xs:minInclusive value="100000000"/>
+	  <xs:maxInclusive value="999999999"/>
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="LtActivityCertificateNo_Type">
+	<xs:restriction base="xs:unsignedLong">
+	  <xs:minInclusive value="100000"/>
+	  <xs:maxInclusive value="99999999"/>
+	</xs:restriction>
+</xs:simpleType>
+
+
+<xs:simpleType name="LtTin_Type">
+	<xs:restriction base="xs:unsignedLong">
+	  <xs:totalDigits value="10"/>
+	  <xs:minInclusive value="1000000000"/>
+	  <xs:maxInclusive value="9999999999"/>
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="IntermediaryIn_Type">
+	<xs:union memberTypes="st:LtCompanyIn_Type st:LtTin_Type st:LtActivityCertificateNo_Type"/>
+</xs:simpleType>
+
+
+<xs:simpleType name="Percent_Type">
+	<xs:restriction base="xs:decimal">
+		<xs:minInclusive value="0.01"/>
+		<xs:maxInclusive value="100"/>
+	</xs:restriction>
+</xs:simpleType>
+
+
+<xs:simpleType name="Quantity_Type">
+	<xs:restriction base="xs:decimal">
+    	  <xs:minExclusive value="0"/>
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="QuantityVerified_Type">
+	<xs:restriction base="xs:decimal">
+    	  <xs:minInclusive value="0"/>
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="RestrictedDate_Type">
+	<xs:restriction base="xs:date">
+		<xs:pattern value="\d{4}-\d{2}-\d{2}"/>
+		<xs:maxInclusive value="2100-01-01"/>
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="SequenceNo_Type">
+	<xs:restriction base="xs:integer">
+		<xs:minInclusive value="1"/>
+		<xs:maxInclusive value="9999"/>
+	</xs:restriction>
+</xs:simpleType>
+
+
+<xs:simpleType name= "StringLength3_Type">
+	<xs:restriction base="xs:string">
+<xs:length value="3"/>
+	</xs:restriction>
+</xs:simpleType>
+
+
+<xs:simpleType name= "StringLength4_Type">
+	<xs:restriction base="xs:string">
+            <xs:length value="4"/>
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name= "StringLength8_Type">
+	<xs:restriction base="xs:string">
+            <xs:length value="8"/>
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name= "StringMin1Max2_Type">
+	<xs:restriction base="xs:string">
+		<xs:minLength value="1"/>
+		<xs:maxLength value="2"/>
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name= "StringMin1Max4_Type">
+	<xs:restriction base="xs:string">
+		<xs:minLength value="1"/>
+		<xs:maxLength value="4"/>
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name= "StringMin1Max8_Type">
+	<xs:restriction base="xs:string">
+		<xs:minLength value="1"/>
+		<xs:maxLength value="8"/>
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name= "StringMin1Max50_Type">
+	<xs:restriction base="xs:string">
+		<xs:minLength value="1"/>
+		<xs:maxLength value="50"/>
+	</xs:restriction>
+</xs:simpleType>
+
+
+<xs:simpleType name= "StringMin1Max70_Type">
+	<xs:restriction base="xs:string">
+		<xs:minLength value="1"/>
+		<xs:maxLength value="70"/>
+	</xs:restriction>
+</xs:simpleType>
+
+
+<xs:simpleType name= "StringMin1Max100_Type">
+	<xs:restriction base="xs:string">
+		<xs:minLength value="1"/>
+		<xs:maxLength value="100"/>
+	</xs:restriction>
+</xs:simpleType>
+
+
+<xs:simpleType name= "StringMin1Max200_Type">
+	<xs:restriction base="xs:string">
+		<xs:minLength value="1"/>
+		<xs:maxLength value="200"/>
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name= "StringMin1Max300_Type">
+	<xs:restriction base="xs:string">
+		<xs:minLength value="1"/>
+		<xs:maxLength value="300"/>
+	</xs:restriction>
+</xs:simpleType>
+
+
+<xs:simpleType name= "StringMin1Max500_Type">
+	<xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="500"/>
+	</xs:restriction>
+</xs:simpleType>
+
+
+<xs:simpleType name= "StringMin1Max1000_Type">
+	<xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="1000"/>
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name= "StringMin1Max2000_Type">
+	<xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="2000"/>
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="VatPayerCodeL12_Type">
+	<xs:restriction base="xs:unsignedLong">
+           <xs:totalDigits value="12"/>
+           <xs:minInclusive value="100000000000"/>
+           <xs:maxInclusive value="999999999999"/>
+	</xs:restriction>
+</xs:simpleType>
+
+
+<xs:simpleType name="VatPayerCodeL9_Type">
+	<xs:restriction base="xs:unsignedLong">
+	  <xs:totalDigits value="9"/>
+	  <xs:minInclusive value="100000000"/>
+	  <xs:maxInclusive value="999999999"/>
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="VatPayerCode_Type">
+    	<xs:union memberTypes="st:VatPayerCodeL9_Type st:VatPayerCodeL12_Type"/>
+</xs:simpleType>
+
+
+   <xs:complexType name="LtVatPayerCode_Type"> <!--++++ ++++++-->
+		<xs:annotation>
+			<xs:documentation>Pardavėjo PVM mokėtojo kodas. Atribute nurodoma valstybė "LT".</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="st:VatPayerCode_Type">
+				<xs:attribute name="issuedBy" type="ct:IsoCountryCode_Type" use="required" fixed="LT">
+					<xs:annotation>
+						<xs:documentation>Valstybės, suteikusios PVMM kodą, dviraidis kodas pagal ISO 3166-1 alpha 2 standartą. Visada nurodoma „LT".</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+
+    <xs:complexType name="IdDocNo_Type"> <!--++++ ++++++-->
+		<xs:annotation>
+			<xs:documentation>Asmens tapatybę patvirtinančio dokumento numeris. </xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="st:StringMin1Max50_Type">
+				<xs:attribute name="issuedBy" type="ct:IsoCountryCode_Type" use="required">
+					<xs:annotation>
+						<xs:documentation>Valstybės, kurioje išduotas asmens tapatybę patvirtinantis dokumentas, kodas iš dviejų raidžių pagal ISO 3166-1 alpha 2 standartą, pavyzdžiui, GB – Jungtinė Karalystė, LV - Latvija.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+   <xs:complexType name="OtherDocNo_Type"> <!--++++ ++++++-->
+		<xs:annotation>
+			<xs:documentation>Dokumento, įrodančio, kad pirkėjo nuolatinė gyvenamoji vieta nėra Europos Sąjungos teritorijoje, numeris. </xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="st:StringMin1Max50_Type">
+				<xs:attribute name="issuedBy" type="ct:IsoCountryCode_Type" use="required">
+					<xs:annotation>
+						<xs:documentation>Valstybės, kurioje išduotas asmens tapatybę patvirtinantis dokumentas, kodas iš dviejų raidžių pagal ISO 3166-1 alpha 2 standartą, pavyzdžiui, GB – Jungtinė Karalystė, LV - Latvija.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+   <xs:complexType name="PersonIn_Type"> <!--++++ ++++++-->
+		<xs:annotation>
+			<xs:documentation>Pirkėjo asmens identifikacinis numeris užsienio valstybėje. Kodą suteikusi valstybė nurodoma atribute.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="st:StringMin1Max50_Type">
+				<xs:attribute name="issuedBy" type="ct:IsoCountryCode_Type" use="required">
+					<xs:annotation>
+						<xs:documentation>Valstybės, kurioje suteiktas asmens kodas, kodas iš dviejų raidžių pagal ISO 3166-1 alpha 2 standartą, pavyzdžiui, GB – Jungtinė Karalystė, LV - Latvija.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+<!--+++++++++++ Metodų parametrų tipai++++++++++++++-->
+
+<xs:simpleType name="RequestId_Type"> <!--++++ ++++-->
+    <xs:restriction base="xs:string">
+	<xs:minLength value="1"/>
+	<xs:maxLength value="40"/>
+	<xs:pattern value="[0-9A-Za-z\-]{1,}"/>
+    </xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="RestrictedDateTime_Type">
+    <xs:restriction base="xs:dateTime">
+	<xs:pattern value="\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}"/>
+    </xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="SenderIn_Type">
+	<xs:union memberTypes="st:LtCompanyIn_Type st:LtTin_Type st:LtActivityCertificateNo_Type"/>
+</xs:simpleType>
+
+<xs:simpleType name="ResultStatus_Type">
+    <xs:restriction base="xs:string">
+	<xs:maxLength value="8"/>
+	<xs:enumeration value="SUCCESS"/>
+	<xs:enumeration value="ERROR"/>
+    </xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="TransmissionID_Type">
+	<xs:restriction base="xs:unsignedLong">
+	  <xs:totalDigits value="19"/>
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="DeclStateForQuery_Type">
+    <xs:annotation>
+        <xs:documentation>Deklaracijos būsenų sąrašas metodui TFVATRefundforForeignTravelerTR/queryDeclarations</xs:documentation>
+    </xs:annotation> 
+    <xs:restriction base="xs:string">
+	<xs:maxLength value="20"/>
+        <xs:enumeration value="ACCEPTED_CORRECT"/>
+        <xs:enumeration value="ACCEPTED_INCORRECT"/>
+        <xs:enumeration value="ASSESSED"/>
+	<xs:enumeration value="REJECTED"/>
+        <xs:enumeration value="CANCELLED"/>
+    </xs:restriction>
+</xs:simpleType>
+
+
+</xs:schema>

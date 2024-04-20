@@ -4,7 +4,9 @@ import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Ordering;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Transient;
+import lt.gama.model.dto.entities.GLAccountDto;
 import lt.gama.model.i.ITranslations;
+import lt.gama.model.sql.entities.GLAccountSql;
 import lt.gama.model.type.l10n.LangGLAccount;
 
 import java.io.Serial;
@@ -17,7 +19,6 @@ import java.util.Objects;
  * Gama
  * Created by valdas on 15-03-20.
  */
-@Embeddable
 public class GLOperationAccount implements Comparable<GLOperationAccount>,
         ITranslations<LangGLAccount>, Serializable {
 
@@ -45,22 +46,22 @@ public class GLOperationAccount implements Comparable<GLOperationAccount>,
     public GLOperationAccount(String number) {
         this.number = number;
     }
-//TODO remove comments
-//    public GLOperationAccount(GLAccountSql account) {
-//        if (account != null) {
-//            this.number = account.getNumber();
-//            this.name = account.getName();
-//            this.translation = account.getTranslation() != null ? new HashMap<>(account.getTranslation()) : null;
-//        }
-//    }
-//TODO remove comments
-//    public GLOperationAccount(GLAccountDto account) {
-//        if (account != null) {
-//            this.number = account.getNumber();
-//            this.name = account.getName();
-//            this.translation = account.getTranslation() != null ? new HashMap<>(account.getTranslation()) : null;
-//        }
-//    }
+
+    public GLOperationAccount(GLAccountSql account) {
+        if (account != null) {
+            this.number = account.getNumber();
+            this.name = account.getName();
+            this.translation = account.getTranslation() != null ? new HashMap<>(account.getTranslation()) : null;
+        }
+    }
+
+    public GLOperationAccount(GLAccountDto account) {
+        if (account != null) {
+            this.number = account.getNumber();
+            this.name = account.getName();
+            this.translation = account.getTranslation() != null ? new HashMap<>(account.getTranslation()) : null;
+        }
+    }
 
     @Override
     public int compareTo(GLOperationAccount o) {

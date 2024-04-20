@@ -7,9 +7,8 @@ import org.hibernate.generator.EventType;
 import java.util.EnumSet;
 
 public class CreatorValueGeneration implements BeforeExecutionGenerator  {
-//TODO
-//    @Inject
-//    static Provider<IAuth> authProvider;
+//    @Autowired
+//    static Auth auth;
 
     private final EnumSet<EventType> eventTypes = EnumSet.of(EventType.INSERT);
 
@@ -20,10 +19,10 @@ public class CreatorValueGeneration implements BeforeExecutionGenerator  {
 
     @Override
     public Object generate(SharedSessionContractImplementor session, Object owner, Object currentValue, EventType eventType) {
-//TODO        if (authProvider.get().isMigrating() && owner instanceof BaseEntitySql entity) {
+//TODO        if (auth.isMigrating() && owner instanceof BaseEntitySql entity) {
 //            return entity.getCreatedBy();
 //        } else {
-//            return authProvider.get().getName();
+//            return auth.getName();
 //        }
         return "creator";
     }

@@ -1,6 +1,8 @@
 package lt.gama.integrations.vmi;
 
 import lt.gama.integrations.vmi.types.TaxFreeState;
+import lt.gama.integrations.vmi.ws.DeclStateForQueryType;
+import lt.gama.model.dto.documents.InvoiceDto;
 import lt.gama.model.type.enums.DBType;
 import lt.gama.model.type.inventory.TaxFree;
 
@@ -17,11 +19,10 @@ public interface ITaxRefundService {
     String makeDocId();
 
     TaxFree generateInvoiceTaxFreeSQL(long id, DBType db);
-//TODO remove comments
-//    InvoiceDto saveInvoiceTaxFreeSQL(long id, TaxFree taxFree, DBType db);
-//    InvoiceDto submitInvoiceTaxFreeSQL(long id, DBType db);
-//    InvoiceDto cancelInvoiceTaxFreeSQL(long id, DBType db);
-//    InvoiceDto submitInvoiceTaxFreePaymentInfoSQL(long id, DBType db);
+    InvoiceDto saveInvoiceTaxFreeSQL(long id, TaxFree taxFree, DBType db);
+    InvoiceDto submitInvoiceTaxFreeSQL(long id, DBType db);
+    InvoiceDto cancelInvoiceTaxFreeSQL(long id, DBType db);
+    InvoiceDto submitInvoiceTaxFreePaymentInfoSQL(long id, DBType db);
 
     QueryDeclarationsResponse queryTaxFreeDeclarations(LocalDateTime timestampFrom, LocalDateTime timestampTo);
     DeclarationInfoResponse getTaxFreeInfoOnExportedGoods(String docId);
@@ -30,8 +31,7 @@ public interface ITaxRefundService {
 
     String testVMISubmitDeclaration(String docId);
     String testVMICancelDeclaration(String docId);
-//TODO remove comments
-//    String testVMIQueryDeclarations(String docId, LocalDateTime timestampFrom, LocalDateTime timestampTo, DeclStateForQueryType state);
+    String testVMIQueryDeclarations(String docId, LocalDateTime timestampFrom, LocalDateTime timestampTo, DeclStateForQueryType state);
     String testVMIGetInfoOnExportedGoods(String docId);
     String testVMISubmitPaymentInfo(String docId);
 

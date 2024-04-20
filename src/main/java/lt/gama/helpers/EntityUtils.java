@@ -1,13 +1,19 @@
 package lt.gama.helpers;
 
 import jakarta.persistence.criteria.*;
+import lt.gama.api.request.PageRequest;
 import lt.gama.model.i.IId;
+import lt.gama.model.sql.base.BaseDocumentSql_;
+import lt.gama.model.sql.base.BaseMoneyDocumentSql_;
+import lt.gama.model.sql.entities.CounterpartySql_;
+import lt.gama.model.sql.entities.EmployeeSql_;
 import org.apache.commons.lang3.StringUtils;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -101,36 +107,35 @@ public final class EntityUtils {
         }
     }
 
-//TODO remove comments
-//    public static Predicate whereDoc(PageRequest request, CriteriaBuilder cb, Root<?> root, Function<String[], Predicate> filterPredicate) {
-//        if (!StringHelper.hasValue(request.getFilter())) return null;
-//        String[] patterns = splitPattern(request.getFilter());
-//
-//        Predicate[] predicates = new Predicate[patterns.length];
-//        for (int i = 0; i < patterns.length; i++) {
-//            String pattern = patterns[i];
-//            predicates[i] = cb.or(
-//                    cb.like(cb.lower(cb.function("unaccent", String.class, root.get(BaseDocumentSql_.NUMBER))), '%' + pattern + '%'),
-//                    cb.like(cb.lower(cb.function("unaccent", String.class, root.get(BaseDocumentSql_.NOTE))), '%' + pattern + '%'),
-//                    cb.like(cb.lower(cb.function("unaccent", String.class,
-//                            root.get(BaseDocumentSql_.COUNTERPARTY).get(CounterpartySql_.NAME))), '%' + pattern + '%'),
-//                    cb.like(cb.lower(cb.function("unaccent", String.class,
-//                            root.get(BaseDocumentSql_.EMPLOYEE).get(EmployeeSql_.NAME))), '%' + pattern + '%'));
-//        }
-//        Predicate result = patterns.length == 1 ? predicates[0] : cb.and(predicates);
-//
-//        Predicate specDocPredicate = filterPredicate != null ? filterPredicate.apply(patterns) : null;
-//        if (specDocPredicate != null) result = cb.or(result, specDocPredicate);
-//        return result;
-//    }
-//TODO remove comments
-//    public static List<Selection<?>> selectIdDoc(String orderBy, CriteriaBuilder cb, Root<?> root) {
-//        return expresionsList(orderBy, cb, root, true);
-//    }
-//TODO remove comments
-//    public static List<Selection<?>> selectIdMoneyDoc(String orderBy, CriteriaBuilder cb, Root<?> root) {
-//        return expresionsMoneyDocList(orderBy, cb, root, true);
-//    }
+    public static Predicate whereDoc(PageRequest request, CriteriaBuilder cb, Root<?> root, Function<String[], Predicate> filterPredicate) {
+        if (!StringHelper.hasValue(request.getFilter())) return null;
+        String[] patterns = splitPattern(request.getFilter());
+
+        Predicate[] predicates = new Predicate[patterns.length];
+        for (int i = 0; i < patterns.length; i++) {
+            String pattern = patterns[i];
+            predicates[i] = cb.or(
+                    cb.like(cb.lower(cb.function("unaccent", String.class, root.get(BaseDocumentSql_.NUMBER))), '%' + pattern + '%'),
+                    cb.like(cb.lower(cb.function("unaccent", String.class, root.get(BaseDocumentSql_.NOTE))), '%' + pattern + '%'),
+                    cb.like(cb.lower(cb.function("unaccent", String.class,
+                            root.get(BaseDocumentSql_.COUNTERPARTY).get(CounterpartySql_.NAME))), '%' + pattern + '%'),
+                    cb.like(cb.lower(cb.function("unaccent", String.class,
+                            root.get(BaseDocumentSql_.EMPLOYEE).get(EmployeeSql_.NAME))), '%' + pattern + '%'));
+        }
+        Predicate result = patterns.length == 1 ? predicates[0] : cb.and(predicates);
+
+        Predicate specDocPredicate = filterPredicate != null ? filterPredicate.apply(patterns) : null;
+        if (specDocPredicate != null) result = cb.or(result, specDocPredicate);
+        return result;
+    }
+
+    public static List<Selection<?>> selectIdDoc(String orderBy, CriteriaBuilder cb, Root<?> root) {
+        return expresionsList(orderBy, cb, root, true);
+    }
+
+    public static List<Selection<?>> selectIdMoneyDoc(String orderBy, CriteriaBuilder cb, Root<?> root) {
+        return expresionsMoneyDocList(orderBy, cb, root, true);
+    }
 
     public static String normalizeEntityName(String name) {
         if (StringHelper.isEmpty(name)) return null;
@@ -146,127 +151,127 @@ public final class EntityUtils {
         }
         return StringHelper.trim2null(name);
     }
-//TODO remove comments
-//    public static List<Selection<?>> expresionsList(String orderBy, CriteriaBuilder cb, Root<?> root) {
-//        return expresionsList(orderBy, cb, root, false);
-//    }
-//TODO remove comments
-//    public static List<Selection<?>> expresionsList(String orderBy, CriteriaBuilder cb, Root<?> root, boolean id) {
-//        if ("number".equalsIgnoreCase(orderBy) || "-number".equalsIgnoreCase(orderBy)) {
-//            return List.of(
-//                    root.get(BaseDocumentSql_.SERIES),
-//                    root.get(BaseDocumentSql_.ORDINAL),
-//                    root.get(BaseDocumentSql_.NUMBER),
-//                    root.get(BaseDocumentSql_.DATE),
-//                    id ? root.get(BaseDocumentSql_.ID).alias("id") : root.get(BaseDocumentSql_.ID));
-//        }
-//        if ("employee".equalsIgnoreCase(orderBy) || "-employee".equalsIgnoreCase(orderBy)) {
-//            return List.of(
-//                    cb.lower(cb.trim(cb.function("unaccent", String.class, root.get(BaseDocumentSql_.EMPLOYEE).get(EmployeeSql_.NAME)))),
-//                    root.get(BaseDocumentSql_.DATE),
-//                    root.get(BaseDocumentSql_.SERIES),
-//                    root.get(BaseDocumentSql_.ORDINAL),
-//                    root.get(BaseDocumentSql_.NUMBER),
-//                    id ? root.get(BaseDocumentSql_.ID).alias("id") : root.get(BaseDocumentSql_.ID));
-//        }
-//        if ("counterparty".equalsIgnoreCase(orderBy) || "-counterparty".equalsIgnoreCase(orderBy)) {
-//            return List.of(
-//                    cb.lower(cb.trim(cb.function("unaccent", String.class, root.get(BaseDocumentSql_.COUNTERPARTY).get(CounterpartySql_.NAME)))),
-//                    root.get(BaseDocumentSql_.DATE),
-//                    root.get(BaseDocumentSql_.SERIES),
-//                    root.get(BaseDocumentSql_.ORDINAL),
-//                    root.get(BaseDocumentSql_.NUMBER),
-//                    id ? root.get(BaseDocumentSql_.ID).alias("id") : root.get(BaseDocumentSql_.ID));
-//        }
-//        return List.of(
-//                root.get(BaseDocumentSql_.DATE),
-//                root.get(BaseDocumentSql_.SERIES),
-//                root.get(BaseDocumentSql_.ORDINAL),
-//                root.get(BaseDocumentSql_.NUMBER),
-//                id ? root.get(BaseDocumentSql_.ID).alias("id") : root.get(BaseDocumentSql_.ID));
-//    }
-//TODO remove comments
-//    public static List<Selection<?>> expresionsMoneyDocList(String orderBy, CriteriaBuilder cb, Root<?> root) {
-//        return expresionsMoneyDocList(orderBy, cb, root, false);
-//    }
-//TODO remove comments
-//    public static List<Selection<?>> expresionsMoneyDocList(String orderBy, CriteriaBuilder cb, Root<?> root, boolean id) {
-//        if ("number".equalsIgnoreCase(orderBy) || "-number".equalsIgnoreCase(orderBy)) {
-//            return List.of(
-//                    root.get(BaseDocumentSql_.SERIES),
-//                    root.get(BaseDocumentSql_.ORDINAL),
-//                    root.get(BaseDocumentSql_.NUMBER),
-//                    root.get(BaseDocumentSql_.DATE),
-//                    root.get(BaseMoneyDocumentSql_.AMOUNT).get("amount"),
-//                    id ? root.get(BaseDocumentSql_.ID).alias("id") : root.get(BaseDocumentSql_.ID));
-//        }
-//        if ("employee".equalsIgnoreCase(orderBy) || "-employee".equalsIgnoreCase(orderBy)) {
-//            return List.of(
-//                    cb.lower(cb.trim(cb.function("unaccent", String.class, root.get(BaseDocumentSql_.EMPLOYEE).get(EmployeeSql_.NAME)))),
-//                    root.get(BaseDocumentSql_.DATE),
-//                    root.get(BaseDocumentSql_.SERIES),
-//                    root.get(BaseDocumentSql_.ORDINAL),
-//                    root.get(BaseDocumentSql_.NUMBER),
-//                    root.get(BaseMoneyDocumentSql_.AMOUNT).get("amount"),
-//                    id ? root.get(BaseDocumentSql_.ID).alias("id") : root.get(BaseDocumentSql_.ID));
-//        }
-//        if ("counterparty".equalsIgnoreCase(orderBy) || "-counterparty".equalsIgnoreCase(orderBy)) {
-//            return List.of(
-//                    cb.lower(cb.trim(cb.function("unaccent", String.class, root.get(BaseDocumentSql_.COUNTERPARTY).get(CounterpartySql_.NAME)))),
-//                    root.get(BaseDocumentSql_.DATE),
-//                    root.get(BaseDocumentSql_.SERIES),
-//                    root.get(BaseDocumentSql_.ORDINAL),
-//                    root.get(BaseDocumentSql_.NUMBER),
-//                    root.get(BaseMoneyDocumentSql_.AMOUNT).get("amount"),
-//                    id ? root.get(BaseDocumentSql_.ID).alias("id") : root.get(BaseDocumentSql_.ID));
-//        }
-//        if ("payer-receiver".equalsIgnoreCase(orderBy) || "-payer-receiver".equalsIgnoreCase(orderBy)) {
-//            return List.of(
-//                    cb.lower(cb.trim(cb.function("unaccent", String.class,
-//                            cb.coalesce(
-//                                    root.get(BaseDocumentSql_.COUNTERPARTY).get(CounterpartySql_.NAME),
-//                                    root.get(BaseDocumentSql_.EMPLOYEE).get(EmployeeSql_.NAME))))),
-//                    root.get(BaseDocumentSql_.DATE),
-//                    root.get(BaseDocumentSql_.SERIES),
-//                    root.get(BaseDocumentSql_.ORDINAL),
-//                    root.get(BaseDocumentSql_.NUMBER),
-//                    root.get(BaseMoneyDocumentSql_.AMOUNT).get("amount"),
-//                    id ? root.get(BaseDocumentSql_.ID).alias("id") : root.get(BaseDocumentSql_.ID));
-//        }
-//        if ("amount".equalsIgnoreCase(orderBy) || "-amount".equalsIgnoreCase(orderBy)) {
-//            return List.of(
-//                    root.get(BaseMoneyDocumentSql_.AMOUNT).get("amount"),
-//                    root.get(BaseDocumentSql_.DATE),
-//                    root.get(BaseDocumentSql_.SERIES),
-//                    root.get(BaseDocumentSql_.ORDINAL),
-//                    root.get(BaseDocumentSql_.NUMBER),
-//                    id ? root.get(BaseDocumentSql_.ID).alias("id") : root.get(BaseDocumentSql_.ID));
-//        }
-//        if ("baseAmount".equalsIgnoreCase(orderBy) || "-baseAmount".equalsIgnoreCase(orderBy)) {
-//            return List.of(
-//                    root.get(BaseMoneyDocumentSql_.BASE_AMOUNT).get("amount"),
-//                    root.get(BaseDocumentSql_.DATE),
-//                    root.get(BaseDocumentSql_.SERIES),
-//                    root.get(BaseDocumentSql_.ORDINAL),
-//                    root.get(BaseDocumentSql_.NUMBER),
-//                    id ? root.get(BaseDocumentSql_.ID).alias("id") : root.get(BaseDocumentSql_.ID));
-//        }
-//        return List.of(
-//                root.get(BaseDocumentSql_.DATE),
-//                root.get(BaseDocumentSql_.SERIES),
-//                root.get(BaseDocumentSql_.ORDINAL),
-//                root.get(BaseDocumentSql_.NUMBER),
-//                root.get(BaseMoneyDocumentSql_.AMOUNT).get("amount"),
-//                id ? root.get(BaseDocumentSql_.ID).alias("id") : root.get(BaseDocumentSql_.ID));
-//    }
-//TODO remove comments
-//    public static List<Order> orderDoc(String orderBy, CriteriaBuilder cb, Root<?> root) {
-//        return EntityUtils.orderList(cb, orderBy, expresionsList(orderBy, cb, root).toArray(Expression[]::new));
-//    }
-//TODO remove comments
-//    public static List<Order> orderMoneyDoc(String orderBy, CriteriaBuilder cb, Root<?> root) {
-//        return EntityUtils.orderList(cb, orderBy, expresionsMoneyDocList(orderBy, cb, root).toArray(Expression[]::new));
-//    }
+
+    public static List<Selection<?>> expresionsList(String orderBy, CriteriaBuilder cb, Root<?> root) {
+        return expresionsList(orderBy, cb, root, false);
+    }
+
+    public static List<Selection<?>> expresionsList(String orderBy, CriteriaBuilder cb, Root<?> root, boolean id) {
+        if ("number".equalsIgnoreCase(orderBy) || "-number".equalsIgnoreCase(orderBy)) {
+            return List.of(
+                    root.get(BaseDocumentSql_.SERIES),
+                    root.get(BaseDocumentSql_.ORDINAL),
+                    root.get(BaseDocumentSql_.NUMBER),
+                    root.get(BaseDocumentSql_.DATE),
+                    id ? root.get(BaseDocumentSql_.ID).alias("id") : root.get(BaseDocumentSql_.ID));
+        }
+        if ("employee".equalsIgnoreCase(orderBy) || "-employee".equalsIgnoreCase(orderBy)) {
+            return List.of(
+                    cb.lower(cb.trim(cb.function("unaccent", String.class, root.get(BaseDocumentSql_.EMPLOYEE).get(EmployeeSql_.NAME)))),
+                    root.get(BaseDocumentSql_.DATE),
+                    root.get(BaseDocumentSql_.SERIES),
+                    root.get(BaseDocumentSql_.ORDINAL),
+                    root.get(BaseDocumentSql_.NUMBER),
+                    id ? root.get(BaseDocumentSql_.ID).alias("id") : root.get(BaseDocumentSql_.ID));
+        }
+        if ("counterparty".equalsIgnoreCase(orderBy) || "-counterparty".equalsIgnoreCase(orderBy)) {
+            return List.of(
+                    cb.lower(cb.trim(cb.function("unaccent", String.class, root.get(BaseDocumentSql_.COUNTERPARTY).get(CounterpartySql_.NAME)))),
+                    root.get(BaseDocumentSql_.DATE),
+                    root.get(BaseDocumentSql_.SERIES),
+                    root.get(BaseDocumentSql_.ORDINAL),
+                    root.get(BaseDocumentSql_.NUMBER),
+                    id ? root.get(BaseDocumentSql_.ID).alias("id") : root.get(BaseDocumentSql_.ID));
+        }
+        return List.of(
+                root.get(BaseDocumentSql_.DATE),
+                root.get(BaseDocumentSql_.SERIES),
+                root.get(BaseDocumentSql_.ORDINAL),
+                root.get(BaseDocumentSql_.NUMBER),
+                id ? root.get(BaseDocumentSql_.ID).alias("id") : root.get(BaseDocumentSql_.ID));
+    }
+
+    public static List<Selection<?>> expresionsMoneyDocList(String orderBy, CriteriaBuilder cb, Root<?> root) {
+        return expresionsMoneyDocList(orderBy, cb, root, false);
+    }
+
+    public static List<Selection<?>> expresionsMoneyDocList(String orderBy, CriteriaBuilder cb, Root<?> root, boolean id) {
+        if ("number".equalsIgnoreCase(orderBy) || "-number".equalsIgnoreCase(orderBy)) {
+            return List.of(
+                    root.get(BaseDocumentSql_.SERIES),
+                    root.get(BaseDocumentSql_.ORDINAL),
+                    root.get(BaseDocumentSql_.NUMBER),
+                    root.get(BaseDocumentSql_.DATE),
+                    root.get(BaseMoneyDocumentSql_.AMOUNT).get("amount"),
+                    id ? root.get(BaseDocumentSql_.ID).alias("id") : root.get(BaseDocumentSql_.ID));
+        }
+        if ("employee".equalsIgnoreCase(orderBy) || "-employee".equalsIgnoreCase(orderBy)) {
+            return List.of(
+                    cb.lower(cb.trim(cb.function("unaccent", String.class, root.get(BaseDocumentSql_.EMPLOYEE).get(EmployeeSql_.NAME)))),
+                    root.get(BaseDocumentSql_.DATE),
+                    root.get(BaseDocumentSql_.SERIES),
+                    root.get(BaseDocumentSql_.ORDINAL),
+                    root.get(BaseDocumentSql_.NUMBER),
+                    root.get(BaseMoneyDocumentSql_.AMOUNT).get("amount"),
+                    id ? root.get(BaseDocumentSql_.ID).alias("id") : root.get(BaseDocumentSql_.ID));
+        }
+        if ("counterparty".equalsIgnoreCase(orderBy) || "-counterparty".equalsIgnoreCase(orderBy)) {
+            return List.of(
+                    cb.lower(cb.trim(cb.function("unaccent", String.class, root.get(BaseDocumentSql_.COUNTERPARTY).get(CounterpartySql_.NAME)))),
+                    root.get(BaseDocumentSql_.DATE),
+                    root.get(BaseDocumentSql_.SERIES),
+                    root.get(BaseDocumentSql_.ORDINAL),
+                    root.get(BaseDocumentSql_.NUMBER),
+                    root.get(BaseMoneyDocumentSql_.AMOUNT).get("amount"),
+                    id ? root.get(BaseDocumentSql_.ID).alias("id") : root.get(BaseDocumentSql_.ID));
+        }
+        if ("payer-receiver".equalsIgnoreCase(orderBy) || "-payer-receiver".equalsIgnoreCase(orderBy)) {
+            return List.of(
+                    cb.lower(cb.trim(cb.function("unaccent", String.class,
+                            cb.coalesce(
+                                    root.get(BaseDocumentSql_.COUNTERPARTY).get(CounterpartySql_.NAME),
+                                    root.get(BaseDocumentSql_.EMPLOYEE).get(EmployeeSql_.NAME))))),
+                    root.get(BaseDocumentSql_.DATE),
+                    root.get(BaseDocumentSql_.SERIES),
+                    root.get(BaseDocumentSql_.ORDINAL),
+                    root.get(BaseDocumentSql_.NUMBER),
+                    root.get(BaseMoneyDocumentSql_.AMOUNT).get("amount"),
+                    id ? root.get(BaseDocumentSql_.ID).alias("id") : root.get(BaseDocumentSql_.ID));
+        }
+        if ("amount".equalsIgnoreCase(orderBy) || "-amount".equalsIgnoreCase(orderBy)) {
+            return List.of(
+                    root.get(BaseMoneyDocumentSql_.AMOUNT).get("amount"),
+                    root.get(BaseDocumentSql_.DATE),
+                    root.get(BaseDocumentSql_.SERIES),
+                    root.get(BaseDocumentSql_.ORDINAL),
+                    root.get(BaseDocumentSql_.NUMBER),
+                    id ? root.get(BaseDocumentSql_.ID).alias("id") : root.get(BaseDocumentSql_.ID));
+        }
+        if ("baseAmount".equalsIgnoreCase(orderBy) || "-baseAmount".equalsIgnoreCase(orderBy)) {
+            return List.of(
+                    root.get(BaseMoneyDocumentSql_.BASE_AMOUNT).get("amount"),
+                    root.get(BaseDocumentSql_.DATE),
+                    root.get(BaseDocumentSql_.SERIES),
+                    root.get(BaseDocumentSql_.ORDINAL),
+                    root.get(BaseDocumentSql_.NUMBER),
+                    id ? root.get(BaseDocumentSql_.ID).alias("id") : root.get(BaseDocumentSql_.ID));
+        }
+        return List.of(
+                root.get(BaseDocumentSql_.DATE),
+                root.get(BaseDocumentSql_.SERIES),
+                root.get(BaseDocumentSql_.ORDINAL),
+                root.get(BaseDocumentSql_.NUMBER),
+                root.get(BaseMoneyDocumentSql_.AMOUNT).get("amount"),
+                id ? root.get(BaseDocumentSql_.ID).alias("id") : root.get(BaseDocumentSql_.ID));
+    }
+
+    public static List<Order> orderDoc(String orderBy, CriteriaBuilder cb, Root<?> root) {
+        return EntityUtils.orderList(cb, orderBy, expresionsList(orderBy, cb, root).toArray(Expression[]::new));
+    }
+
+    public static List<Order> orderMoneyDoc(String orderBy, CriteriaBuilder cb, Root<?> root) {
+        return EntityUtils.orderList(cb, orderBy, expresionsMoneyDocList(orderBy, cb, root).toArray(Expression[]::new));
+    }
 
     public static List<Order> orderList(CriteriaBuilder cb, String orderBy, Expression<?>... fields) {
         final boolean desc = StringHelper.hasValue(orderBy) && orderBy.charAt(0) == '-';

@@ -3,7 +3,6 @@ package lt.gama.model.type;
 import jakarta.persistence.Embeddable;
 import lt.gama.helpers.CollectionsHelper;
 import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.annotations.Type;
 import org.hibernate.type.SqlTypes;
 
 import java.io.Serial;
@@ -11,7 +10,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-//TODO @Embeddable
 public class NameContact implements Serializable {
 
 	@Serial

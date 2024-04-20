@@ -1,0 +1,26 @@
+{
+  "title": {
+    "no": "Article No.",
+    "article": "Article",
+    "notes": "Notes",
+    "present": "Reporting period",
+    "past": "Previous reporting period"
+  },
+  "items": [
+    { "article": "Net turnover", "notes": "(50)", "formula": "50" },
+    { "article": "Cost of sales", "notes": "(60)", "formula": "60" },
+    { "article": "Fair value adjustments of the biological assets", "notes": "(51-61)", "formula": ["51", "61"] },
+    { "article": "GROSS PROFIT (LOSS)", "formula": ["50", "60", "51", "61"], "strong": 1 },
+    { "article": "Selling expenses", "notes": "(62)", "formula": "62" },
+    { "article": "General and administrative expenses", "notes": "(63)", "formula": "63" },
+    { "article": "Other operating results", "notes": "(54-64)", "formula": ["54", "64"] },
+    { "article": "Income from investments in the shares of parent, subsidiaries and associated entities", "notes": "(55)", "formula": "55" },
+    { "article": "Income from other long-term investments and loans", "notes": "(56)", "formula": "56" },
+    { "article": "Other interest and similar income", "notes": "(58)", "formula": "58" },
+    { "article": "The impairment of the financial assets and short-term investments", "notes": "(67)", "formula": "67" },
+    { "article": "Interest and other similar expenses", "notes": "(68)", "formula": "68" },
+    { "article": "PROFIT (LOSS) BEFORE TAXATION", "formula": ["50", "51", "54", "55", "56", "58", "60", "61", "62", "63", "64", "67", "68"], "strong": 1 },
+    { "article": "Tax on profit", "notes": "(69)", "formula": "69" },
+    { "article": "NET PROFIT (LOSS)", "formula": ["50", "51", "54", "55", "56", "58", "60", "61", "62", "63", "64", "67", "68", "69"], "strong": 1 }
+  ]
+}

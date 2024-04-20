@@ -1,8 +1,11 @@
 package lt.gama.model.type.auth;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.Hidden;
 import lt.gama.helpers.EntityUtils;
 import lt.gama.helpers.StringHelper;
+import lt.gama.model.sql.documents.*;
+import lt.gama.model.sql.entities.AssetSql;
 import lt.gama.model.type.cf.CFDescription;
 import lt.gama.model.type.doc.DocBankAccount;
 import lt.gama.model.type.doc.DocCash;
@@ -193,99 +196,99 @@ public class CompanySettings implements ILanguage, Serializable {
     private GpaisSettings gpais;
 
 
-//TODO    private static final Map<String, String> docTypeDefault = Map.ofEntries(
-//            entry(EntityUtils.normalizeEntityClassName(DebtOpeningBalanceSql.class), "Debt Opening Balance"),
-//            entry(EntityUtils.normalizeEntityClassName(DebtCorrectionSql.class), "Debt Correction"),
-//            entry(EntityUtils.normalizeEntityClassName(DebtRateInfluenceSql.class), "Debt's $ Rate Influence"),
-//
-//            entry(EntityUtils.normalizeEntityClassName(EmployeeOpeningBalanceSql.class), "Advances Opening Balance"),
-//            entry(EntityUtils.normalizeEntityClassName(EmployeeOperationSql.class), "Advances Operation"),
-//            entry(EntityUtils.normalizeEntityClassName(EmployeeOperationSql.class) + "+", "Cash Receipt"),
-//            entry(EntityUtils.normalizeEntityClassName(EmployeeOperationSql.class) + "-", "Cash Payment Receipt"),
-//            entry(EntityUtils.normalizeEntityClassName(EmployeeRateInfluenceSql.class), "Advances $ Rate Influence"),
-//
-//            entry(EntityUtils.normalizeEntityClassName(BankOpeningBalanceSql.class), "Bank's Accounts Opening Balance"),
-//            entry(EntityUtils.normalizeEntityClassName(BankOperationSql.class), "Bank's Operation"),
-//            entry(EntityUtils.normalizeEntityClassName(BankRateInfluenceSql.class), "Bank's $ Rate Influence"),
-//
-//            entry(EntityUtils.normalizeEntityClassName(CashOpeningBalanceSql.class), "Cash Opening Balance"),
-//            entry(EntityUtils.normalizeEntityClassName(CashOperationSql.class), "Cash Order"),
-//            entry(EntityUtils.normalizeEntityClassName(CashOperationSql.class) + "+", "Cash Income Order"),
-//            entry(EntityUtils.normalizeEntityClassName(CashOperationSql.class) + "-", "Cash Expense Order"),
-//            entry(EntityUtils.normalizeEntityClassName(CashRateInfluenceSql.class), "Cash $ Rate Influence"),
-//
-//            entry(EntityUtils.normalizeEntityClassName(InventoryOpeningBalanceSql.class), "Inventory Opening Balance"),
-//            entry(EntityUtils.normalizeEntityClassName(InvoiceSql.class), "Invoice"),
-//            entry(EntityUtils.normalizeEntityClassName(PurchaseSql.class), "Purchase"),
-//            entry(EntityUtils.normalizeEntityClassName(EstimateSql.class), "Estimate"),
-//            entry(EntityUtils.normalizeEntityClassName(OrderSql.class), "Order"),
-//            entry(EntityUtils.normalizeEntityClassName(TransProdSql.class), "Transport/Production"),
-//            entry(EntityUtils.normalizeEntityClassName(InventorySql.class), "Inventory"),
-//
-//            entry(EntityUtils.normalizeEntityClassName(AssetSql.class), "Asset"),
-//            entry(EntityUtils.normalizeEntityClassName(SalarySql.class), "Salary"));
-//
-//    public static final Set<String> docHasCounter = Set.of(
-//            EntityUtils.normalizeEntityClassName(DebtOpeningBalanceSql.class),
-//            EntityUtils.normalizeEntityClassName(DebtCorrectionSql.class),
-//            EntityUtils.normalizeEntityClassName(DebtRateInfluenceSql.class),
-//
-//            EntityUtils.normalizeEntityClassName(EmployeeOpeningBalanceSql.class),
-//            EntityUtils.normalizeEntityClassName(EmployeeOperationSql.class) + "+",
-//            EntityUtils.normalizeEntityClassName(EmployeeOperationSql.class) + "-",
-//            EntityUtils.normalizeEntityClassName(EmployeeRateInfluenceSql.class),
-//
-//            EntityUtils.normalizeEntityClassName(BankOpeningBalanceSql.class),
-//            EntityUtils.normalizeEntityClassName(BankOperationSql.class),
-//            EntityUtils.normalizeEntityClassName(BankRateInfluenceSql.class),
-//
-//            EntityUtils.normalizeEntityClassName(CashOpeningBalanceSql.class),
-//            EntityUtils.normalizeEntityClassName(CashOperationSql.class) + "+",
-//            EntityUtils.normalizeEntityClassName(CashOperationSql.class) + "-",
-//            EntityUtils.normalizeEntityClassName(CashRateInfluenceSql.class),
-//
-//            EntityUtils.normalizeEntityClassName(InventoryOpeningBalanceSql.class),
-//            EntityUtils.normalizeEntityClassName(InvoiceSql.class),
-//            EntityUtils.normalizeEntityClassName(EstimateSql.class),
-//            EntityUtils.normalizeEntityClassName(OrderSql.class),
-//            EntityUtils.normalizeEntityClassName(TransProdSql.class),
-//            EntityUtils.normalizeEntityClassName(InventorySql.class),
-//
-//            EntityUtils.normalizeEntityClassName(AssetSql.class),
-//            EntityUtils.normalizeEntityClassName(SalarySql.class));
-//
-//
-//    private static final Map<String, String> docLT = Map.ofEntries(
-//            entry(EntityUtils.normalizeEntityClassName(DebtOpeningBalanceSql.class), "Skolos lik."),
-//            entry(EntityUtils.normalizeEntityClassName(DebtCorrectionSql.class), "Skolų korekcija"),
-//            entry(EntityUtils.normalizeEntityClassName(DebtRateInfluenceSql.class), "Skolų $ kurso kor."),
-//
-//            entry(EntityUtils.normalizeEntityClassName(EmployeeOpeningBalanceSql.class), "Avans. lik."),
-//            entry(EntityUtils.normalizeEntityClassName(EmployeeOperationSql.class), "Pinigų pr./iš. kvitas"),
-//            entry(EntityUtils.normalizeEntityClassName(EmployeeOperationSql.class) + "+", "Pinigų priėmimo kvitas"),
-//            entry(EntityUtils.normalizeEntityClassName(EmployeeOperationSql.class) + "-", "Pinigų išmokėjimo kvitas"),
-//            entry(EntityUtils.normalizeEntityClassName(EmployeeRateInfluenceSql.class), "Avans. $ kurso kor."),
-//
-//            entry(EntityUtils.normalizeEntityClassName(BankOpeningBalanceSql.class), "Banko lik."),
-//            entry(EntityUtils.normalizeEntityClassName(BankOperationSql.class), "Bankas"),
-//            entry(EntityUtils.normalizeEntityClassName(BankRateInfluenceSql.class), "Banko $ kurso kor."),
-//
-//            entry(EntityUtils.normalizeEntityClassName(CashOpeningBalanceSql.class), "Kasos lik."),
-//            entry(EntityUtils.normalizeEntityClassName(CashOperationSql.class), "Kasa"),
-//            entry(EntityUtils.normalizeEntityClassName(CashOperationSql.class) + "+", "Kasos pajamų orderis"),
-//            entry(EntityUtils.normalizeEntityClassName(CashOperationSql.class) + "-", "Kasos išlaidų orderis"),
-//            entry(EntityUtils.normalizeEntityClassName(CashRateInfluenceSql.class), "Kasos $ kurso kor."),
-//
-//            entry(EntityUtils.normalizeEntityClassName(InventoryOpeningBalanceSql.class), "Atsargų lik."),
-//            entry(EntityUtils.normalizeEntityClassName(InvoiceSql.class), "Pardavimas"),
-//            entry(EntityUtils.normalizeEntityClassName(PurchaseSql.class), "Pirkimas"),
-//            entry(EntityUtils.normalizeEntityClassName(EstimateSql.class), "Planuojamas pardavimas"),
-//            entry(EntityUtils.normalizeEntityClassName(OrderSql.class), "Užsakymas"),
-//            entry(EntityUtils.normalizeEntityClassName(TransProdSql.class), "Transp./Gamyba"),
-//            entry(EntityUtils.normalizeEntityClassName(InventorySql.class), "Inventorizacija"),
-//
-//            entry(EntityUtils.normalizeEntityClassName(AssetSql.class), "Turtas"),
-//            entry(EntityUtils.normalizeEntityClassName(SalarySql.class), "Mėn. atlyginimų lapas"));
+    private static final Map<String, String> docTypeDefault = Map.ofEntries(
+            entry(EntityUtils.normalizeEntityClassName(DebtOpeningBalanceSql.class), "Debt Opening Balance"),
+            entry(EntityUtils.normalizeEntityClassName(DebtCorrectionSql.class), "Debt Correction"),
+            entry(EntityUtils.normalizeEntityClassName(DebtRateInfluenceSql.class), "Debt's $ Rate Influence"),
+
+            entry(EntityUtils.normalizeEntityClassName(EmployeeOpeningBalanceSql.class), "Advances Opening Balance"),
+            entry(EntityUtils.normalizeEntityClassName(EmployeeOperationSql.class), "Advances Operation"),
+            entry(EntityUtils.normalizeEntityClassName(EmployeeOperationSql.class) + "+", "Cash Receipt"),
+            entry(EntityUtils.normalizeEntityClassName(EmployeeOperationSql.class) + "-", "Cash Payment Receipt"),
+            entry(EntityUtils.normalizeEntityClassName(EmployeeRateInfluenceSql.class), "Advances $ Rate Influence"),
+
+            entry(EntityUtils.normalizeEntityClassName(BankOpeningBalanceSql.class), "Bank's Accounts Opening Balance"),
+            entry(EntityUtils.normalizeEntityClassName(BankOperationSql.class), "Bank's Operation"),
+            entry(EntityUtils.normalizeEntityClassName(BankRateInfluenceSql.class), "Bank's $ Rate Influence"),
+
+            entry(EntityUtils.normalizeEntityClassName(CashOpeningBalanceSql.class), "Cash Opening Balance"),
+            entry(EntityUtils.normalizeEntityClassName(CashOperationSql.class), "Cash Order"),
+            entry(EntityUtils.normalizeEntityClassName(CashOperationSql.class) + "+", "Cash Income Order"),
+            entry(EntityUtils.normalizeEntityClassName(CashOperationSql.class) + "-", "Cash Expense Order"),
+            entry(EntityUtils.normalizeEntityClassName(CashRateInfluenceSql.class), "Cash $ Rate Influence"),
+
+            entry(EntityUtils.normalizeEntityClassName(InventoryOpeningBalanceSql.class), "Inventory Opening Balance"),
+            entry(EntityUtils.normalizeEntityClassName(InvoiceSql.class), "Invoice"),
+            entry(EntityUtils.normalizeEntityClassName(PurchaseSql.class), "Purchase"),
+            entry(EntityUtils.normalizeEntityClassName(EstimateSql.class), "Estimate"),
+            entry(EntityUtils.normalizeEntityClassName(OrderSql.class), "Order"),
+            entry(EntityUtils.normalizeEntityClassName(TransProdSql.class), "Transport/Production"),
+            entry(EntityUtils.normalizeEntityClassName(InventorySql.class), "Inventory"),
+
+            entry(EntityUtils.normalizeEntityClassName(AssetSql.class), "Asset"),
+            entry(EntityUtils.normalizeEntityClassName(SalarySql.class), "Salary"));
+
+    public static final Set<String> docHasCounter = Set.of(
+            EntityUtils.normalizeEntityClassName(DebtOpeningBalanceSql.class),
+            EntityUtils.normalizeEntityClassName(DebtCorrectionSql.class),
+            EntityUtils.normalizeEntityClassName(DebtRateInfluenceSql.class),
+
+            EntityUtils.normalizeEntityClassName(EmployeeOpeningBalanceSql.class),
+            EntityUtils.normalizeEntityClassName(EmployeeOperationSql.class) + "+",
+            EntityUtils.normalizeEntityClassName(EmployeeOperationSql.class) + "-",
+            EntityUtils.normalizeEntityClassName(EmployeeRateInfluenceSql.class),
+
+            EntityUtils.normalizeEntityClassName(BankOpeningBalanceSql.class),
+            EntityUtils.normalizeEntityClassName(BankOperationSql.class),
+            EntityUtils.normalizeEntityClassName(BankRateInfluenceSql.class),
+
+            EntityUtils.normalizeEntityClassName(CashOpeningBalanceSql.class),
+            EntityUtils.normalizeEntityClassName(CashOperationSql.class) + "+",
+            EntityUtils.normalizeEntityClassName(CashOperationSql.class) + "-",
+            EntityUtils.normalizeEntityClassName(CashRateInfluenceSql.class),
+
+            EntityUtils.normalizeEntityClassName(InventoryOpeningBalanceSql.class),
+            EntityUtils.normalizeEntityClassName(InvoiceSql.class),
+            EntityUtils.normalizeEntityClassName(EstimateSql.class),
+            EntityUtils.normalizeEntityClassName(OrderSql.class),
+            EntityUtils.normalizeEntityClassName(TransProdSql.class),
+            EntityUtils.normalizeEntityClassName(InventorySql.class),
+
+            EntityUtils.normalizeEntityClassName(AssetSql.class),
+            EntityUtils.normalizeEntityClassName(SalarySql.class));
+
+
+    private static final Map<String, String> docLT = Map.ofEntries(
+            entry(EntityUtils.normalizeEntityClassName(DebtOpeningBalanceSql.class), "Skolos lik."),
+            entry(EntityUtils.normalizeEntityClassName(DebtCorrectionSql.class), "Skolų korekcija"),
+            entry(EntityUtils.normalizeEntityClassName(DebtRateInfluenceSql.class), "Skolų $ kurso kor."),
+
+            entry(EntityUtils.normalizeEntityClassName(EmployeeOpeningBalanceSql.class), "Avans. lik."),
+            entry(EntityUtils.normalizeEntityClassName(EmployeeOperationSql.class), "Pinigų pr./iš. kvitas"),
+            entry(EntityUtils.normalizeEntityClassName(EmployeeOperationSql.class) + "+", "Pinigų priėmimo kvitas"),
+            entry(EntityUtils.normalizeEntityClassName(EmployeeOperationSql.class) + "-", "Pinigų išmokėjimo kvitas"),
+            entry(EntityUtils.normalizeEntityClassName(EmployeeRateInfluenceSql.class), "Avans. $ kurso kor."),
+
+            entry(EntityUtils.normalizeEntityClassName(BankOpeningBalanceSql.class), "Banko lik."),
+            entry(EntityUtils.normalizeEntityClassName(BankOperationSql.class), "Bankas"),
+            entry(EntityUtils.normalizeEntityClassName(BankRateInfluenceSql.class), "Banko $ kurso kor."),
+
+            entry(EntityUtils.normalizeEntityClassName(CashOpeningBalanceSql.class), "Kasos lik."),
+            entry(EntityUtils.normalizeEntityClassName(CashOperationSql.class), "Kasa"),
+            entry(EntityUtils.normalizeEntityClassName(CashOperationSql.class) + "+", "Kasos pajamų orderis"),
+            entry(EntityUtils.normalizeEntityClassName(CashOperationSql.class) + "-", "Kasos išlaidų orderis"),
+            entry(EntityUtils.normalizeEntityClassName(CashRateInfluenceSql.class), "Kasos $ kurso kor."),
+
+            entry(EntityUtils.normalizeEntityClassName(InventoryOpeningBalanceSql.class), "Atsargų lik."),
+            entry(EntityUtils.normalizeEntityClassName(InvoiceSql.class), "Pardavimas"),
+            entry(EntityUtils.normalizeEntityClassName(PurchaseSql.class), "Pirkimas"),
+            entry(EntityUtils.normalizeEntityClassName(EstimateSql.class), "Planuojamas pardavimas"),
+            entry(EntityUtils.normalizeEntityClassName(OrderSql.class), "Užsakymas"),
+            entry(EntityUtils.normalizeEntityClassName(TransProdSql.class), "Transp./Gamyba"),
+            entry(EntityUtils.normalizeEntityClassName(InventorySql.class), "Inventorizacija"),
+
+            entry(EntityUtils.normalizeEntityClassName(AssetSql.class), "Turtas"),
+            entry(EntityUtils.normalizeEntityClassName(SalarySql.class), "Mėn. atlyginimų lapas"));
 
 
     public boolean isDisableGL() {
@@ -304,6 +307,7 @@ public class CompanySettings implements ILanguage, Serializable {
         return accMonth > 0 && accMonth <= 12 ? accMonth : 1;
     }
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     public LocalDate getStartAccountingPeriod() {
         return LocalDate.of(getAccYear(), getAccMonth(), 1);
     }
@@ -315,70 +319,69 @@ public class CompanySettings implements ILanguage, Serializable {
     }
 
     public Map<String, String> getDocName() {
-//TODO        if (docType == null) {
-//            docType = new HashMap<>(docTypeDefault);
-//        } else {
-//            for (String key : docTypeDefault.keySet()) {
-//                if (!docType.containsKey(key)) {
-//                    if ("lt".equals(getLanguage())) {
-//                        docType.put(key, docLT.get(key));
-//                    } else{
-//                        docType.put(key, docTypeDefault.get(key));
-//                    }
-//                }
-//            }
-//        }
+        if (docType == null) {
+            docType = new HashMap<>(docTypeDefault);
+        } else {
+            for (String key : docTypeDefault.keySet()) {
+                if (!docType.containsKey(key)) {
+                    if ("lt".equals(getLanguage())) {
+                        docType.put(key, docLT.get(key));
+                    } else{
+                        docType.put(key, docTypeDefault.get(key));
+                    }
+                }
+            }
+        }
         return docType;
     }
 
     public void setDocNames(String language) {
-//TODO        if ("lt".equals(language)) {
-//            docType = new HashMap<>(docLT);
-//        } else {
-//            docType = new HashMap<>(docTypeDefault);
-//        }
+        if ("lt".equals(language)) {
+            docType = new HashMap<>(docLT);
+        } else {
+            docType = new HashMap<>(docTypeDefault);
+        }
     }
 
     public Map<String, String> docNamesByLanguage(String language) {
-//TODO        return Objects.equals(language, getLanguage()) ? getDocName() : docTypeDefault;
-        return Map.of();
+        return Objects.equals(language, getLanguage()) ? getDocName() : docTypeDefault;
     }
 
     public Map<String, CounterDesc> getCounter() {
         if (counter == null) counter = new HashMap<>();
-//TODO        for (String key : docTypeDefault.keySet()) {
-//            if (!docHasCounter.contains(key)) {
-//                counter.remove(key);
-//                continue;
-//            }
-//            CounterDesc desc = counter.get(key);
-//            if (desc == null) {
-//                counter.put(key, new CounterDesc(key));
-//            } else {
-//                desc.setLabel(key);
-//            }
-//        }
-//
-//        CounterDesc desc = counter.get(CounterBarcode);
-//        if (desc == null) {
-//            counter.put(CounterBarcode, new CounterDesc(CounterBarcode));
-//        } else {
-//            desc.setLabel(CounterBarcode);
-//        }
+        for (String key : docTypeDefault.keySet()) {
+            if (!docHasCounter.contains(key)) {
+                counter.remove(key);
+                continue;
+            }
+            CounterDesc desc = counter.get(key);
+            if (desc == null) {
+                counter.put(key, new CounterDesc(key));
+            } else {
+                desc.setLabel(key);
+            }
+        }
+
+        CounterDesc desc = counter.get(CounterBarcode);
+        if (desc == null) {
+            counter.put(CounterBarcode, new CounterDesc(CounterBarcode));
+        } else {
+            desc.setLabel(CounterBarcode);
+        }
         return counter;
     }
 
     public CounterDesc getCounterByClass(Class<?> classType) {
-//TODO        if (getCounter() == null || classType == null) return null;
-//        String label = EntityUtils.normalizeEntityClassName(classType);
-//        if (docHasCounter.contains(label)) return getCounter().get(label);
+        if (getCounter() == null || classType == null) return null;
+        String label = EntityUtils.normalizeEntityClassName(classType);
+        if (docHasCounter.contains(label)) return getCounter().get(label);
         return null;
     }
 
     public CounterDesc getCounterByClass(Class<?> classType, String suffix) {
-//TODO        if (getCounter() == null || classType == null) return null;
-//        String label = EntityUtils.normalizeEntityClassName(classType) + StringHelper.trim(suffix);
-//        if (docHasCounter.contains(label)) return getCounter().get(label);
+        if (getCounter() == null || classType == null) return null;
+        String label = EntityUtils.normalizeEntityClassName(classType) + StringHelper.trim(suffix);
+        if (docHasCounter.contains(label)) return getCounter().get(label);
         return null;
     }
 
@@ -656,22 +659,27 @@ public class CompanySettings implements ILanguage, Serializable {
         this.sales = sales;
     }
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     public Boolean getMigratedDebt() {
         return true;
     }
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     public Boolean getMigratedDebtDocs() {
         return true;
     }
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     public Boolean getMigratedMoney() {
         return true;
     }
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     public Boolean getMigratedMoneyDocs() {
         return true;
     }
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     public Boolean getMigratedParts() {
         return true;
     }

@@ -1,0 +1,6 @@
+DROP SCHEMA IF EXISTS public CASCADE;
+-- DROP ROLE IF EXISTS postgres;
+CREATE SCHEMA public;
+-- CREATE ROLE postgres SUPERUSER;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO public;

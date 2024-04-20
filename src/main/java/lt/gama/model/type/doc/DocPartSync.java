@@ -1,5 +1,6 @@
 package lt.gama.model.type.doc;
 
+import lt.gama.model.dto.entities.PartDto;
 import lt.gama.model.type.base.BaseDocEntity;
 import lt.gama.model.type.enums.PartType;
 import lt.gama.model.type.gl.GLDC;
@@ -46,24 +47,24 @@ public class DocPartSync extends BaseDocEntity {
 
     public DocPartSync() {
     }
-//TODO remove comments
-//    public DocPartSync(PartDto part) {
-//        if (part == null) return;
-//        setId(part.getId());
-//        setExportId(part.getExportId());
-//        setDb(part.getDb());
-//        setName(part.getName());
-//        setSku(part.getSku());
-//        setBarcode(part.getBarcode());
-//        setUnit(part.getUnit());
-//        setType(part.getType());
-//        setTaxable(part.isTaxable());
-//        setVatRateCode(part.getVatRateCode());
-//        setVat(part.getVat());
-//        setAccountAsset(part.getAccountAsset());
-//        setGlIncome(part.getGlIncome());
-//        setGlExpense(part.getGlExpense());
-//    }
+
+    public DocPartSync(PartDto part) {
+        if (part == null) return;
+        setId(part.getId());
+        setExportId(part.getExportId());
+        setDb(part.getDb());
+        setName(part.getName());
+        setSku(part.getSku());
+        setBarcode(part.getBarcode());
+        setUnit(part.getUnit());
+        setType(part.getType());
+        setTaxable(part.isTaxable());
+        setVatRateCode(part.getVatRateCode());
+        setVat(part.getVat());
+        setAccountAsset(part.getAccountAsset());
+        setGlIncome(part.getGlIncome());
+        setGlExpense(part.getGlExpense());
+    }
 
     // generated
 

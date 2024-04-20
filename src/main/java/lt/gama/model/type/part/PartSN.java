@@ -6,14 +6,12 @@ import lt.gama.helpers.CollectionsHelper;
 import lt.gama.helpers.StringHelper;
 import lt.gama.model.type.cf.CFValue;
 import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.annotations.Type;
 import org.hibernate.type.SqlTypes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.lang.invoke.MethodHandles;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -28,7 +26,7 @@ public class PartSN implements Serializable {
     @Serial
     private static final long serialVersionUID = -1;
 
-    private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+    private static final Logger log = LoggerFactory.getLogger(PartSN.class);
 
 
     private String sn;

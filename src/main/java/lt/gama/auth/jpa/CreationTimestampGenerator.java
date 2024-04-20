@@ -11,12 +11,12 @@
 //import java.time.LocalDateTime;
 //
 //public class CreationTimestampGenerator implements ValueGenerator<LocalDateTime> {
-//    @Inject
-//    static Provider<IAuth> authProvider;
+//    @Autowired
+//    static Auth auth;
 //
 //    @Override
 //    public LocalDateTime generateValue(Session session, Object owner) {
-//        if (owner instanceof BaseEntitySql && authProvider.get().isMigrating()) {
+//        if (owner instanceof BaseEntitySql && auth.isMigrating()) {
 //            return ((BaseEntitySql) owner).getCreatedOn();
 //        } else {
 //            return DateUtils.now();

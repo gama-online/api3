@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2016-12-13T13:25:25 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Gama-online Invoice" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7367646c-9665-4c29-b026-85c3074f17a2">
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<style name="defaultTextStyle" isDefault="true" fontName="DejaVu Sans"/>
+	<parameter name="moneyFormatter" class="lt.gama.freemarker.GamaMoneyFormatter"/>
+	<parameter name="company" class="lt.gama.model.dto.entities.CompanyDto"/>
+	<parameter name="invoice" class="lt.gama.model.dto.documents.InvoiceDto"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="name" class="java.lang.String"/>
+	<field name="unit" class="java.lang.String"/>
+	<field name="barcode" class="java.lang.String"/>
+	<field name="quantity" class="java.math.BigDecimal"/>
+	<field name="price" class="org.joda.money.BigMoney"/>
+	<field name="total" class="org.joda.money.Money"/>
+	<title>
+		<band height="90">
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="0" y="1" width="50" height="49" uuid="e2a88d47-088f-41e0-8350-5d6f03b17f36"/>
+				<imageExpression><![CDATA[$P{company}.getLogo()]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="90" y="11" width="310" height="39" uuid="519129d5-ab34-4867-9a6e-de3bc9d02128"/>
+				<textElement textAlignment="Center">
+					<font size="24" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sąskaita - faktūra]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="410" y="11" width="143" height="19" uuid="c993c456-e60f-411e-b984-081cbebcd7a7"/>
+				<textElement textAlignment="Right">
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{invoice}.getNumber()]]></textFieldExpression>
+			</textField>
+			<textField pattern="yyyy-MM-dd">
+				<reportElement x="410" y="30" width="143" height="19" uuid="3775742e-376e-4341-8162-07622bbe7c81"/>
+				<textElement textAlignment="Right">
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{invoice}.getDate()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="24" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="3" width="555" height="15" backcolor="#70A9A9" uuid="8e123f38-7b4f-4899-b745-2410e83103e5"/>
+				<box>
+					<bottomPen lineWidth="1.0" lineColor="#CCCCCC"/>
+				</box>
+				<text><![CDATA[ ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="192" y="3" width="101" height="15" uuid="441c08c7-fb70-4762-8745-a72494c0a24d"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Kiekis]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="3" width="110" height="15" uuid="7032a464-0e80-43b4-9e38-4f506821ccd2"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pavadinimas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="130" y="3" width="50" height="15" uuid="8cbbf03c-49ea-431f-a9f9-2b8ef3a680ac"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Vnt.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="316" y="3" width="84" height="15" uuid="bae4246a-d068-4247-a2f8-daec4194c762"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Kaina]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="460" y="3" width="84" height="15" uuid="bcbd823a-b7b7-4ecd-91f8-9683f5503121"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Suma]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="26" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="555" height="19" backcolor="#E5ECF9" uuid="fa600d27-a584-4f35-ae69-ceb7d23a0806"/>
+				<box>
+					<bottomPen lineWidth="0.25" lineColor="#CCCCCC"/>
+				</box>
+				<text><![CDATA[ ]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="10" y="0" width="110" height="19" uuid="d00914a6-352c-431d-b636-f3b8e6ecea20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Serif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="130" y="0" width="50" height="19" uuid="9cd01d55-78db-4e0b-95ae-bda84f5d4266"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Serif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{unit}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="192" y="0" width="100" height="19" uuid="9e628686-ab58-4f3f-9c5b-419dd8405e25"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="DejaVu Serif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{quantity}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="316" y="0" width="84" height="19" uuid="7b868942-2c63-46a0-a59f-463348b99a28"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="DejaVu Serif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{moneyFormatter}.format($F{price})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="460" y="-1" width="84" height="19" uuid="f8d6b92d-063c-46c9-b154-64a6dcd8429e"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="DejaVu Serif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{moneyFormatter}.format($F{total})]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="38">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="420" y="16" width="134" height="19" uuid="7801467b-412c-4f1d-8b30-7a284983ef81"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="99">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="470" y="51" width="84" height="19" uuid="daf304da-133d-4b46-9393-a128ce5a2d51"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font fontName="DejaVu Serif" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{moneyFormatter}.format($P{invoice}.getTotal())]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="470" y="31" width="84" height="19" uuid="b951df58-ee5a-4d45-a507-002ffa9a1f13"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font fontName="DejaVu Serif" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{moneyFormatter}.format($P{invoice}.getTaxTotal())]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="359" y="51" width="100" height="20" uuid="780c905d-c5a3-4084-9351-cc07637a67d0"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VISO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="359" y="31" width="100" height="20" uuid="2b81309e-b5d6-4b3c-bf5c-3163ae325047"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PVM:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="470" y="11" width="84" height="19" uuid="e5534e19-e751-4177-b2bf-6814d7c4482f"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font fontName="DejaVu Serif" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{moneyFormatter}.format($P{invoice}.getSubtotal())]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="359" y="11" width="100" height="20" uuid="1973fc8d-6c12-4ab0-a0ab-6cc75acba9ae"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Suma:]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

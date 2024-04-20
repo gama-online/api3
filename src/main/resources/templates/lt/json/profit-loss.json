@@ -1,0 +1,26 @@
+{
+  "title": {
+    "no": "Eil.Nr.",
+    "article": "Straipsniai",
+    "notes": "Pastabos",
+    "present": "Ataskaitinis laikotarpis",
+    "past": "Praėjęs ataskaitinis laikotarpis"
+  },
+  "items": [
+    { "article": "Pardavimo pajamos", "notes": "(50)", "formula": "50" },
+    { "article": "Pardavimo savikaina", "notes": "(60)", "formula": "60" },
+    { "article": "Biologinio turto tikrosios vertės pokytis", "notes": "(51-61)", "formula": ["51", "61"] },
+    { "article": "BENDRASIS PELNAS (NUOSTOLIAI)", "formula": ["50", "60", "51", "61"], "strong": 1 },
+    { "article": "Pardavimo sąnaudos", "notes": "(62)", "formula": "62" },
+    { "article": "Bendrosios ir administracinės sąnaudos", "notes": "(63)", "formula": "63" },
+    { "article": "Kitos veiklos rezultatai", "notes": "(54-64)", "formula": ["54", "64"] },
+    { "article": "Investicijų į patronuojančiosios, patronuojamųjų ir asocijuotųjų įmonių akcijas pajamos", "notes": "(55)", "formula": "55" },
+    { "article": "Kitų ilgalaikių investicijų ir paskolų pajamos", "notes": "(56)", "formula": "56" },
+    { "article": "Kitos palūkanų ir panašios pajamos", "notes": "(58)", "formula": "58" },
+    { "article": "Finansinio turto ir trumpalaikių investicijų vertės sumažėjimas", "notes": "(67)", "formula": "67" },
+    { "article": "Palūkanų ir kitos panašios sąnaudos", "notes": "(68)", "formula": "68" },
+    { "article": "PELNAS (NUOSTOLIAI) PRIEŠ APMOKESTINIMĄ", "formula": ["50", "51", "54", "55", "56", "58", "60", "61", "62", "63", "64", "67", "68"], "strong": 1 },
+    { "article": "Pelno mokestis", "notes": "(69)", "formula": "69" },
+    { "article": "GRYNASIS PELNAS (NUOSTOLIAI)", "formula": ["50", "51", "54", "55", "56", "58", "60", "61", "62", "63", "64", "67", "68", "69"], "strong": 1 }
+  ]
+}

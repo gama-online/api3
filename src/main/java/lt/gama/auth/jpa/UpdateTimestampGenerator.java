@@ -9,12 +9,12 @@
 //import java.time.LocalDateTime;
 //
 //public class UpdateTimestampGenerator implements ValueGenerator<LocalDateTime> {
-//    @Inject
-//    static Provider<IAuth> authProvider;
+//    @Autowired
+//    static Auth auth;
 //
 //    @Override
 //    public LocalDateTime generateValue(Session session, Object owner) {
-//        if (owner instanceof BaseEntitySql && authProvider.get().isMigrating()) {
+//        if (owner instanceof BaseEntitySql && auth.isMigrating()) {
 //            return ((BaseEntitySql) owner).getUpdatedOn();
 //        } else {
 //            return DateUtils.now();

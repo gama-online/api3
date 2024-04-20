@@ -1,8 +1,10 @@
 package lt.gama.model.i;
 
+import lt.gama.model.sql.entities.CounterpartySql;
+
 public interface IDebtSql extends IDebt {
 
-//TODO    CounterpartySql getCounterparty();
-//
-//TODO    void setCounterparty(CounterpartySql counterparty);
+    CounterpartySql getCounterparty();
+
+    void setCounterparty(CounterpartySql counterparty);
 }

@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns:st="TFSimpleTypes"
+	xmlns:ct="TFCountryTypes"
+        xmlns:dec="TFDeclaration"	
+      targetNamespace="TFDeclaration" elementFormDefault="qualified" attributeFormDefault="unqualified" version="TFDeclaration_v1.01" > 
+   
+     <xs:annotation>
+	<xs:documentation>PVM grąžinimo užsienio keleiviui deklaracija, kurią VMI teikia pardavėjai arba jų tarpininkai.</xs:documentation>	
+    </xs:annotation>
+    
+    <xs:import namespace="TFSimpleTypes" schemaLocation="TFSimpleTypes.xsd"/>
+    <xs:import namespace="TFCountryTypes" schemaLocation="TFCountryTypes.xsd"/>
+
+	
+    <xs:complexType name="DocHeader_Type">
+        <xs:annotation>
+            <xs:documentation>Dokumentą (deklaraciją) apibūdinantys (identifikuojantys) duomenys</xs:documentation>
+        </xs:annotation>      
+        <xs:sequence>
+            <xs:element name="DocId" type="st:DocId_Type">
+                <xs:annotation>
+                    <xs:documentation>Deklaracijos unikalus numeris</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="DocCorrNo" type="st:DocCorrNo_Type">
+                <xs:annotation>
+                    <xs:documentation>Deklaracijos unikalus numeris</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="CompletionDate" type="st:RestrictedDate_Type">
+                <xs:annotation>
+                    <xs:documentation>Deklaracijos pildymo data. Jei teikiama ta pati pakoreguota deklaracija, tai jos koregavimo data.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Affirmation">                             
+                <xs:annotation>
+                    <xs:documentation>Patvirtiname, kad įsitikinome, jog šis pirkėjas turi teisę naudotis TaxFree schema.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:length value="1"/>
+                        <xs:enumeration value="Y"/>
+                    </xs:restriction>
+                </xs:simpleType>    
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>           
+
+    <xs:complexType name="SalesMan_Type">
+        <xs:annotation>
+            <xs:documentation>Pardavėją apibūdinantys duomenys</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="VatPayerCode" type="st:LtVatPayerCode_Type"> 
+                <xs:annotation>
+                    <xs:documentation>Pardavėjo PVM mokėtojo kodas, suteiktas Lietuvoje.</xs:documentation>
+                </xs:annotation>
+           <!--     <xs:attribute name="IssuedBy" type="ct:IsoCountryCode_Type" use="required" fixed="LT"/> 
+                    <xs:annotation>
+                        <xs:documentation>Valstybės, suteikusios PVMM kodą, dviraidis kodas pagal ISO 3166-1 alpha 2 standartą. Visada nurodoma „LT".</xs:documentation>
+                    </xs:annotation>  -->
+            </xs:element>
+            <xs:element name="Name" type="st:StringMin1Max300_Type">
+                <xs:annotation>
+                    <xs:documentation>Pardavėjo pavadinimas</xs:documentation>
+                </xs:annotation>
+            </xs:element> 
+        </xs:sequence>
+    </xs:complexType>     
+
+ 
+    <xs:complexType name="IdentityDocument_Type">
+        <xs:annotation>
+            <xs:documentation>Asmens tapatybę patvirtinančio dokumento duomenys.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="DocType">
+                <xs:annotation>
+                    <xs:documentation>Asmens tapatybę patvirtinančio dokumento tipas. Galimos reikšmės:  1 - Pasas, 2 - Asmens tapatybės kortelė.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:int">
+                        <xs:enumeration value="1"/>
+                        <xs:enumeration value="2"/>
+                    </xs:restriction>
+                </xs:simpleType>                    
+            </xs:element>
+            <xs:element name="DocNo" type="st:IdDocNo_Type">
+                <xs:annotation>
+                    <xs:documentation>Asmens tapatybę patvirtinančio dokumento numeris (atribute nurodoma valstybė, kurioje išduotas dokumentas).</xs:documentation>
+            </xs:annotation>           
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>       
+ 
+    <xs:complexType name="OtherDocument_Type">
+        <xs:annotation>
+            <xs:documentation>Dokumento, įrodančio, kad pirkėjo nuolatinė gyvenamoji vieta nėra Europos Sąjungos teritorijoje, duomenys.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="DocType" type="st:StringMin1Max100_Type">
+                <xs:annotation>
+                    <xs:documentation>Dokumento, įrodančio, kad pirkėjo nuolatinė gyvenamoji vieta nėra Europos Sąjungos teritorijoje, tipas.</xs:documentation>
+                </xs:annotation>                    
+            </xs:element>
+            <xs:element name="DocNo" type="st:OtherDocNo_Type">
+                <xs:annotation>
+                    <xs:documentation>Dokumento, įrodančio, kad pirkėjo nuolatinė gyvenamoji vieta nėra Europos Sąjungos teritorijoje, numeris (atribute nurodoma valstybė, kurioje išduotas dokumentas).</xs:documentation>
+                </xs:annotation>           
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>     
+                                                                                                                                                                  
+
+ <xs:complexType name="Customer_Type">
+        <xs:annotation>
+            <xs:documentation>Užsienio keleivio (pirkėjo) duomenų grupė</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="FirstName" type="st:StringMin1Max200_Type">
+                <xs:annotation>
+                    <xs:documentation>Pirkėjo vardas</xs:documentation>
+                </xs:annotation>
+            </xs:element>  
+            <xs:element name="LastName" type="st:StringMin1Max200_Type">
+                <xs:annotation>
+                    <xs:documentation>Pirkėjo pavardė.</xs:documentation>
+                </xs:annotation>
+            </xs:element>                               
+            <xs:element name="PersonIn" type="st:PersonIn_Type" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>Pirkėjo asmens identifikacinis numeris užsienio valstybėje. Jeigu užsienio keleivio valstybė netaiko asmens kodo sistemos ir keleivis jo negali pateikti, asmens kodas neįrašomas.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="BirthDate" type="st:BirthDate_Type">
+                <xs:annotation>
+                    <xs:documentation>Pirkėjo gimimo data.</xs:documentation>
+                </xs:annotation>
+            </xs:element> 
+            <xs:element name="IdentityDocument" type="dec:IdentityDocument_Type">
+                <xs:annotation>
+                    <xs:documentation>Asmens tapatybę patvirtinančio dokumento duomenų grupė.</xs:documentation>
+                </xs:annotation>
+            </xs:element>               
+            <xs:element name="OtherDocument" type="dec:OtherDocument_Type" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Dokumentas (-ai), įrodantys, kad pirkėjas yra trečios valstybės gyventojas, jei asmens tapatybės dokumentas yra išduotas ES ar Jungtinės Karalystės arba kitais atvejais, jei pirkėjas pateikia tokius dokumentus. Jei asmens tapatybę patvirtinantis dokumentas yra išduotas ES valstybėje narėje ar Jungtinėje Karalystėje, tai kitą dokumentą privaloma nurodyti.</xs:documentation>
+                </xs:annotation>
+            </xs:element>              
+            <xs:choice>
+                <xs:element name="ResCountryCode" type="ct:NonEuCountryCode_Type">
+                    <xs:annotation>
+                        <xs:documentation>Europos Sąjungai nepriklausančios valstybės, kurioje yra pirkėjo nuolatinė gyvenamoji vieta, kodas iš dviejų raidžių pagal ISO 3166-1 alpha 2 standartą, pavyzdžiui, UA – Ukraina.</xs:documentation>
+                    </xs:annotation>
+                </xs:element> 
+                <xs:element name="ResTerritory">
+                    <xs:annotation>
+                        <xs:documentation>Europos Sąjungai priklausančios teritorijos, kurioje yra pirkėjo nuolatinė gyvenamoji vieta ir kuri PVM tikslais laikoma trečiąja teritorija, duomenys.</xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="TerritoryCode" type="st:StringLength4_Type">
+                                <xs:annotation>
+                                    <xs:documentation>Europos Sąjungai priklausančios teritorijos, kurioje yra pirkėjo nuolatinė gyvenamoji vieta ir kuri PVM tikslais laikoma trečiąja teritorija, kodas.</xs:documentation>
+                                </xs:annotation>
+                            </xs:element>  
+                            <xs:element name="TerritoryName" type="st:StringMin1Max200_Type">
+                                <xs:annotation>
+                                    <xs:documentation>Europos Sąjungai priklausančios teritorijos, kurioje yra pirkėjo nuolatinė gyvenamoji vieta ir kuri PVM tikslais laikoma trečiąja teritorija, pavadinimas iš klasifikatoriaus, iš kurio paimtas teritorijos kodas.</xs:documentation>
+                                </xs:annotation>
+                            </xs:element> 
+                        </xs:sequence>
+                    </xs:complexType> 
+                </xs:element>               
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType> 
+    
+    <xs:complexType name="CashRegisterReceipt_Type">
+        <xs:annotation>
+            <xs:documentation>Kasos aparato kvitą identifikuojantys duomenys.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="CashRegisterNo" type="st:StringMin1Max50_Type">
+                <xs:annotation>
+                    <xs:documentation>Kasos aparato numeris.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ReceiptNo" type="st:StringMin1Max70_Type">
+                <xs:annotation>
+                    <xs:documentation>Kasos aparato kvito numeris.</xs:documentation>
+                </xs:annotation>
+            </xs:element> 
+        </xs:sequence>
+    </xs:complexType> 
+
+    <xs:complexType name="GoodsItem_Type">
+        <xs:annotation>
+            <xs:documentation>Parduotą prekę apibūdinantys duomenys.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="SequenceNo" type="st:SequenceNo_Type" >
+                <xs:annotation>
+                    <xs:documentation>Unikalus prekės eilės numeris deklaracijoje.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Description" type="st:StringMin1Max500_Type" >
+                <xs:annotation>
+                    <xs:documentation>Prekės pavadinimas (aprašymas). Pavadinimas turi būti toks, kad galima būtų tiksliai identifikuoti prekę.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Quantity" type="st:Quantity_Type" >
+                <xs:annotation>
+                    <xs:documentation>Prekės kiekis.</xs:documentation>
+                </xs:annotation>
+            </xs:element>              
+            <xs:choice>
+                <xs:element name="UnitOfMeasureCode" type="st:StringLength3_Type">
+                   <xs:annotation>
+                        <xs:documentation>Matavimo vienetas turi nurodyti matavimo vieneto rūšį: pvz., kg, vienetas ir pan. Nurodomas kodas iš matavimo vienetų klasifikatoriaus.</xs:documentation>
+                        </xs:annotation>
+                 </xs:element> 
+                 <xs:element name="UnitOfMeasureOther" type="st:StringMin1Max50_Type">
+                      <xs:annotation>
+                          <xs:documentation>Kitokio matavimo vieneto pavadinimas. Nurodomas, kai klasifikatoriuje nėra tinkamos reikšmės.</xs:documentation>
+                      </xs:annotation>
+                  </xs:element>              
+            </xs:choice>
+            <xs:element name="TaxableAmount" type="st:Amount_Type">
+                <xs:annotation>
+                    <xs:documentation>Kaina be PVM (Eur).</xs:documentation>
+                </xs:annotation>
+            </xs:element> 
+             <xs:element name="VatRate" type="st:Percent_Type">
+                <xs:annotation>
+                    <xs:documentation>PVM tarifas (procentais).</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="VatAmount" type="st:Amount_Type">
+                <xs:annotation>
+                    <xs:documentation>PVM suma (Eur).</xs:documentation>
+                </xs:annotation>
+            </xs:element> 
+            <xs:element name="TotalAmount" type="st:Amount_Type">
+                <xs:annotation>
+                    <xs:documentation>Kaina su PVM (Eur).</xs:documentation>
+                </xs:annotation>
+            </xs:element>                                  
+        </xs:sequence>
+    </xs:complexType>                     
+
+    <xs:complexType name="SalesDocument_Type">
+        <xs:annotation>
+            <xs:documentation>Pardavimo dokumento duomenys.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:choice>
+                <xs:element name="CashRegisterReceipt" type="dec:CashRegisterReceipt_Type">
+                    <xs:annotation>
+                        <xs:documentation>Kasos aparato kvitą identifikuojantys duomenys.</xs:documentation>
+                    </xs:annotation>
+                </xs:element> 
+                <xs:element name="InvoiceNo" type="st:StringMin1Max70_Type">
+                    <xs:annotation>
+                        <xs:documentation>PVM sąskaitą – faktūros serija ir Nr. Rekomenduojama pildyti be jokio atskyrimo, tarpo, brūkšnelio ar kitokių ženklų.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>              
+            </xs:choice>
+            <xs:element name="SalesDate" type="st:RestrictedDate_Type">
+                <xs:annotation>
+                    <xs:documentation>Pardavimo data.</xs:documentation>
+                </xs:annotation>
+            </xs:element> 
+            <xs:element name="Goods" type="dec:GoodsItem_Type" minOccurs="1" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Parduotų prekių sąrašas.</xs:documentation>
+                </xs:annotation>
+            </xs:element>            
+        </xs:sequence>
+    </xs:complexType>   
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+    <xs:complexType name="Intermediary_Type">
+        <xs:annotation>
+            <xs:documentation>Tarpininko duomenys</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="IntermediaryIn" type="st:IntermediaryIn_Type">
+                <xs:annotation>
+                    <xs:documentation>Tarpininko identifikacinis numeris: Lietuvos mokesčių mokėtojo identifikacinis numeris (kodas) MMR'e arba MMR kliento TIN arba Lietuvos gyventojo fizinio asmens individualios veiklos pažymos numeris.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Name" type="st:StringMin1Max300_Type">
+                <xs:annotation>
+                    <xs:documentation>Tarpininko pavadinimas</xs:documentation>
+                </xs:annotation>
+            </xs:element> 
+        </xs:sequence>
+    </xs:complexType>     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+    <xs:complexType name="TFDeclaration_Type">
+            <xs:sequence>
+                <xs:element name="DocHeader" type="dec:DocHeader_Type"/>
+                <xs:element name="Salesman" type="dec:SalesMan_Type"/>
+                <xs:element name="Customer" type="dec:Customer_Type"/>
+                <xs:element name="SalesDocument" type="dec:SalesDocument_Type" minOccurs="1" maxOccurs="unbounded"/>
+                <xs:element name="Intermediary" type="dec:Intermediary_Type" minOccurs="0" maxOccurs="1"/>
+            </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="Declaration" type="dec:TFDeclaration_Type"/>
+
+</xs:schema>

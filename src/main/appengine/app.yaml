@@ -6,5 +6,5 @@ runtime: java21
 
 instance_class: F1
 
-#entrypoint: java -Dspring.profiles.active=prod -jar /workspace/target/api3-3.0.0-SNAPSHOT.jar
-entrypoint: ./api3 -Dspring.profiles.active=prod
+entrypoint: java -Dspring.profiles.active=prod -jar /workspace/target/api3-3.0.0-SNAPSHOT.jar
+#entrypoint: ./api3 -Dspring.profiles.active=prod

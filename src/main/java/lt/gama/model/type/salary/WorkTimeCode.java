@@ -11,7 +11,6 @@ import java.util.Objects;
  * gama-online
  * Created by valdas on 2016-05-13.
  */
-@Embeddable
 public class WorkTimeCode implements Serializable {
 
     @Serial

@@ -10,12 +10,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.lang.invoke.MethodHandles;
-
 @Service
 public class APIResultService {
 
-    private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+    private static final Logger log = LoggerFactory.getLogger(APIResultService.class);
 
     public <E> E execute(APIResultFunction<E> function) throws GamaApiException {
         try {

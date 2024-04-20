@@ -1,0 +1,179 @@
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.2"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+    <!-- Define persistence unit -->
+    <persistence-unit name="test-lt.gama.persistence-unit" transaction-type="RESOURCE_LOCAL">
+        <description>Connection data to PostgreSQL</description>
+
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <!-- Converters -->
+        <class>lt.gama.jpa.converters.AccountTypeConverter</class>
+        <class>lt.gama.jpa.converters.AssetStatusTypeConverter</class>
+        <class>lt.gama.jpa.converters.AvgSalaryTypeConverter</class>
+        <class>lt.gama.jpa.converters.BooleanTypeConverter</class>
+        <class>lt.gama.jpa.converters.CompanyStatusTypeConverter</class>
+        <class>lt.gama.jpa.converters.CurrencyUnitConverter</class>
+        <class>lt.gama.jpa.converters.DBTypeConverter</class>
+        <class>lt.gama.jpa.converters.DebtTypeConverter</class>
+        <class>lt.gama.jpa.converters.EmployeeTypeConverter</class>
+        <class>lt.gama.jpa.converters.ExCompanyTypeConverter</class>
+        <class>lt.gama.jpa.converters.GLAccountTypeConverter</class>
+        <class>lt.gama.jpa.converters.InventoryTypeConverter</class>
+        <class>lt.gama.jpa.converters.LabelTypeConverter</class>
+        <class>lt.gama.jpa.converters.PartTypeConverter</class>
+        <class>lt.gama.jpa.converters.SexTypeConverter</class>
+        <class>lt.gama.jpa.converters.TaxpayerTypeConverter</class>
+        <class>lt.gama.jpa.converters.WageTypeConverter</class>
+        <class>lt.gama.jpa.converters.WorkScheduleTypeConverter</class>
+        <class>lt.gama.jpa.converters.WorkTimeCodeTypeConverter</class>
+
+        <!-- JPA entities -->
+        <class>lt.gama.model.sql.base.BaseDocumentSql</class>
+
+        <class>lt.gama.model.sql.documents.BankOpeningBalanceSql</class>
+        <class>lt.gama.model.sql.documents.BankOperationSql</class>
+        <class>lt.gama.model.sql.documents.BankRateInfluenceSql</class>
+        <class>lt.gama.model.sql.documents.CashOpeningBalanceSql</class>
+        <class>lt.gama.model.sql.documents.CashOperationSql</class>
+        <class>lt.gama.model.sql.documents.CashRateInfluenceSql</class>
+        <class>lt.gama.model.sql.documents.DebtCorrectionSql</class>
+        <class>lt.gama.model.sql.documents.DebtOpeningBalanceSql</class>
+        <class>lt.gama.model.sql.documents.DebtRateInfluenceSql</class>
+        <class>lt.gama.model.sql.documents.DoubleEntrySql</class>
+        <class>lt.gama.model.sql.documents.EmployeeOpeningBalanceSql</class>
+        <class>lt.gama.model.sql.documents.EmployeeOperationSql</class>
+        <class>lt.gama.model.sql.documents.EmployeeRateInfluenceSql</class>
+        <class>lt.gama.model.sql.documents.EstimateSql</class>
+        <class>lt.gama.model.sql.documents.GLOpeningBalanceSql</class>
+        <class>lt.gama.model.sql.documents.InventoryOpeningBalanceSql</class>
+        <class>lt.gama.model.sql.documents.InventorySql</class>
+        <class>lt.gama.model.sql.documents.InvoiceSql</class>
+        <class>lt.gama.model.sql.documents.OrderSql</class>
+        <class>lt.gama.model.sql.documents.PurchaseSql</class>
+        <class>lt.gama.model.sql.documents.SalarySql</class>
+        <class>lt.gama.model.sql.documents.TransProdSql</class>
+
+        <class>lt.gama.model.sql.documents.items.BankOpeningBalanceBankSql</class>
+        <class>lt.gama.model.sql.documents.items.BankRateInfluenceMoneyBalanceSql</class>
+        <class>lt.gama.model.sql.documents.items.CashOpeningBalanceCashSql</class>
+        <class>lt.gama.model.sql.documents.items.CashRateInfluenceMoneyBalanceSql</class>
+        <class>lt.gama.model.sql.documents.items.DebtOpeningBalanceCounterpartySql</class>
+        <class>lt.gama.model.sql.documents.items.DebtRateInfluenceMoneyBalanceSql</class>
+        <class>lt.gama.model.sql.documents.items.EmployeeChargeSql</class>
+        <class>lt.gama.model.sql.documents.items.EmployeeOpeningBalanceEmployeeSql</class>
+        <class>lt.gama.model.sql.documents.items.EmployeeRateInfluenceMoneyBalanceSql</class>
+        <class>lt.gama.model.sql.documents.items.EstimateBasePartSql</class>
+        <class>lt.gama.model.sql.documents.items.EstimatePartSql</class>
+        <class>lt.gama.model.sql.documents.items.EstimateSubpartSql</class>
+        <class>lt.gama.model.sql.documents.items.GLOpeningBalanceOperationSql</class>
+        <class>lt.gama.model.sql.documents.items.GLOperationSql</class>
+        <class>lt.gama.model.sql.documents.items.InventoryOpeningBalancePartSql</class>
+        <class>lt.gama.model.sql.documents.items.InventoryPartSql</class>
+        <class>lt.gama.model.sql.documents.items.InvoiceBasePartSql</class>
+        <class>lt.gama.model.sql.documents.items.InvoicePartSql</class>
+        <class>lt.gama.model.sql.documents.items.InvoiceSubpartSql</class>
+        <class>lt.gama.model.sql.documents.items.OrderPartSql</class>
+        <class>lt.gama.model.sql.documents.items.PurchasePartSql</class>
+        <class>lt.gama.model.sql.documents.items.TransProdPartFromSql</class>
+        <class>lt.gama.model.sql.documents.items.TransProdPartSql</class>
+        <class>lt.gama.model.sql.documents.items.TransProdPartToSql</class>
+
+        <class>lt.gama.model.sql.entities.AssetSql</class>
+        <class>lt.gama.model.sql.entities.BankAccountSql</class>
+        <class>lt.gama.model.sql.entities.CashSql</class>
+        <class>lt.gama.model.sql.entities.ChargeSql</class>
+        <class>lt.gama.model.sql.entities.CounterpartySql</class>
+        <class>lt.gama.model.sql.entities.CounterSql</class>
+        <class>lt.gama.model.sql.entities.DebtCoverageSql</class>
+        <class>lt.gama.model.sql.entities.DebtHistorySql</class>
+        <class>lt.gama.model.sql.entities.DebtNowSql</class>
+        <class>lt.gama.model.sql.entities.EmployeeAbsenceSql</class>
+        <class>lt.gama.model.sql.entities.EmployeeCardSql</class>
+        <class>lt.gama.model.sql.entities.EmployeeSql</class>
+        <class>lt.gama.model.sql.entities.EmployeeVacationSql</class>
+        <class>lt.gama.model.sql.entities.GLAccountSql</class>
+        <class>lt.gama.model.sql.entities.GLSaftAccountSql</class>
+        <class>lt.gama.model.sql.entities.ImportSql</class>
+        <class>lt.gama.model.sql.entities.InventoryHistorySql</class>
+        <class>lt.gama.model.sql.entities.InventoryNowSql</class>
+        <class>lt.gama.model.sql.entities.LabelSql</class>
+        <class>lt.gama.model.sql.entities.ManufacturerSql</class>
+        <class>lt.gama.model.sql.entities.MoneyHistorySql</class>
+        <class>lt.gama.model.sql.entities.PartPartSql</class>
+        <class>lt.gama.model.sql.entities.PartSql</class>
+        <class>lt.gama.model.sql.entities.PositionSql</class>
+        <class>lt.gama.model.sql.entities.RecipeSql</class>
+        <class>lt.gama.model.sql.entities.RecipePartFromSql</class>
+        <class>lt.gama.model.sql.entities.RecipePartSql</class>
+        <class>lt.gama.model.sql.entities.RecipePartToSql</class>
+        <class>lt.gama.model.sql.entities.ResponsibilityCenterSql</class>
+        <class>lt.gama.model.sql.entities.RoleSql</class>
+        <class>lt.gama.model.sql.entities.WarehouseSql</class>
+        <class>lt.gama.model.sql.entities.WorkHoursSql</class>
+        <class>lt.gama.model.sql.entities.WorkScheduleSql</class>
+
+        <class>lt.gama.model.sql.system.AccountSql</class>
+        <class>lt.gama.model.sql.system.CalendarSettingsSql</class>
+        <class>lt.gama.model.sql.system.CalendarSql</class>
+        <class>lt.gama.model.sql.system.CompanySql</class>
+        <class>lt.gama.model.sql.system.ConnectionSql</class>
+        <class>lt.gama.model.sql.system.CountryVatCodeSql</class>
+        <class>lt.gama.model.sql.system.CountryVatNoteSql</class>
+        <class>lt.gama.model.sql.system.CountryVatRateSql</class>
+        <class>lt.gama.model.sql.system.CountryWorkTimeCodeSql</class>
+        <class>lt.gama.model.sql.system.ExchangeRateSql</class>
+        <class>lt.gama.model.sql.system.SyncSql</class>
+        <class>lt.gama.model.sql.system.SystemSettingsSql</class>
+
+<!--        <class>lt.gama.test.jpa.experimental.entities.EntityMaster</class>-->
+<!--        <class>lt.gama.test.jpa.experimental.entities.EntityChild</class>-->
+
+<!--        <class>lt.gama.test.jpa.experimental.entities.EntityA</class>-->
+<!--        <class>lt.gama.test.jpa.experimental.entities.EntityB</class>-->
+        <class>lt.gama.test.jpa.experimental.entities.EntityMoney</class>
+<!--        <class>lt.gama.test.jpa.experimental.entities.EntityMoneta</class>-->
+
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+
+        <properties>
+<!--            <property name="hibernate.connection.driver_class" value="com.p6spy.engine.spy.P6SpyDriver"/>-->
+<!--            <property name="hibernate.connection.url" value="jdbc:p6spy:postgresql://localhost:5432/gama-test"/>-->
+            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+            <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/gama-test"/>
+
+            <!-- Hibernate ddl auto (create, create-drop, validate, update) -->
+            <property name="hibernate.hbm2ddl.auto" value="none"/>
+
+            <property name="hibernate.dialect" value="lt.gama.jpa.MyPostgreSQLDialect"/>
+            <property name="hibernate.globally_quoted_identifiers" value="true"/>
+            <property name="hibernate.globally_quoted_identifiers_skip_column_definitions" value="true"/>
+            <property name="hibernate.hbm2ddl.schema_filter_provider" value="lt.gama.jpa.GamaSchemaFilterProvider"/>
+            <property name="hibernate.physical_naming_strategy" value="lt.gama.jpa.CamelCaseToSnakeCaseNamingStrategy" />
+            <property name="hibernate.implicit_naming_strategy" value="org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl" />
+
+            <!-- Hibernate Optimizations -->
+            <!-- enable batching -->
+            <property name="hibernate.jdbc.batch_size" value="50"/>
+
+            <!-- batch all insert statements of the same entity type -->
+            <property name="hibernate.order_inserts" value="true"/>
+
+            <!-- group several update statements and send them to the database in one go -->
+            <property name="hibernate.order_updates" value="true"/>
+            <property name="hibernate.jdbc.batch_versioned_data" value="true"/>
+
+            <!-- fail if no sql pagination -->
+            <property name="hibernate.query.fail_on_pagination_over_collection_fetch" value="true"/>
+
+            <!-- optimize query in clause -->
+            <property name="hibernate.query.in_clause_parameter_padding" value="true"/>
+
+            <!-- debug logs -->
+<!--            <property name="hibernate.generate_statistics" value="true"/>-->
+<!--            <property name="hibernate.show_sql" value="true"/>-->
+
+        </properties>
+
+    </persistence-unit>
+</persistence>

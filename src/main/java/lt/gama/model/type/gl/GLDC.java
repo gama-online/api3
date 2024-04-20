@@ -1,5 +1,6 @@
 package lt.gama.model.type.gl;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ComparisonChain;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
@@ -39,10 +40,12 @@ public class GLDC implements Comparable<GLDC>, Serializable {
         this.credit = credit;
     }
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     public GLOperationAccount getCreditEx() {
         return Validators.isValid(credit) ? credit : Validators.isValid(debit) ? debit : null;
     }
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     public GLOperationAccount getDebitEx() {
         return Validators.isValid(debit) ? debit : Validators.isValid(credit) ? credit : null;
     }

@@ -1,5 +1,6 @@
 package lt.gama.model.type.doc;
 
+import lt.gama.model.dto.entities.PositionDto;
 import lt.gama.model.i.IName;
 import lt.gama.model.i.IPosition;
 import lt.gama.model.type.GamaBigMoney;
@@ -86,18 +87,18 @@ public class DocPosition extends BaseDocEntity implements IName, Serializable {
         this.main = position.main;
         this.hidden = position.hidden;
     }
-//TODO: remove comments
-//    public DocPosition(PositionDto position) {
-//        if (position == null) return;
-//        this.id = position.getId();
-//        this.name = position.getName();
-//        this.description = position.getDescription();
-//        this.workSchedule = position.getWorkSchedule();
-//        this.start = position.getStart();
-//        this.wageType = position.getWageType();
-//        this.wage = position.getWage();
-//        this.advance = position.getAdvance();
-//    }
+
+    public DocPosition(PositionDto position) {
+        if (position == null) return;
+        this.id = position.getId();
+        this.name = position.getName();
+        this.description = position.getDescription();
+        this.workSchedule = position.getWorkSchedule();
+        this.start = position.getStart();
+        this.wageType = position.getWageType();
+        this.wage = position.getWage();
+        this.advance = position.getAdvance();
+    }
 
     public DocPosition(IPosition position) {
         copyFrom(position);

@@ -8,8 +8,8 @@ import java.util.EnumSet;
 
 public class EditorValueGeneration implements BeforeExecutionGenerator {
 //TODO
-//    @Inject
-//    static Provider<IAuth> authProvider;
+//    @Autowired
+//    static Auth auth;
 
 
     private final EnumSet<EventType> eventTypes = EnumSet.of(EventType.UPDATE, EventType.INSERT);
@@ -22,10 +22,10 @@ public class EditorValueGeneration implements BeforeExecutionGenerator {
 
     @Override
     public Object generate(SharedSessionContractImplementor session, Object owner, Object currentValue, EventType eventType) {
-//TODO        if (authProvider.get().isMigrating() && owner instanceof BaseEntitySql entity) {
+//TODO        if (auth.isMigrating() && owner instanceof BaseEntitySql entity) {
 //            return entity.getUpdatedBy();
 //        } else {
-//            return authProvider.get().getName();
+//            return auth.getName();
 //        }
         return "editor";
     }

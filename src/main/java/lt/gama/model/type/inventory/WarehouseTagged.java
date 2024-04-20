@@ -1,6 +1,7 @@
 package lt.gama.model.type.inventory;
 
 import lt.gama.model.i.IId;
+import lt.gama.model.sql.entities.WarehouseSql;
 import lt.gama.model.type.enums.DBType;
 
 public class WarehouseTagged implements IId<Long> {
@@ -19,13 +20,13 @@ public class WarehouseTagged implements IId<Long> {
         this.id = id;
         this.name = name;
     }
-//TODO remove comments
-//    public WarehouseTagged(WarehouseSql warehouse, String tag) {
-//        this.id = warehouse.getId();
-//        this.name = warehouse.getName();
-//        this.withTag = warehouse.getWithTag();
-//        this.tag = tag;
-//    }
+
+    public WarehouseTagged(WarehouseSql warehouse, String tag) {
+        this.id = warehouse.getId();
+        this.name = warehouse.getName();
+        this.withTag = warehouse.getWithTag();
+        this.tag = tag;
+    }
 
     // generated
 

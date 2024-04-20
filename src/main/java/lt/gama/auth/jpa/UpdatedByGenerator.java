@@ -9,15 +9,15 @@
 //import javax.inject.Provider;
 //
 //public class UpdatedByGenerator implements ValueGenerator<String> {
-//    @Inject
-//    static Provider<IAuth> authProvider;
+//    @Autowired
+//    static Auth auth;
 //
 //    @Override
 //    public String generateValue(Session session, Object owner) {
-//        if (owner instanceof BaseEntitySql && authProvider.get().isMigrating()) {
+//        if (owner instanceof BaseEntitySql && auth.isMigrating()) {
 //            return ((BaseEntitySql) owner).getUpdatedBy();
 //        } else {
-//            return authProvider.get().getName();
+//            return auth.getName();
 //        }
 //    }
 //}

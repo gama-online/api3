@@ -23,6 +23,12 @@ These additional references should also help you:
 
 * [Configure AOT settings in Build Plugin](https://docs.spring.io/spring-boot/docs/3.2.4/maven-plugin/reference/htmlsingle/#aot)
 
+## Generating a wsdl clients
+
+```
+
+```
+
 ## GraalVM Native Support
 
 This project has been configured to let you generate either a lightweight container or a native executable.
@@ -35,13 +41,13 @@ Docker should be installed and configured on your machine prior to creating the 
 To create the image, run the following goal:
 
 ```
-$ ./mvnw spring-boot:build-image -Pnative
+$ ./mvnw spring-boot:build-image -Pnative -DskipTests
 ```
 
 Then, you can run the app like any other container:
 
 ```
-$ docker run --rm -p 8080:8080 api2:0.0.1-SNAPSHOT
+$ docker run --rm -p 8080:8080 api3:3.0.0-SNAPSHOT
 ```
 
 ### Executable with Native Build Tools
@@ -53,12 +59,12 @@ NOTE: GraalVM 22.3+ is required.
 To create the executable, run the following goal:
 
 ```
-$ ./mvnw native:compile -Pnative
+$ ./mvnw native:compile -Pnative -DskipTests
 ```
 
-Then, you can run the app as follows:
+Then, you can run the app with `dev` profile as follows:
 ```
-$ target/api2
+$ target/api3 -Dspring.profiles.active=dev
 ```
 
 You can also run your existing tests suite in a native image.
@@ -70,3 +76,34 @@ To run your existing tests in a native image, run the following goal:
 $ ./mvnw test -PnativeTest
 ```
 
+## Useful Google Cloud CLI commands
+
+To check your authentication status, run the following command:
+
+```
+gcloud auth list
+```
+
+Change to the project's account if not:
+
+```
+gcloud config set account `ACCOUNT`
+```
+
+To check cloud project:
+
+```
+gcloud projects list
+```
+
+Select your project if not:
+
+```
+gcloud config set project `PROJECT ID`
+```
+
+Build in the cloud and deploy the app to App Engine:
+
+```
+gcloud app deploy pom.xml
+```

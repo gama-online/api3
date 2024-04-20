@@ -2,6 +2,7 @@ package lt.gama.model.type.doc;
 
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Ordering;
+import lt.gama.model.dto.entities.ResponsibilityCenterDto;
 import lt.gama.model.i.IName;
 import lt.gama.model.type.base.BaseDocEntity;
 
@@ -27,12 +28,11 @@ public class DocRC extends BaseDocEntity implements IName, Comparable<DocRC> {
         this.name = name;
     }
 
-//TODO remove components
-//    public DocRC(ResponsibilityCenterDto rc) {
-//        if (rc == null) return;
-//        setId(rc.getId());
-//        this.name = rc.getName();
-//    }
+    public DocRC(ResponsibilityCenterDto rc) {
+        if (rc == null) return;
+        setId(rc.getId());
+        this.name = rc.getName();
+    }
 
     @Override
     public int compareTo(DocRC o) {

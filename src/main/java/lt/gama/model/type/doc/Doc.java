@@ -19,7 +19,6 @@ import java.util.UUID;
  * Gama
  * Created by valdas on 15-07-17.
  */
-@Embeddable
 public class Doc implements IDocument, Serializable {
 
     private Long id;

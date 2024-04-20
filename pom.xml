@@ -15,8 +15,8 @@
 	<description>gama-online api v3</description>
 	<properties>
 		<java.version>21</java.version>
-<!--		<spring-cloud-gcp.version>5.1.0</spring-cloud-gcp.version>-->
-<!--		<spring-cloud.version>2023.0.1</spring-cloud.version>-->
+		<mapstruct.version>1.5.5.Final</mapstruct.version>
+		<jpaseto.version>0.7.0</jpaseto.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -30,8 +30,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.6.2</version>
-			<scope>runtime</scope>
+			<version>${postgresql.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.cloud.sql</groupId>
@@ -43,18 +42,13 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-json</artifactId>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>com.google.cloud</groupId>-->
-<!--			<artifactId>spring-cloud-gcp-starter</artifactId>-->
-<!--		</dependency>-->
-<!--		<dependency>-->
-<!--			<groupId>com.google.cloud</groupId>-->
-<!--			<artifactId>spring-cloud-gcp-starter-storage</artifactId>-->
-<!--		</dependency>-->
-
 		<dependency>
 			<groupId>com.google.cloud</groupId>
 			<artifactId>google-cloud-storage</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.cloud</groupId>
+			<artifactId>google-cloud-tasks</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.google.cloud</groupId>
@@ -66,26 +60,112 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-		</dependency>
-
-		<dependency>
 			<groupId>dev.paseto</groupId>
 			<artifactId>jpaseto-api</artifactId>
-			<version>0.7.0</version>
+			<version>${jpaseto.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>dev.paseto</groupId>
 			<artifactId>jpaseto-impl</artifactId>
-			<version>0.7.0</version>
+			<version>${jpaseto.version}</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>dev.paseto</groupId>
 			<artifactId>jpaseto-hkdf</artifactId>
-			<version>0.7.0</version>
+			<version>${jpaseto.version}</version>
 			<scope>runtime</scope>
+		</dependency>
+
+		<!-- hibernate-jpamodelgen -->
+		<dependency>
+			<groupId>org.hibernate.orm</groupId>
+			<artifactId>hibernate-jpamodelgen</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.xml.bind</groupId>
+			<artifactId>jakarta.xml.bind-api</artifactId>
+		</dependency>
+
+		<!-- mapping entity <-> DTO - depends on hibernate-jpamodelgen -->
+		<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct</artifactId>
+			<version>${mapstruct.version}</version>
+		</dependency>
+
+		<!-- converter from html to txt -->
+		<dependency>
+			<groupId>net.htmlparser.jericho</groupId>
+			<artifactId>jericho-html</artifactId>
+			<version>3.4</version>
+		</dependency>
+
+		<!-- countries, languages, currencies codes -->
+		<dependency>
+			<groupId>com.neovisionaries</groupId>
+			<artifactId>nv-i18n</artifactId>
+			<version>1.29</version>
+		</dependency>
+
+		<!-- template engine -->
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+		</dependency>
+
+		<!-- html2pdf-->
+		<dependency>
+			<groupId>com.openhtmltopdf</groupId>
+			<artifactId>openhtmltopdf-core</artifactId>
+			<version>1.0.10</version>
+		</dependency>
+		<dependency>
+			<groupId>com.openhtmltopdf</groupId>
+			<artifactId>openhtmltopdf-pdfbox</artifactId>
+			<version>1.0.10</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.14.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.openhtmltopdf</groupId>
+			<artifactId>openhtmltopdf-objects</artifactId>
+			<version>1.0.10</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>javase</artifactId>
+			<version>3.4.0</version>
+		</dependency>
+
+		<!-- others -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-csv</artifactId>
+			<version>1.8</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.9.0</version>
+		</dependency>
+
+		<!-- soap -->
+		<dependency>
+			<groupId>jakarta.xml.soap</groupId>
+			<artifactId>jakarta.xml.soap-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.xml.ws</groupId>
+			<artifactId>jakarta.xml.ws-api</artifactId>
 		</dependency>
 
 		<!-- tests -->
@@ -166,6 +246,60 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+			<!-- mappings, hibernate-jpamodelgen -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler-plugin.version}</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.mapstruct</groupId>
+							<artifactId>mapstruct-processor</artifactId>
+							<version>${mapstruct.version}</version>
+						</path>
+						<path>
+							<groupId>org.hibernate</groupId>
+							<artifactId>hibernate-jpamodelgen</artifactId>
+							<version>${hibernate.version}</version>
+						</path>
+					</annotationProcessorPaths>
+				</configuration>
+			</plugin>
+
+			<!-- wsdl -->
+			<plugin>
+				<groupId>com.sun.xml.ws</groupId>
+				<artifactId>jaxws-maven-plugin</artifactId>
+				<version>4.0.1</version>
+				<executions>
+					<execution>
+						<id>wsdl-eu-tax</id>
+						<goals>
+							<goal>wsimport</goal>
+						</goals>
+						<configuration>
+							<wsdlDirectory>${project.basedir}/src/main/resources/integrations/eu/wsdl</wsdlDirectory>
+							<packageName>lt.gama.integrations.eu.ws</packageName>
+							<extension>true</extension>
+						</configuration>
+					</execution>
+					<execution>
+						<id>wsdl-vmi-taxfree</id>
+						<goals>
+							<goal>wsimport</goal>
+						</goals>
+						<configuration>
+							<wsdlDirectory>${project.basedir}/src/main/resources/integrations/vmi/wsdl</wsdlDirectory>
+							<packageName>lt.gama.integrations.vmi.ws</packageName>
+							<extension>true</extension>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 
 			<!-- swagger codegen -->

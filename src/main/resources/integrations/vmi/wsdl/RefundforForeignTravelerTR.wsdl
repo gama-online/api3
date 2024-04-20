@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="TFVATRefundforForeignTravelerTR" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="TFVATRefundforForeignTravelerTR" targetNamespace="TFVATRefundforForeignTravelerTR">
+  <wsdl:types>
+    <xs:schema xmlns:dec="TFDeclaration" xmlns:st="TFSimpleTypes" xmlns:tf="TFVATRefundforForeignTravelerTR" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="TFVATRefundforForeignTravelerTR" version="TFVATRefundforForeignTravelerTR_v1.04"> 
+	<xs:annotation>
+		<xs:documentation>PVM grąžinimo užsienio keleiviams WS paslaugos, skirtos prekybininkams ir tarpininkams, WS metodų užklausų ir atsakymų struktūros.   
+		</xs:documentation>
+	</xs:annotation>
+
+<xs:import namespace="TFSimpleTypes" schemaLocation="TFSimpleTypes.xsd"/>
+<xs:import namespace="TFDeclaration" schemaLocation="TFDeclaration.xsd"/>
+
+<!--+++++++++++ Metodų užklausų ir atsakymų struktūrose naudojami struktūriniai duomenų tipai ++++++++++++++-->
+
+ <xs:complexType name="Errors_Type"> 
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="1" name="Error">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="SequenceNo">
+                            <xs:simpleType>
+                               	<xs:restriction base="xs:integer">
+                                    <xs:minInclusive value="1"/>
+                                    <xs:maxInclusive value="99999"/>
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:element>
+                        <xs:element name="ErrorCode">
+                            <xs:simpleType>
+                               	<xs:restriction base="xs:integer">
+                                    <xs:minInclusive value="1"/>
+                                    <xs:maxInclusive value="99999"/>
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:element>                         
+                        <xs:element name="Description" type="st:StringMin1Max2000_Type"/>
+                        <xs:element maxOccurs="1" minOccurs="0" name="Details" type="st:StringMin1Max2000_Type"/>                   
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element> 
+         </xs:sequence>
+ </xs:complexType>     
+
+  <xs:complexType name="DeclList_Type">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="DeclListItem">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="DocId" type="st:DocId_Type"/>
+                        <xs:element name="DocCorrNoLast" type="st:DocCorrNo_Type"/>
+                        <xs:element maxOccurs="1" minOccurs="0" name="DocCorrNoCostums" type="st:DocCorrNo_Type"/>
+                        <xs:element name="DeclState" type="st:DeclStateForQuery_Type"/>
+                        <xs:element name="StateDate" type="st:RestrictedDateTime_Type"/>                       
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element> 
+         </xs:sequence>
+    </xs:complexType>     
+
+   <xs:complexType name="STIAssessmentResults_Type">
+        <xs:sequence>
+            <xs:element name="AssessmentDate" type="st:RestrictedDateTime_Type"/>
+            <xs:element maxOccurs="unbounded" minOccurs="1" name="Condition">
+               <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="Code" type="st:StringMin1Max4_Type"/>
+                        <xs:element name="Description" type="st:StringMin1Max300_Type"/>
+                        <xs:element name="Result" type="st:Boolean_Type"/>
+                    </xs:sequence>
+                </xs:complexType>  
+            </xs:element>
+         </xs:sequence>
+    </xs:complexType>                                                   
+                                                                                                                                                
+    <xs:complexType name="VerifiedGoods_Type">
+        <xs:sequence>
+            <xs:element name="SequenceNo" type="st:SequenceNo_Type"/>
+            <xs:element name="TotalAmount" type="st:Amount_Type">
+                <xs:annotation>
+                    <xs:documentation>Prekių kaina su PVM (Eur), nurodyta deklaracijoje prekių eilutėje.</xs:documentation>
+                </xs:annotation>
+            </xs:element>                                 
+            <xs:element name="Quantity" type="st:Quantity_Type"/>
+            <xs:choice>
+                <xs:element name="UnitOfMeasureCode" type="st:StringLength3_Type">
+                    <xs:annotation>
+                        <xs:documentation>Matavimo vienetas turi nurodyti matavimo vieneto rūšį: pvz., kg, vienetas ir pan. Nurodomas kodas iš matavimo vienetų klasifikatoriaus.</xs:documentation>
+                    </xs:annotation>
+                </xs:element> 
+                <xs:element name="UnitOfMeasureOther" type="st:StringMin1Max50_Type">
+                    <xs:annotation>
+                        <xs:documentation>Kitokio matavimo vieneto pavadinimas. Nurodomas, kai klasifikatoriuje nėra tinkamos reikšmės.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>              
+            </xs:choice>     
+            <xs:element name="QuantityVerified" type="st:QuantityVerified_Type"/>                   
+        </xs:sequence>
+    </xs:complexType>  
+          
+
+    <xs:complexType name="CustomsVerificationResults_Type">
+        <xs:sequence>
+            <xs:element name="DocId" type="st:DocId_Type"/>
+            <xs:element name="DocCorrNo" type="st:DocCorrNo_Type"/>
+            <xs:element name="VerificationDate" type="st:RestrictedDateTime_Type"/>
+            <xs:element name="VerificationResult">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="A1"/>
+                        <xs:enumeration value="A4"/>
+                    </xs:restriction>
+                </xs:simpleType> 
+            </xs:element> 
+            <xs:element name="CustomsOfficeCode" type="st:StringLength8_Type"/> 
+            <xs:element maxOccurs="1" minOccurs="0" name="CorrectionDate" type="st:RestrictedDateTime_Type"/> 
+            <xs:element maxOccurs="unbounded" minOccurs="1" name="VerifiedGoods" type="tf:VerifiedGoods_Type"/>                   
+        </xs:sequence>
+    </xs:complexType>   
+                                 
+    <xs:complexType name="InfoOnExportedGoods_Type">
+        <xs:sequence>
+            <xs:element name="STIAssessmentResults" type="tf:STIAssessmentResults_Type"/>
+            <xs:element name="CustomsVerificationResults" type="tf:CustomsVerificationResults_Type"/>
+         </xs:sequence>
+    </xs:complexType>                                                                                                    
+                                          
+   <xs:complexType name="PaymentInfo_Type">
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="1" name="Payment">
+               <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="Type">
+                             <xs:annotation>
+                                <xs:documentation>Grąžinimo (mokėjimo) būdas. Galimos reikšmės: 1 – Grynais; 2 – Pavedimu; 3 – Kita.</xs:documentation>
+                             </xs:annotation> 
+                            <xs:simpleType>
+                                <xs:restriction base="xs:string">
+                                    <xs:enumeration value="1"/>
+                                    <xs:enumeration value="2"/>
+                                    <xs:enumeration value="3"/>
+                                </xs:restriction>
+                            </xs:simpleType> 
+                        </xs:element> 
+                         <xs:element name="Amount" type="st:Amount_Type"/>
+                         <xs:element name="Date" type="st:RestrictedDate_Type"/>
+                    </xs:sequence>
+                </xs:complexType>  
+            </xs:element>
+         </xs:sequence>
+    </xs:complexType>  
+
+<!--+++++++++++ Metodų užklausų ir atsakymų struktūros (elementai) ++++++++++++++-->
+
+<xs:element name="submitDeclarationRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="RequestId" type="st:RequestId_Type"/>
+                <xs:element name="TimeStamp" type="st:RestrictedDateTime_Type"/>
+                <xs:element name="SenderIn" type="st:SenderIn_Type"/>
+                <xs:element name="Situation">
+                    <xs:annotation>
+                         <xs:documentation>Situacija, kada teikiama deklaracija. Galimos reikšmės: 1 - „Rengiant deklaraciją“ – kai pardavėjas užpildo ir iš karto teikia VMI, tik po VMI atsakymo informuoja pirkėją apie deklaraciją. 2 – „Atidėtas teikimas“. Teikiama po to, kai pirkėjui įteikta popierinė deklaracija.</xs:documentation>                   
+                    </xs:annotation>
+                     <xs:simpleType>
+                       <xs:restriction base="xs:int">
+				<xs:enumeration value="1"/>
+				<xs:enumeration value="2"/>
+                        </xs:restriction>  
+                    </xs:simpleType> 
+                </xs:element>
+                <xs:element name="Declaration" type="dec:TFDeclaration_Type"/>                   
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="submitDeclarationResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="ResultStatus" type="st:ResultStatus_Type"/>
+                <xs:element name="ResultDate" type="st:RestrictedDateTime_Type"/>
+                <xs:element maxOccurs="1" minOccurs="0" name="TransmissionID" type="st:TransmissionID_Type"/>
+                <xs:element maxOccurs="1" minOccurs="0" name="Errors" type="tf:Errors_Type"/>
+                <xs:element maxOccurs="1" minOccurs="0" name="DeclState">
+                    <xs:simpleType>
+                       <xs:restriction base="xs:string">
+                            <xs:maxLength value="20"/>
+                            <xs:enumeration value="ACCEPTED_CORRECT"/>
+                            <xs:enumeration value="ACCEPTED_INCORRECT"/>
+			    <xs:enumeration value="REJECTED"/>
+                        </xs:restriction>  
+                    </xs:simpleType> 
+                 </xs:element>                  
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="cancelDeclarationRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="RequestId" type="st:RequestId_Type"/>
+                <xs:element name="TimeStamp" type="st:RestrictedDateTime_Type"/>
+                <xs:element name="SenderIn" type="st:SenderIn_Type"/>
+                <xs:element name="DocId" type="st:DocId_Type"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="cancelDeclarationResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="ResultStatus" type="st:ResultStatus_Type"/>
+                <xs:element name="ResultDate" type="st:RestrictedDateTime_Type"/>
+                <xs:element maxOccurs="1" minOccurs="0" name="Errors" type="tf:Errors_Type"/>           
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="queryDeclarationsRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="RequestId" type="st:RequestId_Type"/>
+                <xs:element name="TimeStamp" type="st:RestrictedDateTime_Type"/>
+                <xs:element name="SenderIn" type="st:SenderIn_Type"/>
+                <xs:element name="Query">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element maxOccurs="1" minOccurs="0" name="DocId" type="st:DocId_Type"/>   
+                            <xs:element maxOccurs="1" minOccurs="0" name="StateDateFrom" type="st:RestrictedDateTime_Type"/>
+                            <xs:element maxOccurs="1" minOccurs="0" name="StateDateTo" type="st:RestrictedDateTime_Type"/>
+                            <xs:element maxOccurs="1" minOccurs="0" name="DeclState" type="st:DeclStateForQuery_Type"/>
+                        </xs:sequence>  
+                    </xs:complexType> 
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+  
+    <xs:element name="queryDeclarationsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="ResultStatus" type="st:ResultStatus_Type"/>
+                <xs:element name="ResultDate" type="st:RestrictedDateTime_Type"/>
+                <xs:choice>
+                    <xs:element name="Errors" type="tf:Errors_Type"/>
+                    <xs:element name="DeclList" type="tf:DeclList_Type"/> 
+                </xs:choice>               
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+                                                                                                                                                                                                                                             
+    <xs:element name="getInfoOnExportedGoodsRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="RequestId" type="st:RequestId_Type"/>
+                <xs:element name="TimeStamp" type="st:RestrictedDateTime_Type"/>
+                <xs:element name="SenderIn" type="st:SenderIn_Type"/>
+                <xs:element name="DocId" type="st:DocId_Type"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="getInfoOnExportedGoodsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="ResultStatus" type="st:ResultStatus_Type"/>
+                <xs:element name="ResultDate" type="st:RestrictedDateTime_Type"/>
+                <xs:choice>               
+                    <xs:element name="Errors" type="tf:Errors_Type"/>          
+                    <xs:element name="InfoOnExportedGoods" type="tf:InfoOnExportedGoods_Type"/>  
+                </xs:choice>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>  
+
+     <xs:element name="submitPaymentInfoRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="RequestId" type="st:RequestId_Type"/>
+                <xs:element name="TimeStamp" type="st:RestrictedDateTime_Type"/>
+                <xs:element name="SenderIn" type="st:SenderIn_Type"/>
+                <xs:element name="DocId" type="st:DocId_Type"/>
+                <xs:element name="PaymentInfo" type="tf:PaymentInfo_Type"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="submitPaymentInfoResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="ResultStatus" type="st:ResultStatus_Type"/>
+                <xs:element name="ResultDate" type="st:RestrictedDateTime_Type"/>
+                <xs:element maxOccurs="1" minOccurs="0" name="TransmissionID" type="st:TransmissionID_Type"/>
+                <xs:element maxOccurs="1" minOccurs="0" name="Errors" type="tf:Errors_Type"/>             
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="submitPaymentInfoRequest">
+    <wsdl:part element="tns:submitPaymentInfoRequest" name="submitPaymentInfoRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryDeclarationsRequest">
+    <wsdl:part element="tns:queryDeclarationsRequest" name="queryDeclarationsRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="submitDeclarationRequest">
+    <wsdl:part element="tns:submitDeclarationRequest" name="submitDeclarationRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryDeclarationsResponse">
+    <wsdl:part element="tns:queryDeclarationsResponse" name="queryDeclarationsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="submitPaymentInfoResponse">
+    <wsdl:part element="tns:submitPaymentInfoResponse" name="submitPaymentInfoResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="cancelDeclarationRequest">
+    <wsdl:part element="tns:cancelDeclarationRequest" name="cancelDeclarationRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="cancelDeclarationResponse">
+    <wsdl:part element="tns:cancelDeclarationResponse" name="cancelDeclarationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getInfoOnExportedGoodsResponse">
+    <wsdl:part element="tns:getInfoOnExportedGoodsResponse" name="getInfoOnExportedGoodsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="submitDeclarationResponse">
+    <wsdl:part element="tns:submitDeclarationResponse" name="submitDeclarationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getInfoOnExportedGoodsRequest">
+    <wsdl:part element="tns:getInfoOnExportedGoodsRequest" name="getInfoOnExportedGoodsRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="VATRefundforForeignTravelerTRPort">
+    <wsdl:operation name="submitPaymentInfo">
+      <wsdl:input message="tns:submitPaymentInfoRequest" name="submitPaymentInfoRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:submitPaymentInfoResponse" name="submitPaymentInfoResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="queryDeclarations">
+      <wsdl:input message="tns:queryDeclarationsRequest" name="queryDeclarationsRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:queryDeclarationsResponse" name="queryDeclarationsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="submitDeclaration">
+      <wsdl:input message="tns:submitDeclarationRequest" name="submitDeclarationRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:submitDeclarationResponse" name="submitDeclarationResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="cancelDeclaration">
+      <wsdl:input message="tns:cancelDeclarationRequest" name="cancelDeclarationRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:cancelDeclarationResponse" name="cancelDeclarationResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getInfoOnExportedGoods">
+      <wsdl:input message="tns:getInfoOnExportedGoodsRequest" name="getInfoOnExportedGoodsRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:getInfoOnExportedGoodsResponse" name="getInfoOnExportedGoodsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="VATRefundforForeignTravelerTRPortSoap11" type="tns:VATRefundforForeignTravelerTRPort">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="submitPaymentInfo">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="submitPaymentInfoRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="submitPaymentInfoResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="queryDeclarations">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="queryDeclarationsRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="queryDeclarationsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="submitDeclaration">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="submitDeclarationRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="submitDeclarationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="cancelDeclaration">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="cancelDeclarationRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="cancelDeclarationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getInfoOnExportedGoods">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="getInfoOnExportedGoodsRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getInfoOnExportedGoodsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="VATRefundforForeignTravelerTRPortService">
+    <wsdl:port binding="tns:VATRefundforForeignTravelerTRPortSoap11" name="VATRefundforForeignTravelerTRPortSoap11">
+      <soap:address location="https://itis-env:8282/VATRefundforForeignTravelerTR"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

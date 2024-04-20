@@ -1,16 +1,13 @@
 package lt.gama.model.type;
 
-import io.swagger.v3.oas.annotations.Hidden;
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.MappedSuperclass;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lt.gama.helpers.LocationUtils;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
-//TODO @MappedSuperclass // inheritance of @Embeddable
-//TODO @Embeddable
 public class Location implements Serializable {
 
     @Serial
@@ -49,7 +46,7 @@ public class Location implements Serializable {
 		this.country = country;
 	}
 
-	@Hidden
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
     public String getAddress() {
         return LocationUtils.getAddress(this);
     }

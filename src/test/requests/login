@@ -1,0 +1,5 @@
+# login
+
+TOKEN=`http post localhost:8083/_ah/api/gama/v3.0/auth/login name=valdas@e-servisas.lt password=12345678 | jq -r '.accessToken'`
+
+#

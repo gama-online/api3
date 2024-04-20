@@ -1,5 +1,7 @@
 package lt.gama.api.request;
 
+import org.springframework.data.domain.Sort;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +11,7 @@ public class PageRequest {
 
 	public static final int MAX_PAGE_SIZE = 99999;
 
-	private String cursor;
+	private Integer cursor;
 
 	private int pageSize = 10;
 
@@ -53,27 +55,27 @@ public class PageRequest {
 	private boolean noDetail;
 
 
-	public int getSqlCursor() {
-		int cursor;
-		if (getCursor() == null) {
-			cursor = 0;
-		} else {
-			cursor = Integer.parseInt(getCursor());
-		}
-
-		if (isBackward() && cursor >= getPageSize()) {
-			cursor = cursor - getPageSize();
-		}
-		return cursor;
-	}
+//	public int getSqlCursor() {
+//		int cursor;
+//		if (getCursor() == null) {
+//			cursor = 0;
+//		} else {
+//			cursor = Integer.parseInt(getCursor());
+//		}
+//
+//		if (isBackward() && cursor >= getPageSize()) {
+//			cursor = cursor - getPageSize();
+//		}
+//		return cursor;
+//	}
 
 	// generated
 
-	public String getCursor() {
+	public Integer getCursor() {
 		return cursor;
 	}
 
-	public void setCursor(String cursor) {
+	public void setCursor(Integer cursor) {
 		this.cursor = cursor;
 	}
 
@@ -205,10 +207,11 @@ public class PageRequest {
 		this.noDetail = noDetail;
 	}
 
+
 	@Override
 	public String toString() {
 		return "PageRequest{" +
-				"cursor='" + cursor + '\'' +
+				"cursor=" + cursor +
 				", pageSize=" + pageSize +
 				", total=" + total +
 				", backward=" + backward +
@@ -225,6 +228,6 @@ public class PageRequest {
 				", parentObj=" + parentObj +
 				", fixedPageSize=" + fixedPageSize +
 				", noDetail=" + noDetail +
-				'}';
+				"}";
 	}
 }

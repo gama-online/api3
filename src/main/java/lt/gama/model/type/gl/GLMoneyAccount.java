@@ -4,7 +4,6 @@ import jakarta.persistence.Embeddable;
 import lt.gama.helpers.CollectionsHelper;
 import lt.gama.helpers.StringHelper;
 import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.annotations.Type;
 import org.hibernate.type.SqlTypes;
 
 import java.io.Serial;

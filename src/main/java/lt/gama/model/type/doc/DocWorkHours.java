@@ -1,5 +1,7 @@
 package lt.gama.model.type.doc;
 
+import lt.gama.model.dto.entities.WorkHoursDto;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -18,12 +20,12 @@ public class DocWorkHours implements Serializable {
 
     protected DocWorkHours() {
     }
-//TODO remove comments
-//    public DocWorkHours(WorkHoursDto doc, int vacationsDays) {
-//        this.id = doc.getId();
-//        this.date = doc.getDate();
-//        this.vacationsDays = vacationsDays;
-//    }
+
+    public DocWorkHours(WorkHoursDto doc, int vacationsDays) {
+        this.id = doc.getId();
+        this.date = doc.getDate();
+        this.vacationsDays = vacationsDays;
+    }
 
     // generated
 

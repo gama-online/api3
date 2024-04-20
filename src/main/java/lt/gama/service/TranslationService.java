@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.beans.PropertyDescriptor;
-import java.lang.invoke.MethodHandles;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -20,7 +19,7 @@ import static java.util.Map.entry;
  */
 public final class TranslationService {
 
-    private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+    private static final Logger log = LoggerFactory.getLogger(TranslationService.class);
 
 
     public enum ASSET {

@@ -1,0 +1,1212 @@
+<?xml version="1.0" encoding="UTF-8"?><schema xmlns="http://www.w3.org/2001/XMLSchema" version="2024.03.25-10:17" targetNamespace="urn:x-gpais:kls" elementFormDefault="qualified">
+  <simpleType name="CL109">
+    <restriction base="string">
+      <enumeration value="CL109:1:2005-08-24">
+        <annotation>
+          <appinfo>1:2005-08-24:2017-03-31:Stambūs namų apyvokos prietaisai</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL109:1:2017-04-01">
+        <annotation>
+          <appinfo>1:2017-04-01::Temperatūros keitimo įranga</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL109:10:2005-08-24">
+        <annotation>
+          <appinfo>10:2005-08-24:2017-03-31:Automatiniai daiktų išdavimo įtaisai</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL109:100:2023-01-01">
+        <annotation>
+          <appinfo>100:2023-01-01:2023-12-01:Tėvinis</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL109:102:2023-01-01">
+        <annotation>
+          <appinfo>102:2023-01-01::Tėvinis2</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL109:111A:2023-01-01">
+        <annotation>
+          <appinfo>111A:2023-01-01::Tėvinis A</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL109:111B:2023-01-01">
+        <annotation>
+          <appinfo>111B:2023-01-01::Tėvinis tik B</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL109:1A:2012-01-19">
+        <annotation>
+          <appinfo>1A:2012-01-19:2017-03-31:Stambūs namų apyvokos prietaisai, išskyrus prietaisus su šaldymo įranga</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL109:1B:2012-01-19">
+        <annotation>
+          <appinfo>1B:2012-01-19:2017-03-31:Stambūs namų apyvokos prietaisai su šaldymo įranga</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL109:2:2005-08-24">
+        <annotation>
+          <appinfo>2:2005-08-24:2017-03-31:Smulkūs namų apyvokos prietaisai</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL109:2:2017-04-01">
+        <annotation>
+          <appinfo>2:2017-04-01::Ekranai, monitoriai ir įranga, kurioje yra ekranų, kurių paviršiaus plotas didesnis nei 100 cm2</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL109:2B:2017-04-01">
+        <annotation>
+          <appinfo>2B:2017-04-01::Kompiuterių monitoriai</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL109:3:2005-08-24">
+        <annotation>
+          <appinfo>3:2005-08-24:2017-03-31:IT ir telekomunikacinė įranga</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL109:3:2017-04-01">
+        <annotation>
+          <appinfo>3:2017-04-01::Lempos</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL109:3A:2012-01-19">
+        <annotation>
+          <appinfo>3A:2012-01-19:2017-03-31:Informacinių technologijų ir telekomunikacijų įranga, išskyrus kompiuterių monitorius</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL109:4A:2017-03-31">
+        <annotation>
+          <appinfo>4A:2017-03-31:2017-03-31:Stambi įranga (išskyrus fotovoltines plokštes) NEGALIOJANTIS</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL109:4A:2012-01-19">
+        <annotation>
+          <appinfo>4A:2012-01-19:2017-03-30:Vartojimo įranga, išskyrus televizorius, ir fotovoltinės plokštės</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL109:4A:2017-04-01">
+        <annotation>
+          <appinfo>4A:2017-04-01::Stambi įranga (išskyrus fotovoltines plokštes)</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL109:4B:2012-01-19">
+        <annotation>
+          <appinfo>4B:2012-01-19:2017-03-31:Televizoriai</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL109:4B:2023-12-01">
+        <annotation>
+          <appinfo>4B:2023-12-01::Fotovoltinės plokštės</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL109:4C:2023-12-01">
+        <annotation>
+          <appinfo>4C:2023-12-01:2023-12-01:Stambi įranga (išskyrus fotovoltines plokštes) PAPILDOMAS</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL109:5:2005-08-24">
+        <annotation>
+          <appinfo>5:2005-08-24:2017-03-31:Apšvietimo įranga</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL109:5:2017-04-01">
+        <annotation>
+          <appinfo>5:2017-04-01::Smulki įranga (nė vienas iš išorinių išmatavimų neviršija 50 cm)</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL109:5A:2012-01-19">
+        <annotation>
+          <appinfo>5A:2012-01-19:2017-03-31:Apšvietimo įranga, išskyrus dujošvytes lempas</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL109:5B:2012-01-19">
+        <annotation>
+          <appinfo>5B:2012-01-19:2017-03-31:Dujošvytės lempos (tiesios fluorescencinės lempos, kompaktinės fluorescencinės lempos, didelio ryškumo išlydžio lempos, įskaitant suslėgto natrio lempas ir metalų halidų lempas, žemo slėgio natrio lempos)</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL109:6:2005-08-24">
+        <annotation>
+          <appinfo>6:2005-08-24:2017-03-31:Elektriniai ir elektroniniai įrankiai (išskyrus stambius stacionarius pramoninius prietaisus)</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL109:6:2017-04-01">
+        <annotation>
+          <appinfo>6:2017-04-01::Smulki IT ir telekomunikacijų įranga (nė vienas iš išorinių išmatavimų neviršija 50 cm)</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL109:7:2005-08-24">
+        <annotation>
+          <appinfo>7:2005-08-24:2017-03-31:Žaislai, laisvalaikio ir sporto įranga</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL109:8:2005-08-24">
+        <annotation>
+          <appinfo>8:2005-08-24:2017-03-31:Medicininiai prietaisai (išskyrus implantuotus ir infekuotus produktus)</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL109:9:2005-08-24">
+        <annotation>
+          <appinfo>9:2005-08-24:2017-03-31:Stebėsenos ir kontrolės prietaisai</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL109:4:2017-04-01">
+        <annotation>
+          <appinfo>4:2017-04-01::Stambi įranga (išskyrus fotovoltines plokštes)</appinfo>
+        </annotation>
+      </enumeration>
+    </restriction>
+  </simpleType>
+  <simpleType name="CL110">
+    <restriction base="string">
+      <enumeration value="CL110:AG10:2012-12-13">
+        <annotation>
+          <appinfo>AG10:2012-12-13::Padangos</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL110:AG11:2012-12-13">
+        <annotation>
+          <appinfo>AG11:2012-12-13:2021-12-31:Padangos naujos (galioja iki 2021-12-31)</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL110:AG12:2012-12-13">
+        <annotation>
+          <appinfo>AG12:2012-12-13:2021-12-31:Padangos restauruotos (galioja iki 2021.12.31)</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL110:AG13:2012-12-13">
+        <annotation>
+          <appinfo>AG13:2012-12-13:2021-12-31:Padangos naudotos (galioja iki 2021.12.31)</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL110:AG14:2021-01-01">
+        <annotation>
+          <appinfo>AG14:2021-01-01::Motociklų ir lengvųjų automobilių padangos</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL110:AG15:2021-01-01">
+        <annotation>
+          <appinfo>AG15:2021-01-01::Autobusų, krovininių automobilių, žemės ūkio, miško ūkio, orlaivių, statybos ir pramonės paskirties transporto priemonių padangos ir kitos padangos, sveriančios daugiau kaip 3 kg</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL110:AG16:2021-01-01">
+        <annotation>
+          <appinfo>AG16:2021-01-01::Motociklų ir lengvųjų automobilių ir motociklų padangos</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL110:AG17:2021-01-01">
+        <annotation>
+          <appinfo>AG17:2021-01-01::Autobusų, krovininių automobilių, žemės ar miško ūkio ir kt. padangos naujos</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL110:AG18:2021-01-01">
+        <annotation>
+          <appinfo>AG18:2021-01-01::Autobusų, krovininių automobilių, žemės ar miško ūkio ir kt. padangos restauruotos</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL110:AG19:2021-01-01">
+        <annotation>
+          <appinfo>AG19:2021-01-01::Autobusų, krovininių automobilių, žemės ar miško ūkio ir kt. padangos naudotos</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL110:AG20:2012-12-13">
+        <annotation>
+          <appinfo>AG20:2012-12-13::Akumuliatoriai</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL110:AG30:2012-12-13">
+        <annotation>
+          <appinfo>AG30:2012-12-13::Baterijos (galvaniniai elementai)</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL110:AG40:2012-12-13">
+        <annotation>
+          <appinfo>AG40:2012-12-13::Vidaus degimo variklių filtrai</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL110:AG41:2012-12-13">
+        <annotation>
+          <appinfo>AG41:2012-12-13::Vidaus degimo variklių filtrai: degalų</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL110:AG42:2012-12-13">
+        <annotation>
+          <appinfo>AG42:2012-12-13::Vidaus degimo variklių filtrai: tepalų</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL110:AG43:2012-12-13">
+        <annotation>
+          <appinfo>AG43:2012-12-13:2023-12-14:Vidaus degimo variklių filtrai: įsiurbiamo oro</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL110:AG50:2012-12-13">
+        <annotation>
+          <appinfo>AG50:2012-12-13::Automobilių hidrauliniai (tepaliniai) amortizatoriai</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL110:AG60:2021-01-01">
+        <annotation>
+          <appinfo>AG60:2021-01-01::Padangos nuo 2021</appinfo>
+        </annotation>
+      </enumeration>
+    </restriction>
+  </simpleType>
+  <simpleType name="CL113">
+    <restriction base="string">
+      <enumeration value="CL113:AD:2022-05-01">
+        <annotation>
+          <appinfo>AD:2022-05-01::Almos alyvos rūšis</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL113:BA:2012-12-14">
+        <annotation>
+          <appinfo>BA:2012-12-14::Biologiškai suyranti alyva, pagaminta augalinio aliejaus pagrindu</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL113:DA:2012-12-14">
+        <annotation>
+          <appinfo>DA:2012-12-14::Dvitakčių variklių alyva</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL113:KA:2012-12-14">
+        <annotation>
+          <appinfo>KA:2012-12-14::Kita alyva (galiojo iki 2021-05-31)</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL113:KA1:2021-06-01">
+        <annotation>
+          <appinfo>KA1:2021-06-01::Kita alyva (galioja nuo 2021-06-01)</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL113:PA:2021-06-01">
+        <annotation>
+          <appinfo>PA:2021-06-01::Pramoninė alyva</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL113:PAE:2021-06-01">
+        <annotation>
+          <appinfo>PAE:2021-06-01::Pramoninė alyva (tik emulsija)</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL113:VA:2021-06-01">
+        <annotation>
+          <appinfo>VA:2021-06-01::Variklio ir pavarų dėžės alyva</appinfo>
+        </annotation>
+      </enumeration>
+    </restriction>
+  </simpleType>
+  <simpleType name="CL114">
+    <restriction base="string">
+      <enumeration value="CL114:3R:2012-12-07">
+        <annotation>
+          <appinfo>3R:2012-12-07::3-ratės</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL114:M1:2012-12-07">
+        <annotation>
+          <appinfo>M1:2012-12-07::M1</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL114:N1:2012-12-07">
+        <annotation>
+          <appinfo>N1:2012-12-07::N1</appinfo>
+        </annotation>
+      </enumeration>
+    </restriction>
+  </simpleType>
+  <simpleType name="CL118">
+    <restriction base="string">
+      <enumeration value="CL118:DP:2016-12-07">
+        <annotation>
+          <appinfo>DP:2016-12-07::Didmeninė prekyba</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL118:ET:2016-12-07">
+        <annotation>
+          <appinfo>ET:2016-12-07::Išvežimas iš LR vidaus rinkos per trečiuosius asmenis</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL118:EV:2016-12-07">
+        <annotation>
+          <appinfo>EV:2016-12-07::Išvežimas iš LR vidaus rinkos</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL118:MP:2016-12-07">
+        <annotation>
+          <appinfo>MP:2016-12-07::Mažmeninė prekyba</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL118:NP:2016-12-07">
+        <annotation>
+          <appinfo>NP:2016-12-07::Nuotolinė prekyba</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL118:PP:2020-01-01">
+        <annotation>
+          <appinfo>PP:2020-01-01::Prekyba LR vid.rink. naujas</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL118:PV:2016-12-07">
+        <annotation>
+          <appinfo>PV:2016-12-07::Prekyba LR vidaus rinkai (perleidimas kitam asmeniui)</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL118:SS:2016-12-07">
+        <annotation>
+          <appinfo>SS:2016-12-07::Sunaudojimas savo reikmėms</appinfo>
+        </annotation>
+      </enumeration>
+    </restriction>
+  </simpleType>
+  <simpleType name="CL126">
+    <restriction base="string">
+      <enumeration value="CL126:AU:2016-12-09">
+        <annotation>
+          <appinfo>AU:2016-12-09::Skirti (-os) automobiliams </appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL126:NE:2016-12-09">
+        <annotation>
+          <appinfo>NE:2016-12-09::Nešiojamieji (-osios)</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL126:PE:2016-12-09">
+        <annotation>
+          <appinfo>PE:2016-12-09::Pramoniniai (-ės)</appinfo>
+        </annotation>
+      </enumeration>
+    </restriction>
+  </simpleType>
+  <simpleType name="CL127">
+    <restriction base="string">
+      <enumeration value="CL127:KT:2016-12-09">
+        <annotation>
+          <appinfo>KT:2016-12-09::Kitos</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL127:NK:2016-12-09">
+        <annotation>
+          <appinfo>NK:2016-12-09::Nikelio-kadmio</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL127:PB:2016-12-09">
+        <annotation>
+          <appinfo>PB:2016-12-09::Švino</appinfo>
+        </annotation>
+      </enumeration>
+    </restriction>
+  </simpleType>
+  <simpleType name="CL138">
+    <restriction base="string">
+      <enumeration value="CL138:0:2014-01-01">
+        <annotation>
+          <appinfo>0:2014-01-01::Nenurodoma</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL138:1:2014-01-01">
+        <annotation>
+          <appinfo>1:2014-01-01::Prekinė (pirminė)</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL138:2:2014-01-01">
+        <annotation>
+          <appinfo>2:2014-01-01::Grupinė (antrinė)</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL138:3:2014-01-01">
+        <annotation>
+          <appinfo>3:2014-01-01::Transporto (tretinė)</appinfo>
+        </annotation>
+      </enumeration>
+    </restriction>
+  </simpleType>
+  <simpleType name="CL140">
+    <restriction base="string">
+      <enumeration value="CL140:1:2017-02-22">
+        <annotation>
+          <appinfo>1:2017-02-22::Importuota (įvežta)</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL140:2:2017-02-22">
+        <annotation>
+          <appinfo>2:2017-02-22::Pagaminta</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL140:3:2017-02-22">
+        <annotation>
+          <appinfo>3:2017-02-22::Susigrąžinta</appinfo>
+        </annotation>
+      </enumeration>
+    </restriction>
+  </simpleType>
+  <simpleType name="CL130">
+    <restriction base="string">
+      <enumeration value="CL130:001:2022-01-01">
+        <annotation>
+          <appinfo>001:2022-01-01::Stiklinė tuščia</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:002:2022-01-01">
+        <annotation>
+          <appinfo>002:2022-01-01::Plastikinė tuščia</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:003:2022-01-01">
+        <annotation>
+          <appinfo>003:2022-01-01::Metalinė (aliuminio) tuščia</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:004:2022-01-01">
+        <annotation>
+          <appinfo>004:2022-01-01::Metalinė (juodųjų metalų) tuščia</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:0041:2021-05-12">
+        <annotation>
+          <appinfo>0041:2021-05-12:2021-12-31:Metalinė (juodųjų metalų) tuščia</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:0042:2021-05-11">
+        <annotation>
+          <appinfo>0042:2021-05-11:2021-12-31:Metalinė (aliuminio) tuščia</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:005:2022-01-01">
+        <annotation>
+          <appinfo>005:2022-01-01::Popierinė (kartoninė) tuščia</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:006:2022-01-01">
+        <annotation>
+          <appinfo>006:2022-01-01::Kita tuščia</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:007:2022-01-01">
+        <annotation>
+          <appinfo>007:2022-01-01::PET tuščia</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:008:2022-01-01">
+        <annotation>
+          <appinfo>008:2022-01-01::Medinė tuščia</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:009:2022-01-01">
+        <annotation>
+          <appinfo>009:2022-01-01::Kombinuota tuščia</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:01:2000-01-01">
+        <annotation>
+          <appinfo>01:2000-01-01:2021-12-31:Stiklinė tuščia</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:011:2022-01-01">
+        <annotation>
+          <appinfo>011:2022-01-01::Stiklinė pirminė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:012:2022-01-01">
+        <annotation>
+          <appinfo>012:2022-01-01::Plastikinė pirminė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:013:2022-01-01">
+        <annotation>
+          <appinfo>013:2022-01-01::Metalinė (aliuminio) pirminė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:014:2022-01-01">
+        <annotation>
+          <appinfo>014:2022-01-01::Metalinė (juodųjų metalų) pirminė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:015:2022-01-01">
+        <annotation>
+          <appinfo>015:2022-01-01::Popierinė (kartoninė) pirminė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:016:2022-01-01">
+        <annotation>
+          <appinfo>016:2022-01-01::Kita pirminė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:017:2022-01-01">
+        <annotation>
+          <appinfo>017:2022-01-01::PET pirminė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:018:2022-01-01">
+        <annotation>
+          <appinfo>018:2022-01-01::Medinė pirminė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:019:2022-01-01">
+        <annotation>
+          <appinfo>019:2022-01-01::Kombinuota pirminė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:02:2000-01-01">
+        <annotation>
+          <appinfo>02:2000-01-01:2021-12-31:Plastikinė tuščia</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:021:2022-01-01">
+        <annotation>
+          <appinfo>021:2022-01-01::Stiklinė antrinė (tretinė)</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:022:2022-01-01">
+        <annotation>
+          <appinfo>022:2022-01-01::Plastikinė antrinė (tretinė)</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:023:2022-01-01">
+        <annotation>
+          <appinfo>023:2022-01-01::Metalinė (aliuminio) antrinė (tretinė)</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:024:2022-01-01">
+        <annotation>
+          <appinfo>024:2022-01-01::Metalinė (juodųjų metalų) antrinė (tretinė)</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:025:2022-01-01">
+        <annotation>
+          <appinfo>025:2022-01-01::Popierinė (kartoninė) antrinė (tretinė)</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:026:2022-01-01">
+        <annotation>
+          <appinfo>026:2022-01-01::Kita antrinė (tretinė)</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:027:2022-01-01">
+        <annotation>
+          <appinfo>027:2022-01-01::PET antrinė (tretinė)</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:028:2022-01-01">
+        <annotation>
+          <appinfo>028:2022-01-01::Medinė antrinė (tretinė))</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:029:2022-01-01">
+        <annotation>
+          <appinfo>029:2022-01-01::Kombinuota antrinė (tretinė)</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:03:2000-01-01">
+        <annotation>
+          <appinfo>03:2000-01-01:2021-12-31:Kombinuota (popierinė) tuščia</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:031:2022-01-01">
+        <annotation>
+          <appinfo>031:2022-01-01::Stiklinė pirminė / užstatinė daugkartinė </appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:032:2022-01-01">
+        <annotation>
+          <appinfo>032:2022-01-01::Plastikinė pirminė daugkartinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:033:2022-01-01">
+        <annotation>
+          <appinfo>033:2022-01-01::Metalinė (aliuminio) pirminė daugkartinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:034:2022-01-01">
+        <annotation>
+          <appinfo>034:2022-01-01::Metalinė (juodųjų metalų) pirminė daugkartinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:035:2022-01-01">
+        <annotation>
+          <appinfo>035:2022-01-01::Popierinė (kartoninė) pirminė daugkartinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:036:2022-01-01">
+        <annotation>
+          <appinfo>036:2022-01-01::Kita pirminė daugkartinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:037:2022-01-01">
+        <annotation>
+          <appinfo>037:2022-01-01::PET pirminė daugkartinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:038:2022-01-01">
+        <annotation>
+          <appinfo>038:2022-01-01::Medinė pirminė daugkartinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:039:2022-01-01">
+        <annotation>
+          <appinfo>039:2022-01-01::Kombinuota pirminė daugkartinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:04:2000-01-01">
+        <annotation>
+          <appinfo>04:2000-01-01:2021-12-31:Metalinė tuščia</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:041:2022-01-01">
+        <annotation>
+          <appinfo>041:2022-01-01::Stiklinė antrinė (tretinė) daugkartinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:042:2022-01-01">
+        <annotation>
+          <appinfo>042:2022-01-01::Plastikinė antrinė (tretinė) daugkartinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:043:2022-01-01">
+        <annotation>
+          <appinfo>043:2022-01-01::Metalinė (aliuminio) antrinė (tretinė) daugkartinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:044:2022-01-01">
+        <annotation>
+          <appinfo>044:2022-01-01::Metalinė (juodųjų metalų) antrinė (tretinė) daugkartinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:045:2022-01-01">
+        <annotation>
+          <appinfo>045:2022-01-01::Popierinė (kartoninė) antrinė (tretinė) daugkartinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:046:2022-01-01">
+        <annotation>
+          <appinfo>046:2022-01-01::Kita antrinė (tretinė) daugkartinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:047:2022-01-01">
+        <annotation>
+          <appinfo>047:2022-01-01::PET antrinė (tretinė) daugkartinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:048:2022-01-01">
+        <annotation>
+          <appinfo>048:2022-01-01::Medinė antrinė (tretinė) daugkartinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:049:2022-01-01">
+        <annotation>
+          <appinfo>049:2022-01-01::Kombinuota antrinė (tretinė) daugkartinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:05:2000-01-01">
+        <annotation>
+          <appinfo>05:2000-01-01:2021-12-31:Popierinė ir kartoninė tuščia</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:051:2022-01-01">
+        <annotation>
+          <appinfo>051:2022-01-01::Stiklinė užstatinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:053:2022-01-01">
+        <annotation>
+          <appinfo>053:2022-01-01::Metalinė (aliuminio) pirminė (užstatinė)</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:054:2022-01-01">
+        <annotation>
+          <appinfo>054:2022-01-01::Metalinė (juodųjų metalų) pirminė (užstatinė)</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:057:2022-01-01">
+        <annotation>
+          <appinfo>057:2022-01-01::PET užstatinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:06:2000-01-01">
+        <annotation>
+          <appinfo>06:2000-01-01:2021-12-31:Kita tuščia</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:061:2022-01-01">
+        <annotation>
+          <appinfo>061:2022-01-01::Stiklinė pirminė sunaudota savoms reikmėms</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:062:2022-01-01">
+        <annotation>
+          <appinfo>062:2022-01-01::Plastikinė pirminė sunaudota savoms reikmėms</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:063:2022-01-01">
+        <annotation>
+          <appinfo>063:2022-01-01::Metalinė (aliuminio) pirminė sunaudota savo reikmės</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:064:2022-01-01">
+        <annotation>
+          <appinfo>064:2022-01-01::Metalinė (juodųjų metalų) pirminė sunaudota savo reikmės</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:065:2022-01-01">
+        <annotation>
+          <appinfo>065:2022-01-01::Popierinė (kartoninė) pirminė sunaudota savoms reikmėms</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:066:2022-01-01">
+        <annotation>
+          <appinfo>066:2022-01-01::Kita pirminė sunaudota savoms reikmėms</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:067:2022-01-01">
+        <annotation>
+          <appinfo>067:2022-01-01::PET pirminė sunaudota savoms reikmėms</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:068:2022-01-01">
+        <annotation>
+          <appinfo>068:2022-01-01::Medinė pirminė sunaudota savoms reikmėms</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:069:2022-01-01">
+        <annotation>
+          <appinfo>069:2022-01-01::Kombinuota pirminė sunaudota savoms reikmėms</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:07:2000-01-01">
+        <annotation>
+          <appinfo>07:2000-01-01:2021-12-31:PET tuščia</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:071:2022-01-01">
+        <annotation>
+          <appinfo>071:2022-01-01::Stiklinė antrinė (tretinė) sunaudota savoms reikmėms</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:072:2022-01-01">
+        <annotation>
+          <appinfo>072:2022-01-01::Plastikinė antrinė (tretinė) sunaudota savoms reikmėms</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:073:2022-01-01">
+        <annotation>
+          <appinfo>073:2022-01-01::Metalinė (aliuminio) antrinė (tretinė) sunaudota savo reikmėms</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:074:2022-01-01">
+        <annotation>
+          <appinfo>074:2022-01-01::Metalinė (juodųjų metalų) antrinė (tretinė) sunaudota savo reikmėms</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:075:2022-01-01">
+        <annotation>
+          <appinfo>075:2022-01-01::Popierinė (kartoninė) antrinė (tretinė) sunaudota savoms reikmėms</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:076:2022-01-01">
+        <annotation>
+          <appinfo>076:2022-01-01::Kita antrinė (tretinė) sunaudota savoms reikmėms</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:077:2022-01-01">
+        <annotation>
+          <appinfo>077:2022-01-01::PET antrinė (tretinė) sunaudota savoms reikmėms</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:078:2022-01-01">
+        <annotation>
+          <appinfo>078:2022-01-01::Medinė antrinė (tretinė) sunaudota savoms reikmėms</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:079:2022-01-01">
+        <annotation>
+          <appinfo>079:2022-01-01::Kombinuota antrinė (tretinė) sunaudota savoms reikmėms</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:08:2000-01-01">
+        <annotation>
+          <appinfo>08:2000-01-01:2021-12-31:Medinė tuščia</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:09:2000-01-01">
+        <annotation>
+          <appinfo>09:2000-01-01:2021-12-31:Kombinuota (kita) tuščia</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:09-01:2018-01-01">
+        <annotation>
+          <appinfo>09-01:2018-01-01:2021-12-31:Kombinuota tuščia kita (vyraujanti stiklas)</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:11:2000-01-01">
+        <annotation>
+          <appinfo>11:2000-01-01:2021-12-31:Stiklinė pirminė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:12:2000-01-01">
+        <annotation>
+          <appinfo>12:2000-01-01:2021-12-31:Plastikinė pirminė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:13:2000-01-01">
+        <annotation>
+          <appinfo>13:2000-01-01:2021-12-31:Kombinuota (popierinė) pirminė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:14:2000-01-01">
+        <annotation>
+          <appinfo>14:2000-01-01:2021-12-31:Metalinė pirminė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:141:2021-05-11">
+        <annotation>
+          <appinfo>141:2021-05-11:2021-12-31:Metalinė (juodųjų metalų) pirminė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:142:2021-05-11">
+        <annotation>
+          <appinfo>142:2021-05-11:2021-12-31:Metalinė (aliuminio) pirminė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:15:2000-01-01">
+        <annotation>
+          <appinfo>15:2000-01-01:2021-12-31:Popierinė ir kartoninė pirminė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:16:2000-01-01">
+        <annotation>
+          <appinfo>16:2000-01-01:2021-12-31:Kita pirminė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:17:2000-01-01">
+        <annotation>
+          <appinfo>17:2000-01-01:2021-12-31:PET pirminė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:18:2000-01-01">
+        <annotation>
+          <appinfo>18:2000-01-01:2021-12-31:Medinė pirminė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:19:2000-01-01">
+        <annotation>
+          <appinfo>19:2000-01-01:2021-12-31:Kombinuota (kita) pirminė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:21:2000-01-01">
+        <annotation>
+          <appinfo>21:2000-01-01:2021-12-31:Stiklinė antrinė (tretinė)</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:22:2000-01-01">
+        <annotation>
+          <appinfo>22:2000-01-01:2021-12-31:Plastikinė antrinė (tretinė)</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:23:2000-01-01">
+        <annotation>
+          <appinfo>23:2000-01-01:2021-12-31:Kombinuota (popierinė) antrinė (tretinė)</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:24:2000-01-01">
+        <annotation>
+          <appinfo>24:2000-01-01:2021-12-31:Metalinė antrinė (tretinė)</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:241:2021-05-11">
+        <annotation>
+          <appinfo>241:2021-05-11:2021-12-31:Metalinė (juodųjų metalų) antrinė (tretinė)</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:242:2021-05-11">
+        <annotation>
+          <appinfo>242:2021-05-11:2021-12-31:Metalinė (aliuminio) antrinė (tretinė)</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:25:2000-01-01">
+        <annotation>
+          <appinfo>25:2000-01-01:2021-12-31:Popierinė ir kartoninė antrinė (tretinė)</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:26:2000-01-01">
+        <annotation>
+          <appinfo>26:2000-01-01:2021-12-31:Kita antrinė (tretinė)</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:27:2000-01-01">
+        <annotation>
+          <appinfo>27:2000-01-01:2021-12-31:PET antrinė (tretinė)</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:28:2000-01-01">
+        <annotation>
+          <appinfo>28:2000-01-01:2021-12-31:Medinė antrinė (tretinė)</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:29:2000-01-01">
+        <annotation>
+          <appinfo>29:2000-01-01:2021-12-31:Kombinuota (kita) antrinė (tretinė)</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:31:2000-01-01">
+        <annotation>
+          <appinfo>31:2000-01-01:2021-12-31:Stiklinė pirminė / užstatinė daugkartinė </appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:32:2000-01-01">
+        <annotation>
+          <appinfo>32:2000-01-01:2021-12-31:Plastikinė pirminė daugkartinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:33:2000-01-01">
+        <annotation>
+          <appinfo>33:2000-01-01:2021-12-31:Kombinuota (popierinė) pirminė daugkartinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:34:2000-01-01">
+        <annotation>
+          <appinfo>34:2000-01-01:2021-12-31:Metalinė pirminė daugkartinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:341:2021-05-11">
+        <annotation>
+          <appinfo>341:2021-05-11:2021-12-31:Metalinė (juodųjų metalų) pirminė daugkartinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:342:2021-05-11">
+        <annotation>
+          <appinfo>342:2021-05-11:2021-12-31:Metalinė (aliuminio) pirminė daugkartinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:35:2000-01-01">
+        <annotation>
+          <appinfo>35:2000-01-01:2021-12-31:Popierinė (kartoninė) pirminė daugkartinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:36:2000-01-01">
+        <annotation>
+          <appinfo>36:2000-01-01:2021-12-31:Kita pirminė daugkartinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:37:2000-01-01">
+        <annotation>
+          <appinfo>37:2000-01-01:2021-12-31:PET pirminė daugkartinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:38:2000-01-01">
+        <annotation>
+          <appinfo>38:2000-01-01:2021-12-31:Medinė pirminė daugkartinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:39:2000-01-01">
+        <annotation>
+          <appinfo>39:2000-01-01:2021-12-31:Kombinuota (kita) pirminė daugkartinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:41:2000-01-01">
+        <annotation>
+          <appinfo>41:2000-01-01:2021-12-31:Stiklinė antrinė (tretinė) daugkartinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:42:2000-01-01">
+        <annotation>
+          <appinfo>42:2000-01-01:2021-12-31:Plastikinė antrinė (tretinė) daugkartinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:43:2000-01-01">
+        <annotation>
+          <appinfo>43:2000-01-01:2021-12-31:Kombinuota (popierinė) antrinė (tretinė) daugkartinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:44:2000-01-01">
+        <annotation>
+          <appinfo>44:2000-01-01:2021-12-31:Metalinė antrinė (tretinė) daugkartinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:441:2021-05-11">
+        <annotation>
+          <appinfo>441:2021-05-11:2021-12-31:Metalinė (juodųjų metalų) antrinė (tretinė) daugkartinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:442:2021-05-11">
+        <annotation>
+          <appinfo>442:2021-05-11:2021-12-31:Metalinė (aliuminio) antrinė (tretinė) daugkartinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:45:2000-01-01">
+        <annotation>
+          <appinfo>45:2000-01-01:2021-12-31:Popierinė ir kartoninė antrinė (tretinė) daugkartinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:46:2000-01-01">
+        <annotation>
+          <appinfo>46:2000-01-01:2021-12-31:Kita antrinė (tretinė) daugkartinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:47:2000-01-01">
+        <annotation>
+          <appinfo>47:2000-01-01:2021-12-31:PET antrinė (tretinė) daugkartinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:48:2000-01-01">
+        <annotation>
+          <appinfo>48:2000-01-01:2021-12-31:Medinė antrinė (tretinė) daugkartinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:49:2000-01-01">
+        <annotation>
+          <appinfo>49:2000-01-01:2021-12-31:Kombinuota (kita) antrinė (tretinė) daugkartinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:51:2000-01-01">
+        <annotation>
+          <appinfo>51:2000-01-01:2021-12-31:Stiklinė užstatinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:54:2000-01-01">
+        <annotation>
+          <appinfo>54:2000-01-01:2021-12-31:Metalinė užstatinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:541:2021-05-11">
+        <annotation>
+          <appinfo>541:2021-05-11:2021-12-31:Metalinė (juodųjų metalų) užstatinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:542:2021-05-11">
+        <annotation>
+          <appinfo>542:2021-05-11:2021-12-31:Metalinė (aliuminio) užstatinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:555:2021-12-01">
+        <annotation>
+          <appinfo>555:2021-12-01:2021-12-15:Testinė kita</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:57:2000-01-01">
+        <annotation>
+          <appinfo>57:2000-01-01:2021-12-31:PET užstatinė</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:61:2000-01-01">
+        <annotation>
+          <appinfo>61:2000-01-01:2021-12-31:Stiklinė pirminė sunaudota savoms reikmėms</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:62:2000-01-01">
+        <annotation>
+          <appinfo>62:2000-01-01:2021-12-31:Plastikinė pirminė sunaudota savoms reikmėms</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:63:2000-01-01">
+        <annotation>
+          <appinfo>63:2000-01-01:2021-12-31:Kombinuota (popierinė) pirminė sunaudota savoms reikmėms</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:64:2000-01-01">
+        <annotation>
+          <appinfo>64:2000-01-01:2021-12-31:Metalinė pirminė sunaudota savoms reikmėms</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:641:2021-05-11">
+        <annotation>
+          <appinfo>641:2021-05-11:2021-12-31:Metalinė (juodųjų metalų) pirminė sunaudota savoms reikmėms</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:642:2021-05-11">
+        <annotation>
+          <appinfo>642:2021-05-11:2021-12-31:Metalinė (aliuminio) pirminė sunaudota savoms reikmėms</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:65:2000-01-01">
+        <annotation>
+          <appinfo>65:2000-01-01:2021-12-31:Popierinė (kartoninė) pirminė sunaudota savoms reikmėms</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:66:2000-01-01">
+        <annotation>
+          <appinfo>66:2000-01-01:2021-12-31:Kita pirminė sunaudota savoms reikmėms</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:67:2000-01-01">
+        <annotation>
+          <appinfo>67:2000-01-01:2021-12-31:PET pirminė sunaudota savoms reikmėms</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:68:2000-01-01">
+        <annotation>
+          <appinfo>68:2000-01-01:2021-12-31:Medinė pirminė sunaudota savoms reikmėms</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:69:2000-01-01">
+        <annotation>
+          <appinfo>69:2000-01-01:2021-12-31:Kombinuota (kita) pirminė sunaudota savoms reikmėms</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:71:2000-01-01">
+        <annotation>
+          <appinfo>71:2000-01-01:2021-12-31:Stiklinė antrinė (tretinė) sunaudota savoms reikmėms</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:72:2000-01-01">
+        <annotation>
+          <appinfo>72:2000-01-01:2021-12-31:Plastikinė antrinė (tretinė) sunaudota savoms reikmėms</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:73:2000-01-01">
+        <annotation>
+          <appinfo>73:2000-01-01:2021-12-31:Kombinuota (popierinė) antrinė (tretinė) sunaudota savoms reikmėms</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:74:2000-01-01">
+        <annotation>
+          <appinfo>74:2000-01-01:2021-12-31:Metalinė antrinė (tretinė) sunaudota savoms reikmėms</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:741:2021-05-11">
+        <annotation>
+          <appinfo>741:2021-05-11:2021-12-31:Metalinė (juodųjų metalų) antrinė (tretinė) sunaudota savoms reikmėms</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:742:2021-05-11">
+        <annotation>
+          <appinfo>742:2021-05-11:2021-12-31:Metalinė (aliuminio) antrinė (tretinė) sunaudota savoms reikmėms</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:75:2000-01-01">
+        <annotation>
+          <appinfo>75:2000-01-01:2021-12-31:Popierinė (kartoninė) antrinė (tretinė) sunaudota savoms reikmėms</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:76:2000-01-01">
+        <annotation>
+          <appinfo>76:2000-01-01:2021-12-31:Kita antrinė (tretinė) sunaudota savoms reikmėms</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:77:2000-01-01">
+        <annotation>
+          <appinfo>77:2000-01-01:2021-12-31:PET antrinė (tretinė) sunaudota savoms reikmėms</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:78:2000-01-01">
+        <annotation>
+          <appinfo>78:2000-01-01:2021-12-31:Medinė antrinė (tretinė) sunaudota savoms reikmėms</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:79:2000-01-01">
+        <annotation>
+          <appinfo>79:2000-01-01:2021-12-31:Kombinuota (kita) antrinė (tretinė) sunaudota savoms reikmėms</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:80:2021-11-01">
+        <annotation>
+          <appinfo>80:2021-11-01:2021-12-31:ALMA</appinfo>
+        </annotation>
+      </enumeration>
+      <enumeration value="CL130:801:2022-01-01">
+        <annotation>
+          <appinfo>801:2022-01-01:2021-12-31:ALMA</appinfo>
+        </annotation>
+      </enumeration>
+    </restriction>
+  </simpleType>
+</schema>

@@ -11,7 +11,6 @@ import java.math.RoundingMode;
 import java.util.Currency;
 
 
-@Embeddable
 @JsonIncludeProperties({ "currency", "amount" })
 public class GamaMoney extends GamaAbstractMoney<GamaMoney> {
 
