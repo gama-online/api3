@@ -25,14 +25,14 @@ package lt.gama.jpa.functions;
 //}
 
 
-import org.hibernate.dialect.function.StandardSQLFunction;
-import org.hibernate.type.StandardBasicTypes;
-
-import static lt.gama.jpa.GamaPostgreSQLDialect.JSONB_ADD_TEXT;
-
-public class JsonBinaryAddTextFunction extends StandardSQLFunction {
-    public JsonBinaryAddTextFunction() {
-        super(JSONB_ADD_TEXT, StandardBasicTypes.STRING); // Set the function name and return type
-    }
-
-}
+//import org.hibernate.dialect.function.StandardSQLFunction;
+//import org.hibernate.type.StandardBasicTypes;
+//
+//import static lt.gama.jpa.GamaPostgreSQLDialect.JSONB_ADD_TEXT;
+//
+//public class JsonBinaryAddTextFunction extends StandardSQLFunction {
+//    public JsonBinaryAddTextFunction() {
+//        super(JSONB_ADD_TEXT, StandardBasicTypes.STRING); // Set the function name and return type
+//    }
+//
+//}

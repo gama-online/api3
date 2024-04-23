@@ -2,17 +2,25 @@ package lt.gama.test.base;
 
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import lt.gama.service.repo.base.InCompanyRepository;
+import lt.gama.service.repo.base.InCompanyRepositoryFactoryBean;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.postgresql.ds.PGSimpleDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.jta.JtaTransactionManager;
 
 import javax.sql.DataSource;
 import java.util.Map;
 
 @Configuration
-public class DataSourceConfig {
+@EnableJpaRepositories(repositoryBaseClass = InCompanyRepository.class, repositoryFactoryBeanClass= InCompanyRepositoryFactoryBean.class)
+@EnableTransactionManagement
+public class TestConfiguration {
 
     @Value("${gama.jdbc.driver}") private String driver;
     @Value("${gama.jdbc.url}") private String url;

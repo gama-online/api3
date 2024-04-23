@@ -126,13 +126,9 @@
         <class>lt.gama.model.sql.system.SyncSql</class>
         <class>lt.gama.model.sql.system.SystemSettingsSql</class>
 
-<!--        <class>lt.gama.test.jpa.experimental.entities.EntityMaster</class>-->
-<!--        <class>lt.gama.test.jpa.experimental.entities.EntityChild</class>-->
-
-<!--        <class>lt.gama.test.jpa.experimental.entities.EntityA</class>-->
-<!--        <class>lt.gama.test.jpa.experimental.entities.EntityB</class>-->
+        <class>lt.gama.test.jpa.experimental.entities.EntityMaster</class>
+        <class>lt.gama.test.jpa.experimental.entities.EntityChild</class>
         <class>lt.gama.test.jpa.experimental.entities.EntityMoney</class>
-<!--        <class>lt.gama.test.jpa.experimental.entities.EntityMoneta</class>-->
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 

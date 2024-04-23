@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-@Mapper(uses = {UtilsMapper.class, CounterpartySqlMapper.class, ManufacturerMapper.class}, componentModel = "spring")
+@Mapper(uses = {UtilsMapper.class, CounterpartySqlMapper.class, ManufacturerSqlMapper.class}, componentModel = "spring")
 public abstract class PartSqlMapper implements IBaseMapper<PartDto, PartSql> {
 
     @Autowired

@@ -69,12 +69,14 @@ import org.hibernate.graph.GraphSemantic;
 import org.hibernate.stat.EntityStatistics;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.parallel.Execution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -88,6 +90,7 @@ import static lt.gama.Constants.*;
 import static lt.gama.Constants.LOG_LABEL_USER_NAME;
 import static org.assertj.core.api.Assertions.assertThat;
 
+@ActiveProfiles("test")
 @SpringBootTest
 public abstract class BaseDBTest {
 
@@ -318,6 +321,8 @@ public abstract class BaseDBTest {
 
     @AfterEach
     protected void tearDown() {
+        clearCaches();
+        entityManager.close();
         SQLHelper.executeSqlScriptFromAsUser(gamaConnectionFactory.get(user), user.username(), "sql/delete-user-data.sql");
     }
 
@@ -329,8 +334,7 @@ public abstract class BaseDBTest {
 
         dbServiceSQL.executeInTransaction(entityManager -> {
             // create test data
-            timer("create test data", () ->
-                    accountService.initData());
+            timer("create test data", () -> accountService.initData());
 
             // System settings - subscription price - needed for adminApi.companySave
             SystemSettingsSql systemSettings = new SystemSettingsSql();
