@@ -1,9 +1,6 @@
 package lt.gama.model.sql.base;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.*;
 import lt.gama.model.i.IDb;
 import lt.gama.model.i.IExportId;
 import lt.gama.model.i.IId;
@@ -18,6 +15,7 @@ public abstract class BaseCompanySql extends BaseEntitySql implements IBaseCompa
 
     @Id
     @GeneratedValue(generator = "gama_sequence", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "gama_sequence")
     private Long id;
 
     private Long foreignId;

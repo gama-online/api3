@@ -55,6 +55,11 @@ public class CacheService<K, V> {
             public void remove(K key) {
                 cache.invalidate(keyOf(key));
             }
+
+            @Override
+            public void removeAll() {
+                cache.invalidateAll();
+            }
         };
     }
 
@@ -62,5 +67,6 @@ public class CacheService<K, V> {
         V get(K key);
         V put(K key, V value);
         void remove(K key);
+        void removeAll();
     }
 }

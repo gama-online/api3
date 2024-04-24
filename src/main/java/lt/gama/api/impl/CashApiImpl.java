@@ -38,6 +38,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class CashApiImpl implements CashApi {
@@ -117,12 +118,11 @@ public class CashApiImpl implements CashApi {
 		return apiResultService.result(() -> 
 				dbServiceSQL.list(request, CashOperationSql.class,
 					CashOperationSql.GRAPH_ALL, cashOperationSqlMapper,
-					root -> {
-						root.join(BaseDocumentSql_.COUNTERPARTY, JoinType.LEFT);
-						root.join(BaseDocumentSql_.EMPLOYEE, JoinType.LEFT);
-						root.join(CashOperationSql_.CASH, JoinType.LEFT);
-					},
-					(cb, root) -> {
+					root -> Map.of(
+							BaseDocumentSql_.COUNTERPARTY, root.join(BaseDocumentSql_.COUNTERPARTY, JoinType.LEFT),
+							BaseDocumentSql_.EMPLOYEE, root.join(BaseDocumentSql_.EMPLOYEE, JoinType.LEFT),
+							CashOperationSql_.CASH, root.join(CashOperationSql_.CASH, JoinType.LEFT)),
+					(cb, root, joins) -> {
 						Predicate where = EntityUtils.whereDoc(request, cb, root, patterns -> {
 							Predicate[] predicates = new Predicate[patterns.length];
 							for (int i = 0; i < patterns.length; i++) {
@@ -130,7 +130,7 @@ public class CashApiImpl implements CashApi {
 										root.get(CashOperationSql_.CASH).get(CashSql_.NAME))), patterns[i]);
 							}
 							return patterns.length == 1 ? predicates[0] : cb.and(predicates);
-						});
+						}, joins);
 						Long cashId = (Long) PageRequestUtils.getFieldValue(request.getConditions(), CustomSearchType.CASH_ID);
 						if (cashId != null) {
 							Predicate predicate = cb.equal(root.get(CashOperationSql_.CASH).get(CashSql_.ID), cashId);
@@ -145,8 +145,8 @@ public class CashApiImpl implements CashApi {
 						}
 						return where;
 					},
-					(cb, root) -> EntityUtils.orderMoneyDoc(request.getOrder(), cb, root),
-					(cb, root) -> EntityUtils.selectIdMoneyDoc(request.getOrder(), cb, root)));
+					(cb, root, joins) -> EntityUtils.orderMoneyDoc(request.getOrder(), cb, root, joins),
+					(cb, root, joins) -> EntityUtils.selectIdMoneyDoc(request.getOrder(), cb, root, joins)));
 	}
 
 	@Override
@@ -183,7 +183,7 @@ public class CashApiImpl implements CashApi {
 		return apiResultService.result(() ->
 				dbServiceSQL.list(request, CashOpeningBalanceSql.class,
 					CashOpeningBalanceSql.GRAPH_ALL, cashOpeningBalanceSqlMapper,
-					(cb, root) -> EntityUtils.whereDoc(request, cb, root, null),
+					(cb, root) -> EntityUtils.whereDoc(request, cb, root, null, null),
 					(cb, root) -> EntityUtils.orderDoc(request.getOrder(), cb, root),
 					(cb, root) -> EntityUtils.selectIdDoc(request.getOrder(), cb, root)));
 	}
@@ -223,7 +223,7 @@ public class CashApiImpl implements CashApi {
 		return apiResultService.result(() ->
 				dbServiceSQL.list(request, CashRateInfluenceSql.class,
 					CashRateInfluenceSql.GRAPH_ALL, cashRateInfluenceSqlMapper,
-					(cb, root) -> EntityUtils.whereDoc(request, cb, root, null),
+					(cb, root) -> EntityUtils.whereDoc(request, cb, root, null, null),
 					(cb, root) -> EntityUtils.orderDoc(request.getOrder(), cb, root),
 					(cb, root) -> EntityUtils.selectIdDoc(request.getOrder(), cb, root)));
     }

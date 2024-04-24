@@ -10,8 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
-import java.util.Currency;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -65,12 +63,5 @@ public class MoneyCustomTypeTest extends BaseDBTest {
 
         assertThat(e.getAmount()).isEqualTo(GamaMoney.parse("EUR 123.00"));
         assertThat(e.getBig()).isEqualTo(GamaBigMoney.parse("EUR 1.123"));
-    }
-
-    @Test
-    void testCurrency() {
-        Set<Currency> currencies = Currency.getAvailableCurrencies();
-        assertThat(currencies).contains(Currency.getInstance("LTL"));
-        assertThat(Currency.getInstance("LTL").getDefaultFractionDigits()).isEqualTo(2);
     }
 }

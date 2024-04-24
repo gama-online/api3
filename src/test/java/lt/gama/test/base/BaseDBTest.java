@@ -65,8 +65,10 @@ import lt.gama.tasks.ImportTask;
 import lt.gama.test.base.service.TaskInfoAndBody;
 import lt.gama.test.base.service.TasksQueue;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.graph.GraphSemantic;
 import org.hibernate.stat.EntityStatistics;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.parallel.Execution;
@@ -77,6 +79,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -315,23 +318,25 @@ public abstract class BaseDBTest {
 
     @BeforeEach
     protected void setUp() throws Exception {
+        log.info(this.getClass().getSimpleName() + ": BeforeEach");
         entityManager = entityManagerFactory.createEntityManager();
+
+        Locale.setDefault(Locale.of("en", "US"));
+        authSettingsCacheService.removeAll();
+        currencyService.setTestMode(true);
+
         timer("setUp", this::init);
     }
 
     @AfterEach
     protected void tearDown() {
+        log.info(this.getClass().getSimpleName() + ": AfterEach");
         clearCaches();
         entityManager.close();
         SQLHelper.executeSqlScriptFromAsUser(gamaConnectionFactory.get(user), user.username(), "sql/delete-user-data.sql");
     }
 
     void init() {
-        Locale.setDefault(Locale.of("en", "US"));
-
-        // set test mode
-        currencyService.setTestMode(true);
-
         dbServiceSQL.executeInTransaction(entityManager -> {
             // create test data
             timer("create test data", () -> accountService.initData());

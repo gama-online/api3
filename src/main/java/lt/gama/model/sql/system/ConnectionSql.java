@@ -15,10 +15,9 @@ import java.util.Map;
 @Table(name = "connections")
 public class ConnectionSql extends BaseEntitySql implements ICompany, IId<Long> {
 
-    private static final long serialVersionUID = -1L;
-
     @Id
     @GeneratedValue(generator = "gama_sequence", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "gama_sequence")
     private Long id;
 
     private long companyId;

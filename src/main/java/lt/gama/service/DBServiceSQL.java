@@ -29,7 +29,9 @@ import lt.gama.model.type.part.VATRate;
 import lt.gama.service.ex.rt.GamaException;
 import lt.gama.service.ex.rt.GamaNotFoundException;
 import lt.gama.service.ex.rt.GamaUnauthorizedException;
+import org.apache.commons.lang3.function.TriFunction;
 import org.hibernate.graph.GraphSemantic;
+import org.hibernate.jpa.AvailableHints;
 import org.hibernate.jpa.QueryHints;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -94,7 +96,7 @@ public class DBServiceSQL {
     public <E extends EntitySql> E getById(Class<E> entityClass, Object id, String graphName) {
         E entity = StringHelper.isEmpty(graphName) ?
                 entityManager.find(entityClass, id) :
-                entityManager.find(entityClass, id, Collections.singletonMap(GraphSemantic.FETCH.getJpaHintName(), entityManager.getEntityGraph(graphName)));
+                entityManager.find(entityClass, id, Collections.singletonMap(GraphSemantic.FETCH.getJakartaHintName(), entityManager.getEntityGraph(graphName)));
         if (entity instanceof BaseCompanySql baseCompany) {
             if (auth.getCompanyId() == null || baseCompany.getCompanyId() != auth.getCompanyId()) {
                 log.warn("Wrong company");
@@ -119,7 +121,7 @@ public class DBServiceSQL {
                 .setParameter("foreignId", foreignId)
                 .setParameter("companyId", auth.getCompanyId());
               if (StringHelper.hasValue(graphName)) {
-                  q.setHint(GraphSemantic.FETCH.getJpaHintName(), entityManager.getEntityGraph(graphName));
+                  q.setHint(GraphSemantic.FETCH.getJakartaHintName(), entityManager.getEntityGraph(graphName));
               }
         List<E> list = q.getResultList();
         return list != null && list.size() == 1 ? list.get(0) : null;
@@ -135,7 +137,7 @@ public class DBServiceSQL {
 
         TypedQuery<E> query = entityManager.createQuery(cr);
         if (StringHelper.hasValue(graphName)) {
-            query = query.setHint(GraphSemantic.FETCH.getJpaHintName(), entityManager.getEntityGraph(graphName));
+            query = query.setHint(GraphSemantic.FETCH.getJakartaHintName(), entityManager.getEntityGraph(graphName));
         }
         return query;
     }
@@ -160,7 +162,7 @@ public class DBServiceSQL {
 
         TypedQuery<E> query = entityManager.createQuery(cr);
         if (StringHelper.hasValue(graphName)) {
-            query = query.setHint(GraphSemantic.FETCH.getJpaHintName(), entityManager.getEntityGraph(graphName));
+            query = query.setHint(GraphSemantic.FETCH.getJakartaHintName(), entityManager.getEntityGraph(graphName));
         }
         return query;
     }
@@ -176,7 +178,7 @@ public class DBServiceSQL {
 
         TypedQuery<E> query = entityManager.createQuery(cr);
         if (StringHelper.hasValue(graphName)) {
-            query = query.setHint(GraphSemantic.FETCH.getJpaHintName(), entityManager.getEntityGraph(graphName));
+            query = query.setHint(GraphSemantic.FETCH.getJakartaHintName(), entityManager.getEntityGraph(graphName));
         }
         return query;
     }
@@ -280,16 +282,19 @@ public class DBServiceSQL {
                                  BiFunction<CriteriaBuilder, Root<E>, Predicate> where,
                                  BiFunction<CriteriaBuilder, Root<E>, List<Order>> order,
                                  BiFunction<CriteriaBuilder, Root<E>, List<Selection<?>>> selectId) {
-        return queryPage(request, resultClass, graphName, mapper, null, null, where, order, selectId);
+        return queryPage(request, resultClass, graphName, mapper, null, null,  
+                where == null ? null : (cb, root, join) -> where.apply(cb, root),
+                order == null ? null : (cb, root, join) -> order.apply(cb, root),
+                selectId == null ? null : (cb, root, join) -> selectId.apply(cb, root));
     }
 
     public <K, E extends BaseEntitySql & IId<K>, D, A>
     PageResponse<D, A> queryPage(PageRequest request, Class<E> resultClass, String graphName, IBaseMapper<D, E> mapper,
                                  OutputStream out,
-                                 Consumer<Root<E>> join,
-                                 BiFunction<CriteriaBuilder, Root<E>, Predicate> where,
-                                 BiFunction<CriteriaBuilder, Root<E>, List<Order>> order,
-                                 BiFunction<CriteriaBuilder, Root<E>, List<Selection<?>>> selectId) {
+                                 Function<Root<E>, Map<String, Join<?, ?>>> join,
+                                 TriFunction<CriteriaBuilder, Root<E>, Map<String, Join<?, ?>>, Predicate> where,
+                                 TriFunction<CriteriaBuilder, Root<E>, Map<String, Join<?, ?>>, List<Order>> order,
+                                 TriFunction<CriteriaBuilder, Root<E>, Map<String, Join<?, ?>>, List<Selection<?>>> selectId) {
         try {
             final long companyId = ICompany.class.isAssignableFrom(resultClass) ? auth.getCompanyId() : -1;
 
@@ -310,43 +315,39 @@ public class DBServiceSQL {
                 // Outer query
                 CriteriaQuery<E> cr = cb.createQuery(resultClass);
                 Root<E> root = cr.from(resultClass);
+                Map<String, Join<?, ?>> joins = join == null ? null : join.apply(root);
+                cr.select(root);
 
                 // Subquery
                 Subquery<Long> scr = cr.subquery(Long.class);
                 Root<E> subRoot = scr.from(resultClass);
                 scr.select(subRoot.get("id")).distinct(true);
-
-                if (join != null) join.accept(subRoot);
-
-                Predicate predicateWhere = where != null ? where(request, resultClass, cb, subRoot, where) : null;
+                
+                Predicate predicateWhere = where != null 
+                        ? where(request, resultClass, cb, root, (p1, p2) -> where.apply(cb, root, joins)) 
+                        : null;
                 if (companyId > 0) {
-                    Predicate predicateCompanyId = cb.equal(subRoot.get(BaseCompanySql_.COMPANY_ID), companyId);
+                    Predicate predicateCompanyId = cb.equal(root.get(BaseCompanySql_.COMPANY_ID), companyId);
                     predicateWhere = predicateWhere != null ? cb.and(predicateCompanyId, predicateWhere) : predicateCompanyId;
                 }
-                Predicate archiveAndHidden = archiveAndHidden(request, cb, subRoot);
+                Predicate archiveAndHidden = archiveAndHidden(request, cb, root);
                 predicateWhere = predicateWhere != null ? cb.and(predicateWhere, archiveAndHidden) : archiveAndHidden;
 
-                if (predicateWhere != null) scr.where(predicateWhere);
+                if (predicateWhere != null) cr.where(predicateWhere);
 
-                // Outer query using subquery
-                cr.select(root);
-                cr.where(root.get("id").in(scr));
-
-                if (order != null) cr.orderBy(order.apply(cb, root));
+                if (order != null) cr.orderBy(order.apply(cb, root, joins));
 
                 TypedQuery<E> query = entityManager.createQuery(cr);
                 if (StringHelper.hasValue(graphName)) {
-                    query.setHint(GraphSemantic.FETCH.getJpaHintName(), entityManager.getEntityGraph(graphName));
+                    query.setHint(GraphSemantic.FETCH.getJakartaHintName(), entityManager.getEntityGraph(graphName));
                 }
-                query.setHint(QueryHints.HINT_READONLY, true);
+                query.setHint(AvailableHints.HINT_READ_ONLY, true);
                 List<E> list = query.getResultList();
 
                 if (CollectionsHelper.hasValue(list)) {
-                    List<D> resultList = new ArrayList<>(list.size());
                     if (response != null) {
-                        list.forEach(e -> resultList.add(mapper.toDto(e)));
-                        response.setTotal(resultList.size());
-                        response.setItems(resultList);
+                        response.setItems(list.stream().map(mapper::toDto).toList());
+                        response.setTotal(response.getItems().size());
                     } else if (jsonGenerator != null) {
                         jsonGenerator.writeNumberField("total", list.size());
                         jsonGenerator.writeFieldName("items");
@@ -363,10 +364,12 @@ public class DBServiceSQL {
                     CriteriaBuilder cb = entityManager.getCriteriaBuilder();
                     CriteriaQuery<Long> cr = cb.createQuery(Long.class);
                     Root<E> root = cr.from(resultClass);
-                    if (join != null) join.accept(root);
+                    Map<String, Join<?, ?>> joins = join == null ? null : join.apply(root);
                     cr.select(cb.countDistinct(root));
 
-                    Predicate predicateWhere = where != null ? where(request, resultClass, cb, root, where) : null;
+                    Predicate predicateWhere = where != null
+                            ? where(request, resultClass, cb, root, (p1, p2) -> where.apply(cb, root, joins))
+                            : null;
                     if (companyId > 0) {
                         Predicate predicateCompanyId = cb.equal(root.get(BaseCompanySql_.COMPANY_ID), companyId);
                         predicateWhere = predicateWhere != null ? cb.and(predicateCompanyId, predicateWhere) : predicateCompanyId;
@@ -392,19 +395,21 @@ public class DBServiceSQL {
                 CriteriaBuilder cb = entityManager.getCriteriaBuilder();
                 CriteriaQuery<Tuple> crId = cb.createQuery(Tuple.class);
                 Root<E> rootId = crId.from(resultClass);
-                if (join != null) join.accept(rootId);
+                Map<String, Join<?, ?>> joinsId = join == null ? null : join.apply(rootId);
                 if (selectId != null) {
-                    crId.multiselect(selectId.apply(cb, rootId)).distinct(true);
+                    crId.multiselect(selectId.apply(cb, rootId, joinsId));
                 } else {
                     crId.multiselect(rootId.get("id").alias("id")).distinct(true);
                 }
-                Predicate predicateWhere = where != null ? where(request, resultClass, cb, rootId, where) : null;
+                Predicate predicateWhere = where != null
+                        ? where(request, resultClass, cb, rootId, (p1, p2) -> where.apply(cb, rootId, joinsId))
+                        : null;
                 if (companyId > 0) {
                     Predicate predicateCompanyId = cb.equal(rootId.get(BaseCompanySql_.COMPANY_ID), companyId);
                     predicateWhere = predicateWhere != null ? cb.and(predicateCompanyId, predicateWhere) : predicateCompanyId;
                 }
                 if (predicateWhere != null) crId.where(predicateWhere);
-                if (order != null) crId.orderBy(order.apply(cb, rootId));
+                if (order != null) crId.orderBy(order.apply(cb, rootId, joinsId));
 
                 int cursor;
                 if (request.getCursor() == null) {
@@ -428,23 +433,23 @@ public class DBServiceSQL {
                     } else if (jsonGenerator != null) {
                         jsonGenerator.writeBooleanField("more", true);
                     }
-                    selectTuples.remove(selectTuples.size() - 1);
+                    selectTuples.removeLast();
                 }
                 List<?> ids = selectTuples.stream().map(t -> t.get("id")).collect(Collectors.toList());
                 List<E> listEntity = null;
                 if (!ids.isEmpty()) {
                     CriteriaQuery<E> cr = cb.createQuery(resultClass);
                     Root<E> root = cr.from(resultClass);
-                    if (join != null) join.accept(root);
-                    else cr.select(root);
+                    Map<String, Join<?, ?>> joins = join == null ? null : join.apply(root);
+                    cr.select(root);
                     cr.where(root.get("id").in(ids));
-                    if (order != null) cr.orderBy(order.apply(cb, root));
+                    if (order != null) cr.orderBy(order.apply(cb, root, joins));
 
                     TypedQuery<E> query = entityManager.createQuery(cr);
                     if (StringHelper.hasValue(graphName)) {
-                        query.setHint(GraphSemantic.FETCH.getJpaHintName(), entityManager.getEntityGraph(graphName));
+                        query.setHint(GraphSemantic.FETCH.getJakartaHintName(), entityManager.getEntityGraph(graphName));
                     }
-                    query.setHint(QueryHints.HINT_READONLY, true);
+                    query.setHint(AvailableHints.HINT_READ_ONLY, true);
                     listEntity = query.getResultList();
                 }
 
@@ -507,9 +512,9 @@ public class DBServiceSQL {
         if (request.getPageSize() == PageRequest.MAX_PAGE_SIZE) {
             Query query = allQuery.get();
             if (StringHelper.hasValue(graphName)) {
-                query.setHint(GraphSemantic.FETCH.getJpaHintName(), entityManager.getEntityGraph(graphName));
+                query.setHint(GraphSemantic.FETCH.getJakartaHintName(), entityManager.getEntityGraph(graphName));
             }
-            query.setHint(QueryHints.HINT_READONLY, true);
+            query.setHint(AvailableHints.HINT_READ_ONLY, true);
             @SuppressWarnings("unchecked")
             List<E> listEntity = query.getResultList();
             if (CollectionsHelper.hasValue(listEntity)) {
@@ -525,9 +530,9 @@ public class DBServiceSQL {
             Query query = dataQuery.apply(response);
             if (query != null) {
                 if (StringHelper.hasValue(graphName)) {
-                    query.setHint(GraphSemantic.FETCH.getJpaHintName(), entityManager.getEntityGraph(graphName));
+                    query.setHint(GraphSemantic.FETCH.getJakartaHintName(), entityManager.getEntityGraph(graphName));
                 }
-                query.setHint(QueryHints.HINT_READONLY, true);
+                query.setHint(AvailableHints.HINT_READ_ONLY, true);
                 @SuppressWarnings("unchecked")
                 List<E> listEntity = query.getResultList();
 
@@ -549,15 +554,18 @@ public class DBServiceSQL {
                             BiFunction<CriteriaBuilder, Root<E>, Predicate> where,
                             BiFunction<CriteriaBuilder, Root<E>, List<Order>> order,
                             BiFunction<CriteriaBuilder, Root<E>, List<Selection<?>>> selectId) {
-        return queryPage(request, resultClass, graphName, mapper, null, null, where, order, selectId);
+        return queryPage(request, resultClass, graphName, mapper, null, null,
+                where == null ? null : (cb, root, join) -> where.apply(cb, root),
+                order == null ? null : (cb, root, join) -> order.apply(cb, root),
+                selectId == null ? null : (cb, root, join) -> selectId.apply(cb, root));
     }
 
     public <K, E extends BaseEntitySql & IId<K>, D, A>
     PageResponse<D, A> list(PageRequest request, Class<E> resultClass, String graphName, IBaseMapper<D, E> mapper,
-                            Consumer<Root<E>> join,
-                            BiFunction<CriteriaBuilder, Root<E>, Predicate> where,
-                            BiFunction<CriteriaBuilder, Root<E>, List<Order>> order,
-                            BiFunction<CriteriaBuilder, Root<E>, List<Selection<?>>> selectId) {
+                            Function<Root<E>, Map<String, Join<?, ?>>> join,
+                            TriFunction<CriteriaBuilder, Root<E>, Map<String, Join<?, ?>>, Predicate> where,
+                            TriFunction<CriteriaBuilder, Root<E>, Map<String, Join<?, ?>>, List<Order>> order,
+                            TriFunction<CriteriaBuilder, Root<E>, Map<String, Join<?, ?>>, List<Selection<?>>> selectId) {
         return queryPage(request, resultClass, graphName, mapper, null, join, where, order, selectId);
     }
 
@@ -567,16 +575,19 @@ public class DBServiceSQL {
                             BiFunction<CriteriaBuilder, Root<E>, Predicate> where,
                             BiFunction<CriteriaBuilder, Root<E>, List<Order>> order,
                             BiFunction<CriteriaBuilder, Root<E>, List<Selection<?>>> selectId) {
-        return queryPage(request, resultClass, graphName, mapper, out, null, where, order, selectId);
+        return queryPage(request, resultClass, graphName, mapper, out, null,
+                where == null ? null : (cb, root, join) -> where.apply(cb, root),
+                order == null ? null : (cb, root, join) -> order.apply(cb, root),
+                selectId == null ? null : (cb, root, join) -> selectId.apply(cb, root));
     }
 
     public <K, E extends BaseEntitySql & IId<K>, D, A>
     PageResponse<D, A> list(PageRequest request, Class<E> resultClass, String graphName, IBaseMapper<D, E> mapper,
                             OutputStream out,
-                            Consumer<Root<E>> join,
-                            BiFunction<CriteriaBuilder, Root<E>, Predicate> where,
-                            BiFunction<CriteriaBuilder, Root<E>, List<Order>> order,
-                            BiFunction<CriteriaBuilder, Root<E>, List<Selection<?>>> selectId) {
+                            Function<Root<E>, Map<String, Join<?, ?>>> join,
+                            TriFunction<CriteriaBuilder, Root<E>, Map<String, Join<?, ?>>, Predicate> where,
+                            TriFunction<CriteriaBuilder, Root<E>, Map<String, Join<?, ?>>, List<Order>> order,
+                            TriFunction<CriteriaBuilder, Root<E>, Map<String, Join<?, ?>>, List<Selection<?>>> selectId) {
         return queryPage(request, resultClass, graphName, mapper, out, join, where, order, selectId);
     }
 
@@ -688,12 +699,14 @@ public class DBServiceSQL {
         });
     }
 
+    @Transactional
     public <E extends BaseNumberDocumentSql> E saveWithCounter(E entity) {
         final CompanySettings companySettings = Validators.checkNotNull(auth.getSettings(), "No company settings");
         CounterDesc desc = companySettings.getCounterByClass(entity.getClass());
         return saveWithCounter(entity, desc);
     }
 
+    @Transactional
     public <E extends BaseNumberDocumentSql> E saveWithCounter(E entity, CounterDesc desc) {
         return executeAndReturnInTransaction(entityManager -> {
             if (BooleanUtils.isTrue(entity.getAutoNumber())) {
@@ -734,6 +747,7 @@ public class DBServiceSQL {
         });
     }
 
+    @Transactional
     public <K, E extends EntitySql & IId<K>> int removeById(Class<E> type, K id) {
         return executeAndReturnInTransaction(entityManager -> {
             int deleted = entityManager.createQuery("DELETE FROM " + type.getName() + " a WHERE a.id = :id")
@@ -743,6 +757,7 @@ public class DBServiceSQL {
         });
     }
 
+    @Transactional
     public <E extends BaseCompanySql> void deleteById(Class<E> type, long id) {
         executeInTransaction(entityManager -> {
             E entity = entityManager.find(type, id);
@@ -759,6 +774,7 @@ public class DBServiceSQL {
         });
     }
 
+    @Transactional
     public <E extends EntitySql & ICompany> void deleteAll(Class<E> type) {
         executeInTransaction(entityManager -> {
             int deleted = entityManager.createQuery("DELETE FROM " + type.getName() + " a WHERE a.companyId = :companyId")
@@ -767,6 +783,7 @@ public class DBServiceSQL {
         });
     }
 
+    @Transactional
     public <E extends BaseCompanySql> E undeleteById(Class<E> type, long id) {
         return executeAndReturnInTransaction(entityManager -> {
             E entity = Validators.checkNotNull(entityManager.find(type, id), "Not found");
@@ -810,8 +827,10 @@ public class DBServiceSQL {
         try {
             return executor.apply(entityManager);
         } catch (RuntimeException e) {
+            log.warn(e.getMessage(), e);
             throw e;
         } catch (Exception e) {
+            log.warn(e.getMessage(), e);
             throw new GamaException(e);
         }
     }
@@ -882,7 +901,7 @@ public class DBServiceSQL {
             q.setParameter("sn", part.getSn().getSn());
         }
         if (StringHelper.hasValue(graphName)) {
-            q.setHint(GraphSemantic.FETCH.getJpaHintName(), entityManager.getEntityGraph(graphName));
+            q.setHint(GraphSemantic.FETCH.getJakartaHintName(), entityManager.getEntityGraph(graphName));
         }
         return q.getResultList();
     }

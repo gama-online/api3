@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static java.time.temporal.TemporalAdjusters.firstDayOfMonth;
 import static java.time.temporal.TemporalAdjusters.lastDayOfMonth;
@@ -60,10 +61,10 @@ public class AssetApiImpl implements AssetApi {
     public APIResult<PageResponse<AssetDto, AssetTotal>> listAsset(PageRequest request) throws GamaApiException {
         return apiResultService.result(() -> {
             PageResponse<AssetDto, AssetTotal> response = dbServiceSQL.list(request, AssetSql.class, null, assetSqlMapper,
-                    root -> root.join(AssetSql_.RESPONSIBLE, JoinType.LEFT),
-                    (cb, root) -> where(request, cb, root),
-                    (cb, root) -> order(request.getOrder(), cb, root),
-                    (cb, root) -> expresionsList(request.getOrder(), cb, root, true));
+                    root -> Map.of(AssetSql_.RESPONSIBLE, root.join(AssetSql_.RESPONSIBLE, JoinType.LEFT)),
+                    (cb, root, joins) -> where(request, cb, root, joins),
+                    (cb, root, joins) -> order(request.getOrder(), cb, root),
+                    (cb, root, joins) -> expresionsList(request.getOrder(), cb, root, true));
 
             Object value = PageRequestUtils.getFieldValue(request.getConditions(), CustomSearchType.DATE);
             LocalDate dt = value instanceof LocalDate ? (LocalDate) value :
@@ -74,7 +75,7 @@ public class AssetApiImpl implements AssetApi {
         });
     }
 
-    private Predicate where(PageRequest request, CriteriaBuilder cb, Root<?> root) {
+    private Predicate where(PageRequest request, CriteriaBuilder cb, Root<?> root, Map<String, Join<?, ?>> joins) {
         Predicate where = null;
         if (request.getConditions() != null) {
             // CustomSearchType.DATE
@@ -126,7 +127,7 @@ public class AssetApiImpl implements AssetApi {
                     cb.like(cb.lower(cb.function("unaccent", String.class, root.get(AssetSql_.CODE))), "%" + filter + "%"),
                     cb.like(cb.lower(cb.function("unaccent", String.class, root.get(AssetSql_.CIPHER))), "%" + filter + "%"),
                     cb.like(cb.lower(cb.function("unaccent", String.class, root.get(AssetSql_.NOTE))), "%" + filter + "%"),
-                    cb.like(cb.lower(cb.function("unaccent", String.class, root.get(AssetSql_.RESPONSIBLE).get(EmployeeSql_.NAME))), "%" + filter + "%")
+                    cb.like(cb.lower(cb.function("unaccent", String.class, joins.get(AssetSql_.RESPONSIBLE).get(EmployeeSql_.NAME))), "%" + filter + "%")
             );
             where = where == null ? contentFilter : cb.and(where, contentFilter);
         }
@@ -198,16 +199,16 @@ public class AssetApiImpl implements AssetApi {
     public APIResult<PageResponse<AssetDto, AssetTotal>> periodListAsset(PageRequest request) throws GamaApiException {
         return apiResultService.result(() -> {
             PageResponse<AssetDto, AssetTotal> response = dbServiceSQL.list(request, AssetSql.class, null, assetSqlMapper,
-                    root -> root.join(AssetSql_.RESPONSIBLE, JoinType.LEFT),
-                    (cb, root) -> wherePeriod(request, cb, root),
-                    (cb, root) -> order(request.getOrder(), cb, root),
-                    (cb, root) -> expresionsList(request.getOrder(), cb, root, true));
+                    root -> Map.of(AssetSql_.RESPONSIBLE, root.join(AssetSql_.RESPONSIBLE, JoinType.LEFT)),
+                    (cb, root, joins) -> wherePeriod(request, cb, root, joins),
+                    (cb, root, joins) -> order(request.getOrder(), cb, root),
+                    (cb, root, joins) -> expresionsList(request.getOrder(), cb, root, true));
             response.setAttachment(depreciationService.calcAssetTotal(response.getItems(), request.getDateFrom(), request.getDateTo()));
             return response;
         });
     }
 
-    private Predicate wherePeriod(PageRequest request, CriteriaBuilder cb, Root<?> root) {
+    private Predicate wherePeriod(PageRequest request, CriteriaBuilder cb, Root<?> root, Map<String, Join<?, ?>> joins) {
         Predicate where = null;
         if (request.getConditions() != null) {
             // dateFrom - dateTo
@@ -262,7 +263,7 @@ public class AssetApiImpl implements AssetApi {
                     cb.like(cb.lower(cb.function("unaccent", String.class, root.get(AssetSql_.CODE))), "%" + filter + "%"),
                     cb.like(cb.lower(cb.function("unaccent", String.class, root.get(AssetSql_.CIPHER))), "%" + filter + "%"),
                     cb.like(cb.lower(cb.function("unaccent", String.class, root.get(AssetSql_.NOTE))), "%" + filter + "%"),
-                    cb.like(cb.lower(cb.function("unaccent", String.class, root.get(AssetSql_.RESPONSIBLE).get(EmployeeSql_.NAME))), "%" + filter + "%")
+                    cb.like(cb.lower(cb.function("unaccent", String.class, joins.get(AssetSql_.RESPONSIBLE).get(EmployeeSql_.NAME))), "%" + filter + "%")
             );
             where = where == null ? contentFilter : cb.and(where, contentFilter);
         }

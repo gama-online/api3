@@ -1,7 +1,5 @@
 package lt.gama.test.asset;
 
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
 import lt.gama.api.APIResult;
 import lt.gama.api.ex.GamaApiException;
 import lt.gama.api.request.PageRequest;
@@ -21,26 +19,12 @@ import lt.gama.model.type.enums.AssetStatusType;
 import lt.gama.model.type.enums.CustomSearchType;
 import lt.gama.model.type.enums.DepreciationType;
 import lt.gama.model.type.gl.GLOperationAccount;
-import lt.gama.service.repo.base.InCompanyRepository;
-import lt.gama.service.repo.base.InCompanyRepositoryFactoryBean;
 import lt.gama.test.base.BaseDBTest;
-import lt.gama.test.base.GamaConnectionFactory;
-import lt.gama.test.base.SQLHelper;
-import lt.gama.test.base.User;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.postgresql.ds.PGSimpleDataSource;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import javax.sql.DataSource;
 import java.time.*;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -1325,7 +1309,7 @@ public class AssetsApiTest extends BaseDBTest {
         assertThat(result.getError()).isNull();
 
         PageResponse<AssetDto, AssetTotal> response = result.getData();
-        //assertThat(response.getTotal()).isEqualTo(4);
+        assertThat(response.getTotal()).isEqualTo(4);
         assertThat(response.getItems().get(0).getName()).isEqualTo("Asset B");
         assertThat(response.getItems().get(0).getCode()).isEqualTo("B AbC 123");
         assertThat(response.getItems().get(0).getNote()).isEqualTo(null);

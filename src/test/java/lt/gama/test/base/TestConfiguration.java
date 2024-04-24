@@ -1,11 +1,15 @@
 package lt.gama.test.base;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import lt.gama.service.repo.base.InCompanyRepository;
 import lt.gama.service.repo.base.InCompanyRepositoryFactoryBean;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.hibernate.cfg.AvailableSettings;
+import org.hibernate.type.format.jackson.JacksonJsonFormatMapper;
 import org.postgresql.ds.PGSimpleDataSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +31,9 @@ public class TestConfiguration {
     @Value("${gama.jdbc.username}") private String username;
     @Value("${gama.jdbc.password}") private String password;
     @Value("${gama.db.version}") private String dbVersion;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Bean
     public User user() {
@@ -57,14 +64,14 @@ public class TestConfiguration {
         SQLHelper.executeSqlScriptFromAsUser(gamaConnectionFactory().get(user()), user().username(), "sql/" + dbVersion + ".sql");
 
         return Persistence.createEntityManagerFactory("test-lt.gama.persistence-unit", Map.of(
-                "hibernate.dialect", lt.gama.jpa.GamaPostgreSQLDialect.class.getName(),
-                "hibernate.default_schema", user().username(),
-                "hibernate.hbm2ddl.auto", "none", // none, create, create-drop, validate, update
-                "hibernate.globally_quoted_identifiers", "true",
-                "hibernate.globally_quoted_identifiers_skip_column_definitions", "true",
-                "hibernate.hbm2ddl.schema_filter_provider", lt.gama.jpa.GamaSchemaFilterProvider.class.getName(),
-                "hibernate.naming.physical-strategy", lt.gama.jpa.CamelCaseToSnakeCaseNamingStrategy.class.getName(),
-                "hibernate.naming.implicit-strategy", lt.gama.jpa.ImplicitNamingStrategyComponentPath.class.getName()
-                ));
+                AvailableSettings.DIALECT, lt.gama.jpa.GamaPostgreSQLDialect.class.getName(),
+                AvailableSettings.DEFAULT_SCHEMA, user().username(),
+                AvailableSettings.HBM2DDL_AUTO, "none", // none, create, create-drop, validate, update
+                AvailableSettings.GLOBALLY_QUOTED_IDENTIFIERS, "true",
+                AvailableSettings.GLOBALLY_QUOTED_IDENTIFIERS_SKIP_COLUMN_DEFINITIONS, "true",
+                AvailableSettings.HBM2DDL_FILTER_PROVIDER, lt.gama.jpa.GamaSchemaFilterProvider.class.getName(),
+                AvailableSettings.PHYSICAL_NAMING_STRATEGY, lt.gama.jpa.CamelCaseToSnakeCaseNamingStrategy.class.getName(),
+                AvailableSettings.IMPLICIT_NAMING_STRATEGY, lt.gama.jpa.ImplicitNamingStrategyComponentPath.class.getName(),
+                AvailableSettings.JSON_FORMAT_MAPPER, new JacksonJsonFormatMapper(objectMapper)));
     }
 }

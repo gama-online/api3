@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -107,7 +108,7 @@ public final class EntityUtils {
         }
     }
 
-    public static Predicate whereDoc(PageRequest request, CriteriaBuilder cb, Root<?> root, Function<String[], Predicate> filterPredicate) {
+    public static Predicate whereDoc(PageRequest request, CriteriaBuilder cb, Root<?> root, Function<String[], Predicate> filterPredicate, Map<String, Join<?, ?>> joins) {
         if (!StringHelper.hasValue(request.getFilter())) return null;
         String[] patterns = splitPattern(request.getFilter());
 
@@ -118,9 +119,9 @@ public final class EntityUtils {
                     cb.like(cb.lower(cb.function("unaccent", String.class, root.get(BaseDocumentSql_.NUMBER))), '%' + pattern + '%'),
                     cb.like(cb.lower(cb.function("unaccent", String.class, root.get(BaseDocumentSql_.NOTE))), '%' + pattern + '%'),
                     cb.like(cb.lower(cb.function("unaccent", String.class,
-                            root.get(BaseDocumentSql_.COUNTERPARTY).get(CounterpartySql_.NAME))), '%' + pattern + '%'),
+                            joins.get(BaseDocumentSql_.COUNTERPARTY).get(CounterpartySql_.NAME))), '%' + pattern + '%'),
                     cb.like(cb.lower(cb.function("unaccent", String.class,
-                            root.get(BaseDocumentSql_.EMPLOYEE).get(EmployeeSql_.NAME))), '%' + pattern + '%'));
+                            joins.get(BaseDocumentSql_.EMPLOYEE).get(EmployeeSql_.NAME))), '%' + pattern + '%'));
         }
         Predicate result = patterns.length == 1 ? predicates[0] : cb.and(predicates);
 
@@ -133,8 +134,8 @@ public final class EntityUtils {
         return expresionsList(orderBy, cb, root, true);
     }
 
-    public static List<Selection<?>> selectIdMoneyDoc(String orderBy, CriteriaBuilder cb, Root<?> root) {
-        return expresionsMoneyDocList(orderBy, cb, root, true);
+    public static List<Selection<?>> selectIdMoneyDoc(String orderBy, CriteriaBuilder cb, Root<?> root, Map<String, Join<?, ?>> joins) {
+        return expresionsMoneyDocList(orderBy, cb, root, joins, true);
     }
 
     public static String normalizeEntityName(String name) {
@@ -191,11 +192,11 @@ public final class EntityUtils {
                 id ? root.get(BaseDocumentSql_.ID).alias("id") : root.get(BaseDocumentSql_.ID));
     }
 
-    public static List<Selection<?>> expresionsMoneyDocList(String orderBy, CriteriaBuilder cb, Root<?> root) {
-        return expresionsMoneyDocList(orderBy, cb, root, false);
+    public static List<Selection<?>> expresionsMoneyDocList(String orderBy, CriteriaBuilder cb, Root<?> root, Map<String, Join<?, ?>> joins) {
+        return expresionsMoneyDocList(orderBy, cb, root, joins, false);
     }
 
-    public static List<Selection<?>> expresionsMoneyDocList(String orderBy, CriteriaBuilder cb, Root<?> root, boolean id) {
+    public static List<Selection<?>> expresionsMoneyDocList(String orderBy, CriteriaBuilder cb, Root<?> root, Map<String, Join<?, ?>> joins, boolean id) {
         if ("number".equalsIgnoreCase(orderBy) || "-number".equalsIgnoreCase(orderBy)) {
             return List.of(
                     root.get(BaseDocumentSql_.SERIES),
@@ -207,7 +208,7 @@ public final class EntityUtils {
         }
         if ("employee".equalsIgnoreCase(orderBy) || "-employee".equalsIgnoreCase(orderBy)) {
             return List.of(
-                    cb.lower(cb.trim(cb.function("unaccent", String.class, root.get(BaseDocumentSql_.EMPLOYEE).get(EmployeeSql_.NAME)))),
+                    cb.lower(cb.trim(cb.function("unaccent", String.class, joins.get(BaseDocumentSql_.EMPLOYEE).get(EmployeeSql_.NAME)))),
                     root.get(BaseDocumentSql_.DATE),
                     root.get(BaseDocumentSql_.SERIES),
                     root.get(BaseDocumentSql_.ORDINAL),
@@ -217,7 +218,7 @@ public final class EntityUtils {
         }
         if ("counterparty".equalsIgnoreCase(orderBy) || "-counterparty".equalsIgnoreCase(orderBy)) {
             return List.of(
-                    cb.lower(cb.trim(cb.function("unaccent", String.class, root.get(BaseDocumentSql_.COUNTERPARTY).get(CounterpartySql_.NAME)))),
+                    cb.lower(cb.trim(cb.function("unaccent", String.class, joins.get(BaseDocumentSql_.COUNTERPARTY).get(CounterpartySql_.NAME)))),
                     root.get(BaseDocumentSql_.DATE),
                     root.get(BaseDocumentSql_.SERIES),
                     root.get(BaseDocumentSql_.ORDINAL),
@@ -229,8 +230,8 @@ public final class EntityUtils {
             return List.of(
                     cb.lower(cb.trim(cb.function("unaccent", String.class,
                             cb.coalesce(
-                                    root.get(BaseDocumentSql_.COUNTERPARTY).get(CounterpartySql_.NAME),
-                                    root.get(BaseDocumentSql_.EMPLOYEE).get(EmployeeSql_.NAME))))),
+                                    joins.get(BaseDocumentSql_.COUNTERPARTY).get(CounterpartySql_.NAME),
+                                    joins.get(BaseDocumentSql_.EMPLOYEE).get(EmployeeSql_.NAME))))),
                     root.get(BaseDocumentSql_.DATE),
                     root.get(BaseDocumentSql_.SERIES),
                     root.get(BaseDocumentSql_.ORDINAL),
@@ -269,8 +270,8 @@ public final class EntityUtils {
         return EntityUtils.orderList(cb, orderBy, expresionsList(orderBy, cb, root).toArray(Expression[]::new));
     }
 
-    public static List<Order> orderMoneyDoc(String orderBy, CriteriaBuilder cb, Root<?> root) {
-        return EntityUtils.orderList(cb, orderBy, expresionsMoneyDocList(orderBy, cb, root).toArray(Expression[]::new));
+    public static List<Order> orderMoneyDoc(String orderBy, CriteriaBuilder cb, Root<?> root, Map<String, Join<?, ?>> joins) {
+        return EntityUtils.orderList(cb, orderBy, expresionsMoneyDocList(orderBy, cb, root, joins).toArray(Expression[]::new));
     }
 
     public static List<Order> orderList(CriteriaBuilder cb, String orderBy, Expression<?>... fields) {

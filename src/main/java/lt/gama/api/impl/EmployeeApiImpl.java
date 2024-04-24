@@ -20,6 +20,7 @@ import lt.gama.model.dto.entities.RoleDto;
 import lt.gama.model.i.IEmployee;
 import lt.gama.model.mappers.*;
 import lt.gama.model.sql.base.BaseDocumentSql_;
+import lt.gama.model.sql.documents.BankOperationSql_;
 import lt.gama.model.sql.documents.EmployeeOpeningBalanceSql;
 import lt.gama.model.sql.documents.EmployeeOperationSql;
 import lt.gama.model.sql.documents.EmployeeRateInfluenceSql;
@@ -45,6 +46,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class EmployeeApiImpl implements EmployeeApi {
@@ -262,7 +264,7 @@ public class EmployeeApiImpl implements EmployeeApi {
         return apiResultService.result(() ->
                 dbServiceSQL.list(request, EmployeeOpeningBalanceSql.class,
                         EmployeeOpeningBalanceSql.GRAPH_ALL, employeeOpeningBalanceSqlMapper,
-                        (cb, root) -> EntityUtils.whereDoc(request, cb, root, null),
+                        (cb, root) -> EntityUtils.whereDoc(request, cb, root, null, null),
                         (cb, root) -> EntityUtils.orderDoc(request.getOrder(), cb, root),
                         (cb, root) -> EntityUtils.selectIdDoc(request.getOrder(), cb, root)));
     }
@@ -305,13 +307,12 @@ public class EmployeeApiImpl implements EmployeeApi {
         return apiResultService.result(() ->
                 dbServiceSQL.list(request, EmployeeOperationSql.class,
                     EmployeeOperationSql.GRAPH_ALL, employeeOperationSqlMapper,
-                    root -> {
-                        root.join(BaseDocumentSql_.COUNTERPARTY, JoinType.LEFT);
-                        root.join(BaseDocumentSql_.EMPLOYEE, JoinType.LEFT);
-                    },
-                    (cb, root) -> EntityUtils.whereDoc(request, cb, root, null),
-                    (cb, root) -> EntityUtils.orderMoneyDoc(request.getOrder(), cb, root),
-                    (cb, root) -> EntityUtils.selectIdMoneyDoc(request.getOrder(), cb, root)));
+                    root -> Map.of(
+                            BaseDocumentSql_.COUNTERPARTY, root.join(BaseDocumentSql_.COUNTERPARTY, JoinType.LEFT),
+                            BaseDocumentSql_.EMPLOYEE, root.join(BaseDocumentSql_.EMPLOYEE, JoinType.LEFT)),
+                    (cb, root, joins) -> EntityUtils.whereDoc(request, cb, root, null, joins),
+                    (cb, root, joins) -> EntityUtils.orderMoneyDoc(request.getOrder(), cb, root, joins),
+                    (cb, root, joins) -> EntityUtils.selectIdMoneyDoc(request.getOrder(), cb, root, joins)));
     }
 
     @Override
@@ -352,7 +353,7 @@ public class EmployeeApiImpl implements EmployeeApi {
         return apiResultService.result(() ->
                 dbServiceSQL.list(request, EmployeeRateInfluenceSql.class,
                         EmployeeRateInfluenceSql.GRAPH_ALL, employeeRateInfluenceSqlMapper,
-                        (cb, root) -> EntityUtils.whereDoc(request, cb, root, null),
+                        (cb, root) -> EntityUtils.whereDoc(request, cb, root, null, null),
                         (cb, root) -> EntityUtils.orderDoc(request.getOrder(), cb, root),
                         (cb, root) -> EntityUtils.selectIdDoc(request.getOrder(), cb, root)));
     }

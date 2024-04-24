@@ -23,10 +23,7 @@ import lt.gama.model.mappers.BankOpeningBalanceSqlMapper;
 import lt.gama.model.mappers.BankOperationSqlMapper;
 import lt.gama.model.mappers.BankRateInfluenceSqlMapper;
 import lt.gama.model.sql.base.BaseDocumentSql_;
-import lt.gama.model.sql.documents.BankOpeningBalanceSql;
-import lt.gama.model.sql.documents.BankOperationSql;
-import lt.gama.model.sql.documents.BankOperationSql_;
-import lt.gama.model.sql.documents.BankRateInfluenceSql;
+import lt.gama.model.sql.documents.*;
 import lt.gama.model.sql.entities.BankAccountSql;
 import lt.gama.model.sql.entities.BankAccountSql_;
 import lt.gama.model.type.Location_;
@@ -43,6 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class BankApiImpl implements BankApi {
@@ -127,7 +125,7 @@ public class BankApiImpl implements BankApi {
         return apiResultService.result(() ->
                 dbServiceSQL.list(request, BankOpeningBalanceSql.class,
                         BankOpeningBalanceSql.GRAPH_ALL, bankOpeningBalanceSqlMapper,
-                        (cb, root) -> EntityUtils.whereDoc(request, cb, root, null),
+                        (cb, root) -> EntityUtils.whereDoc(request, cb, root, null, null),
                         (cb, root) -> EntityUtils.orderDoc(request.getOrder(), cb, root),
                         (cb, root) -> EntityUtils.selectIdDoc(request.getOrder(), cb, root)));
     }
@@ -167,13 +165,12 @@ public class BankApiImpl implements BankApi {
         return apiResultService.result(() ->
                 dbServiceSQL.list(request, BankOperationSql.class,
                     BankOperationSql.GRAPH_ALL, bankOperationSqlMapper,
-                    root -> {
-                        root.join(BaseDocumentSql_.COUNTERPARTY, JoinType.LEFT);
-                        root.join(BaseDocumentSql_.EMPLOYEE, JoinType.LEFT);
-                        root.join(BankOperationSql_.BANK_ACCOUNT, JoinType.LEFT);
-                        root.join(BankOperationSql_.BANK_ACCOUNT2, JoinType.LEFT);
-                    },
-                    (cb, root) -> {
+                    root -> Map.of(
+                            BaseDocumentSql_.COUNTERPARTY, root.join(BaseDocumentSql_.COUNTERPARTY, JoinType.LEFT),
+                            BaseDocumentSql_.EMPLOYEE, root.join(BaseDocumentSql_.EMPLOYEE, JoinType.LEFT),
+                            BankOperationSql_.BANK_ACCOUNT, root.join(BankOperationSql_.BANK_ACCOUNT, JoinType.LEFT),
+                            BankOperationSql_.BANK_ACCOUNT2, root.join(BankOperationSql_.BANK_ACCOUNT2, JoinType.LEFT)),
+                    (cb, root, joins) -> {
                         Predicate where = EntityUtils.whereDoc(request, cb, root, patterns -> {
                             Predicate[] predicates = new Predicate[patterns.length];
                             for (int i = 0; i < patterns.length; i++) {
@@ -185,7 +182,7 @@ public class BankApiImpl implements BankApi {
                                                 root.get(BankOperationSql_.BANK_ACCOUNT2).get(BankAccountSql_.ACCOUNT))), '%' + pattern + '%'));
                             }
                             return patterns.length == 1 ? predicates[0] : cb.and(predicates);
-                        });
+                        }, joins);
                         Long bankId = (Long) PageRequestUtils.getFieldValue(request.getConditions(), CustomSearchType.BANK_ID);
                         if (bankId != null) {
                             Predicate predicate = cb.equal(root.get(BankOperationSql_.BANK_ACCOUNT).get(BankAccountSql_.ID), bankId);
@@ -193,8 +190,8 @@ public class BankApiImpl implements BankApi {
                         }
                         return where;
                     },
-                    (cb, root) -> EntityUtils.orderMoneyDoc(request.getOrder(), cb, root),
-                    (cb, root) -> EntityUtils.selectIdMoneyDoc(request.getOrder(), cb, root)));
+                    (cb, root, joins) -> EntityUtils.orderMoneyDoc(request.getOrder(), cb, root, joins),
+                    (cb, root, joins) -> EntityUtils.selectIdMoneyDoc(request.getOrder(), cb, root, joins)));
     }
 
     @Override
@@ -243,7 +240,7 @@ public class BankApiImpl implements BankApi {
         return apiResultService.result(() ->
                 dbServiceSQL.list(request, BankRateInfluenceSql.class,
                         BankRateInfluenceSql.GRAPH_ALL, bankRateInfluenceSqlMapper,
-                        (cb, root) -> EntityUtils.whereDoc(request, cb, root, null),
+                        (cb, root) -> EntityUtils.whereDoc(request, cb, root, null, null),
                         (cb, root) -> EntityUtils.orderDoc(request.getOrder(), cb, root),
                         (cb, root) -> EntityUtils.selectIdDoc(request.getOrder(), cb, root)));
     }

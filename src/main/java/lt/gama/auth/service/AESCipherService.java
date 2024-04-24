@@ -1,14 +1,10 @@
 package lt.gama.auth.service;
 
-import lt.gama.AppProp;
 import lt.gama.helpers.StringHelper;
-import lt.gama.helpers.Validators;
 import lt.gama.service.ex.GamaServerErrorException;
 import lt.gama.service.ex.rt.GamaException;
 import org.apache.commons.codec.binary.Base64;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.Cipher;
@@ -27,7 +23,7 @@ import java.util.zip.GZIPOutputStream;
 @Service
 public class AESCipherService {
 
-	@Value("${gama.token.secret-key") String gamaTokenSecretKey;
+	@Value("${gama.token.secret-key}") String gamaTokenSecretKey;
 
 	private Key _key;
 

@@ -59,7 +59,7 @@ public class PurchaseApiImpl implements PurchaseApi {
             pageRequest.setDateTo(dateTo);
 
             return dbServiceSQL.list(pageRequest, PurchaseSql.class, PurchaseSql.GRAPH_ALL, purchaseApiSqlMapper,
-                    (cb, root) -> EntityUtils.whereDoc(pageRequest, cb, root, null),
+                    (cb, root) -> EntityUtils.whereDoc(pageRequest, cb, root, null, null),
                     (cb, root) -> EntityUtils.orderDoc(pageRequest.getOrder(), cb, root),
                     (cb, root) -> EntityUtils.selectIdDoc(pageRequest.getOrder(), cb, root));
         });

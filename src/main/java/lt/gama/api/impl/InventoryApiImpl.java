@@ -87,7 +87,7 @@ public class InventoryApiImpl implements InventoryApi {
     public APIResult<PageResponse<InventoryOpeningBalanceDto, Void>> listOpeningBalance(PageRequest request) throws GamaApiException {
         return apiResultService.result(() -> dbServiceSQL.list(request, InventoryOpeningBalanceSql.class,
                 InventoryOpeningBalanceSql.GRAPH_ALL, inventoryOpeningBalanceSqlMapper,
-                (cb, root) -> EntityUtils.whereDoc(request, cb, root, null),
+                (cb, root) -> EntityUtils.whereDoc(request, cb, root, null, null),
                 (cb, root) -> EntityUtils.orderDoc(request.getOrder(), cb, root),
                 (cb, root) -> EntityUtils.selectIdDoc(request.getOrder(), cb, root)));
     }
@@ -133,13 +133,12 @@ public class InventoryApiImpl implements InventoryApi {
                         ? InvoiceSql.GRAPH_NO_PARTS
                         : InvoiceSql.GRAPH_ALL,
                 invoiceSqlMapper, outputStream,
-                root -> {
-                    root.join(InvoiceSql_.COUNTERPARTY, JoinType.LEFT);
-                    root.join(InvoiceSql_.WAREHOUSE, JoinType.LEFT);
-                    root.join(InvoiceSql_.ACCOUNT, JoinType.LEFT);
-                    root.join(InvoiceSql_.EMPLOYEE, JoinType.LEFT);
-                },
-                (cb, root) -> {
+                root -> Map.of(
+                        InvoiceSql_.COUNTERPARTY, root.join(InvoiceSql_.COUNTERPARTY, JoinType.LEFT),
+                        InvoiceSql_.WAREHOUSE, root.join(InvoiceSql_.WAREHOUSE, JoinType.LEFT),
+                        InvoiceSql_.ACCOUNT, root.join(InvoiceSql_.ACCOUNT, JoinType.LEFT),
+                        InvoiceSql_.EMPLOYEE, root.join(InvoiceSql_.EMPLOYEE, JoinType.LEFT)),
+                (cb, root, joins) -> {
                     Join<InvoiceSql, InvoiceBasePartSql> parts = root.join(InvoiceSql_.PARTS, JoinType.LEFT);
                     var wherePredicate = EntityUtils.whereDoc(request, cb, root, patterns -> {
                         Predicate[] predicates = new Predicate[patterns.length];
@@ -157,7 +156,7 @@ public class InventoryApiImpl implements InventoryApi {
                                             pattern));
                         }
                         return patterns.length == 1 ? predicates[0] : cb.and(predicates);
-                    });
+                    }, joins);
                     Object value = PageRequestUtils.getFieldValue(request.getConditions(), CustomSearchType.COUNTERPARTY);
                     if (value != null) {
                         var counterpartyPredicate = cb.equal(root.get(InvoiceSql_.COUNTERPARTY).get("id"), value);
@@ -165,9 +164,9 @@ public class InventoryApiImpl implements InventoryApi {
                     }
                     return wherePredicate;
                 },
-                (cb, root) -> EntityUtils.orderList(cb, request.getOrder(),
+                (cb, root, joins) -> EntityUtils.orderList(cb, request.getOrder(),
                         invoiceExpresionsList(request.getOrder(), cb, root, false).toArray(Expression[]::new)),
-                (cb, root) -> invoiceExpresionsList(request.getOrder(), cb, root, true))));
+                (cb, root, joins) -> invoiceExpresionsList(request.getOrder(), cb, root, true))));
     }
 
     private List<Selection<?>> invoiceExpresionsList(String orderBy, CriteriaBuilder cb, Root<?> root, boolean id) {
@@ -314,12 +313,11 @@ public class InventoryApiImpl implements InventoryApi {
     public ResponseEntity<StreamingResponseBody> listPurchase(PageRequest request) throws GamaApiException {
         return ResponseEntity.ok(outputStream -> apiResultService.execute(() -> dbServiceSQL.list(request, PurchaseSql.class,
                 PurchaseSql.GRAPH_ALL, purchaseSqlMapper, outputStream,
-                root -> {
-                    root.join(PurchaseSql_.COUNTERPARTY, JoinType.LEFT);
-                    root.join(PurchaseSql_.WAREHOUSE, JoinType.LEFT);
-                    root.join(PurchaseSql_.EMPLOYEE, JoinType.LEFT);
-                },
-                (cb, root) -> {
+                root -> Map.of(
+                        PurchaseSql_.COUNTERPARTY, root.join(PurchaseSql_.COUNTERPARTY, JoinType.LEFT),
+                        PurchaseSql_.WAREHOUSE, root.join(PurchaseSql_.WAREHOUSE, JoinType.LEFT),
+                        PurchaseSql_.EMPLOYEE, root.join(PurchaseSql_.EMPLOYEE, JoinType.LEFT)),
+                (cb, root, joins) -> {
                     Join<PurchaseSql, PurchasePartSql> parts = root.join(PurchaseSql_.PARTS, JoinType.LEFT);
                     var wherePredicate = EntityUtils.whereDoc(request, cb, root, patterns -> {
                         Predicate[] predicates = new Predicate[patterns.length];
@@ -337,7 +335,7 @@ public class InventoryApiImpl implements InventoryApi {
                                             pattern));
                         }
                         return patterns.length == 1 ? predicates[0] : cb.and(predicates);
-                    });
+                    }, joins);
                     Object value = PageRequestUtils.getFieldValue(request.getConditions(), CustomSearchType.COUNTERPARTY);
                     if (value != null) {
                         var counterpartyPredicate = cb.equal(root.get(InvoiceSql_.COUNTERPARTY).get("id"), value);
@@ -345,8 +343,8 @@ public class InventoryApiImpl implements InventoryApi {
                     }
                     return wherePredicate;
                 },
-                (cb, root) -> EntityUtils.orderDoc(request.getOrder(), cb, root),
-                (cb, root) -> EntityUtils.selectIdDoc(request.getOrder(), cb, root))));
+                (cb, root, joins) -> EntityUtils.orderDoc(request.getOrder(), cb, root),
+                (cb, root, joins) -> EntityUtils.selectIdDoc(request.getOrder(), cb, root))));
     }
 
     @Override
@@ -397,14 +395,13 @@ public class InventoryApiImpl implements InventoryApi {
     @Override
     public APIResult<PageResponse<TransProdDto, Void>> listTransProd(PageRequest request) throws GamaApiException {
         return apiResultService.result(() -> dbServiceSQL.list(request, TransProdSql.class, TransProdSql.GRAPH_ALL, transportationSqlMapper,
-                root -> {
-                    root.join(TransProdSql_.COUNTERPARTY, JoinType.LEFT);
-                    root.join(TransProdSql_.EMPLOYEE, JoinType.LEFT);
-                    root.join(TransProdSql_.WAREHOUSE_FROM, JoinType.LEFT);
-                    root.join(TransProdSql_.WAREHOUSE_TO, JoinType.LEFT);
-                    root.join(TransProdSql_.WAREHOUSE_RESERVED, JoinType.LEFT);
-                },
-                (cb, root) -> {
+                root -> Map.of(
+                        TransProdSql_.COUNTERPARTY, root.join(TransProdSql_.COUNTERPARTY, JoinType.LEFT),
+                        TransProdSql_.EMPLOYEE, root.join(TransProdSql_.EMPLOYEE, JoinType.LEFT),
+                        TransProdSql_.WAREHOUSE_FROM, root.join(TransProdSql_.WAREHOUSE_FROM, JoinType.LEFT),
+                        TransProdSql_.WAREHOUSE_TO, root.join(TransProdSql_.WAREHOUSE_TO, JoinType.LEFT),
+                        TransProdSql_.WAREHOUSE_RESERVED, root.join(TransProdSql_.WAREHOUSE_RESERVED, JoinType.LEFT)),
+                (cb, root, joins) -> {
                     Join<TransProdSql, TransProdPartSql> parts = root.join(TransProdSql_.PARTS, JoinType.LEFT);
                     return EntityUtils.whereDoc(request, cb, root, patterns -> {
                         Predicate[] predicates = new Predicate[patterns.length];
@@ -422,10 +419,10 @@ public class InventoryApiImpl implements InventoryApi {
                                             pattern));
                         }
                         return patterns.length == 1 ? predicates[0] : cb.and(predicates);
-                    });
+                    }, joins);
                 },
-                (cb, root) -> EntityUtils.orderDoc(request.getOrder(), cb, root),
-                (cb, root) -> EntityUtils.selectIdDoc(request.getOrder(), cb, root)));
+                (cb, root, joins) -> EntityUtils.orderDoc(request.getOrder(), cb, root),
+                (cb, root, joins) -> EntityUtils.selectIdDoc(request.getOrder(), cb, root)));
     }
 
     @Override
@@ -476,7 +473,7 @@ public class InventoryApiImpl implements InventoryApi {
     @Override
     public APIResult<PageResponse<InventoryDto, Void>> listInventory(PageRequest request) throws GamaApiException {
         return apiResultService.result(() -> dbServiceSQL.list(request, InventorySql.class, InventorySql.GRAPH_ALL, inventorySqlMapper,
-                (cb, root) -> EntityUtils.whereDoc(request, cb, root, null),
+                (cb, root) -> EntityUtils.whereDoc(request, cb, root, null, null),
                 (cb, root) -> EntityUtils.orderDoc(request.getOrder(), cb, root),
                 (cb, root) -> EntityUtils.selectIdDoc(request.getOrder(), cb, root)));
     }
@@ -520,13 +517,12 @@ public class InventoryApiImpl implements InventoryApi {
     @Override
     public APIResult<PageResponse<EstimateDto, Void>> listEstimate(PageRequest request) throws GamaApiException {
         return apiResultService.result(() -> dbServiceSQL.list(request, EstimateSql.class, EstimateSql.GRAPH_ALL, estimateSqlMapper,
-                    root -> {
-                        root.join(EstimateSql_.COUNTERPARTY, JoinType.LEFT);
-                        root.join(EstimateSql_.WAREHOUSE, JoinType.LEFT);
-                        root.join(EstimateSql_.ACCOUNT, JoinType.LEFT);
-                        root.join(EstimateSql_.EMPLOYEE, JoinType.LEFT);
-                    },
-                    (cb, root) -> {
+                    root -> Map.of(
+                            EstimateSql_.COUNTERPARTY, root.join(EstimateSql_.COUNTERPARTY, JoinType.LEFT),
+                            EstimateSql_.WAREHOUSE, root.join(EstimateSql_.WAREHOUSE, JoinType.LEFT),
+                            EstimateSql_.ACCOUNT, root.join(EstimateSql_.ACCOUNT, JoinType.LEFT),
+                            EstimateSql_.EMPLOYEE, root.join(EstimateSql_.EMPLOYEE, JoinType.LEFT)),
+                    (cb, root, joins) -> {
                         Join<EstimateSql, EstimateBasePartSql> parts = root.join(EstimateSql_.PARTS, JoinType.LEFT);
                         var wherePredicate = EntityUtils.whereDoc(request, cb, root, patterns -> {
                             Predicate[] predicates = new Predicate[patterns.length];
@@ -544,7 +540,7 @@ public class InventoryApiImpl implements InventoryApi {
                                                 pattern));
                             }
                             return patterns.length == 1 ? predicates[0] : cb.and(predicates);
-                        });
+                        }, joins);
                         Object value = PageRequestUtils.getFieldValue(request.getConditions(), CustomSearchType.ESTIMATE_TYPE);
                         if (value != null) {
                             EstimateType estimateType = value instanceof EstimateType ? (EstimateType) value : EstimateType.from(String.valueOf(value));
@@ -555,9 +551,9 @@ public class InventoryApiImpl implements InventoryApi {
                         }
                         return wherePredicate;
                     },
-                    (cb, root) -> EntityUtils.orderList(cb, request.getOrder(),
+                    (cb, root, joins) -> EntityUtils.orderList(cb, request.getOrder(),
                             estimateExpresionsList(request.getOrder(), cb, root, false).toArray(Expression[]::new)),
-                    (cb, root) -> estimateExpresionsList(request.getOrder(), cb, root, true)));
+                    (cb, root, joins) -> estimateExpresionsList(request.getOrder(), cb, root, true)));
     }
 
     private List<Selection<?>> estimateExpresionsList(String orderBy, CriteriaBuilder cb, Root<?> root, boolean id) {
@@ -617,9 +613,13 @@ public class InventoryApiImpl implements InventoryApi {
     @Override
     public APIResult<PageResponse<OrderDto, Void>> listOrder(PageRequest request) throws GamaApiException {
         return apiResultService.result(() -> dbServiceSQL.list(request, OrderSql.class, OrderSql.GRAPH_ALL, orderSqlMapper,
-                (cb, root) -> EntityUtils.whereDoc(request, cb, root, null),
-                (cb, root) -> EntityUtils.orderDoc(request.getOrder(), cb, root),
-                (cb, root) -> EntityUtils.selectIdDoc(request.getOrder(), cb, root)));
+                root -> Map.of(
+                        OrderSql_.COUNTERPARTY, root.join(OrderSql_.COUNTERPARTY, JoinType.LEFT),
+                        OrderSql_.WAREHOUSE, root.join(OrderSql_.WAREHOUSE, JoinType.LEFT),
+                        OrderSql_.EMPLOYEE, root.join(OrderSql_.EMPLOYEE, JoinType.LEFT)),
+                (cb, root, joins) -> EntityUtils.whereDoc(request, cb, root, null, joins),
+                (cb, root, joins) -> EntityUtils.orderDoc(request.getOrder(), cb, root),
+                (cb, root, joins) -> EntityUtils.selectIdDoc(request.getOrder(), cb, root)));
     }
 
     @Override

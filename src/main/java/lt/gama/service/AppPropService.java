@@ -8,10 +8,12 @@ public class AppPropService {
 
     private final boolean development;
     private final boolean production;
+    private final boolean test;
 
     public AppPropService(Environment environment) {
         this.development = environment.matchesProfiles("dev");
         this.production = environment.matchesProfiles("prod");
+        this.test = !this.development && !this.production;
     }
 
     public boolean isDevelopment() {
@@ -20,5 +22,9 @@ public class AppPropService {
 
     public boolean isProduction() {
         return production;
+    }
+
+    public boolean isTest() {
+        return test;
     }
 }

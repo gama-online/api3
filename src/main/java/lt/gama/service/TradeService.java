@@ -59,6 +59,7 @@ import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -519,6 +520,7 @@ public class TradeService {
         }
     }
 
+    @Transactional
     public InvoiceDto saveInvoice(InvoiceDto document) {
         final CompanySettings companySettings = Validators.checkNotNull(auth.getSettings(), "No company settings");
         Validators.checkDocumentDate(companySettings, document, auth.getLanguage());
@@ -948,6 +950,7 @@ public class TradeService {
         }
     }
 
+    @Transactional
     public PurchaseDto savePurchase(PurchaseDto document) {
         final CompanySettings companySettings = Validators.checkNotNull(auth.getSettings(), "No company settings");
         Validators.checkDocumentDate(companySettings, document, auth.getLanguage());

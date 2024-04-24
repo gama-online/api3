@@ -40,6 +40,3 @@ TRUNCATE entity_child, entity_master, entity_money,
      inventory, inventory_parts, inventory_ob, inventory_ob_parts, "order", order_parts,
      trans_prod, trans_prod_parts, recipe, recipe_parts, purchase, purchase_parts,
      invoice, invoice_parts, estimate, estimate_parts;
-
-ALTER SEQUENCE gama_sequence RESTART WITH 1;
-ALTER SEQUENCE gama_company_sequence RESTART WITH 1;

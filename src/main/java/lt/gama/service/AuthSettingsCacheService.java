@@ -38,4 +38,8 @@ public class AuthSettingsCacheService {
     public void remove(long companyId) {
         this.cache.remove(companyId);
     }
+
+    public void removeAll() {
+        this.cache.removeAll();
+    }
 }

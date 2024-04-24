@@ -2,6 +2,7 @@ package lt.gama.test.jpa.experimental.types;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDate;
 
 public class TestCustomer implements Serializable {
 
@@ -14,6 +15,8 @@ public class TestCustomer implements Serializable {
 
     private String address;
 
+    private LocalDate date;
+
     public TestCustomer() {
     }
 
@@ -21,6 +24,13 @@ public class TestCustomer implements Serializable {
         this.id = id;
         this.name = name;
         this.address = address;
+    }
+
+    public TestCustomer(int id, String name, String address, LocalDate date) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.date = date;
     }
 
     // generated
@@ -49,12 +59,21 @@ public class TestCustomer implements Serializable {
         this.address = address;
     }
 
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
     @Override
     public String toString() {
         return "TestCustomer{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
+                ", date='" + date + '\'' +
                 '}';
     }
 }
